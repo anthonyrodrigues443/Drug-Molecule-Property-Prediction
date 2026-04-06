@@ -1,0 +1,96 @@
+[
+  {
+    "phase": 1,
+    "date": "2026-04-06",
+    "dataset": "ogbg-molhiv (OGB)",
+    "total_molecules": 41120,
+    "positive_rate": 0.03509241245136187,
+    "primary_metric": "ROC-AUC",
+    "published_sota": 0.8476,
+    "experiments": [
+      {
+        "model": "Random Forest",
+        "features": "Combined",
+        "roc_auc": 0.7707,
+        "f1": 0.4061,
+        "precision": 0.597,
+        "recall": 0.3077,
+        "train_time": 1.1
+      },
+      {
+        "model": "XGBoost",
+        "features": "Combined",
+        "roc_auc": 0.7613,
+        "f1": 0.4,
+        "precision": 0.3733,
+        "recall": 0.4308,
+        "train_time": 1.4
+      },
+      {
+        "model": "LogReg",
+        "features": "Lipinski",
+        "roc_auc": 0.7463,
+        "f1": 0.1356,
+        "precision": 0.0773,
+        "recall": 0.5538,
+        "train_time": 0.0
+      },
+      {
+        "model": "XGBoost",
+        "features": "Morgan FP",
+        "roc_auc": 0.7293,
+        "f1": 0.35,
+        "precision": 0.3267,
+        "recall": 0.3769,
+        "train_time": 1.5
+      },
+      {
+        "model": "Random Forest",
+        "features": "Morgan FP",
+        "roc_auc": 0.7166,
+        "f1": 0.383,
+        "precision": 0.6207,
+        "recall": 0.2769,
+        "train_time": 0.8
+      },
+      {
+        "model": "LogReg",
+        "features": "Morgan FP",
+        "roc_auc": 0.7114,
+        "f1": 0.1479,
+        "precision": 0.0859,
+        "recall": 0.5308,
+        "train_time": 0.4
+      },
+      {
+        "model": "XGBoost",
+        "features": "Lipinski",
+        "roc_auc": 0.6957,
+        "f1": 0.2116,
+        "precision": 0.1613,
+        "recall": 0.3077,
+        "train_time": 0.5
+      },
+      {
+        "model": "Random Forest",
+        "features": "Lipinski",
+        "roc_auc": 0.6937,
+        "f1": 0.2973,
+        "precision": 0.3587,
+        "recall": 0.2538,
+        "train_time": 1.0
+      },
+      {
+        "model": "Majority class",
+        "features": "none",
+        "roc_auc": 0.5,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "train_time": 0.0
+      }
+    ],
+    "champion": "Random Forest (Combined)",
+    "champion_roc_auc": 0.7707
+  }
+]
