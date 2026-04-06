@@ -1,0 +1,108 @@
+[
+  {
+    "phase": 1,
+    "date": "2026-04-06",
+    "dataset": "ogbg-molhiv (OGB)",
+    "dataset_selection_rationale": "Chosen over ESOL (1128), Lipophilicity (4200), BBBP (2050), AqSolDB (9982) for size (41K), OGB leaderboard, and HIV drug impact",
+    "total_molecules": 41120,
+    "positive_rate": 0.0351,
+    "primary_metric": "ROC-AUC",
+    "metric_rationale": "OGB leaderboard standard + drug screening literature uses ROC-AUC for ranking ability; AUPRC tracked as secondary",
+    "published_sota": 0.8476,
+    "experiments": [
+      {
+        "model": "Random Forest",
+        "features": "Combined",
+        "roc_auc": 0.7707,
+        "auprc": 0.3722,
+        "f1": 0.4061,
+        "precision": 0.597,
+        "recall": 0.3077,
+        "train_s": 0.9
+      },
+      {
+        "model": "XGBoost",
+        "features": "Combined",
+        "roc_auc": 0.7613,
+        "auprc": 0.3486,
+        "f1": 0.4,
+        "precision": 0.3733,
+        "recall": 0.4308,
+        "train_s": 1.8
+      },
+      {
+        "model": "LogReg",
+        "features": "Lipinski",
+        "roc_auc": 0.7463,
+        "auprc": 0.1771,
+        "f1": 0.1356,
+        "precision": 0.0773,
+        "recall": 0.5538,
+        "train_s": 0.0
+      },
+      {
+        "model": "XGBoost",
+        "features": "Morgan FP",
+        "roc_auc": 0.7293,
+        "auprc": 0.2834,
+        "f1": 0.35,
+        "precision": 0.3267,
+        "recall": 0.3769,
+        "train_s": 1.6
+      },
+      {
+        "model": "Random Forest",
+        "features": "Morgan FP",
+        "roc_auc": 0.7166,
+        "auprc": 0.3447,
+        "f1": 0.383,
+        "precision": 0.6207,
+        "recall": 0.2769,
+        "train_s": 0.8
+      },
+      {
+        "model": "LogReg",
+        "features": "Morgan FP",
+        "roc_auc": 0.7114,
+        "auprc": 0.1858,
+        "f1": 0.1479,
+        "precision": 0.0859,
+        "recall": 0.5308,
+        "train_s": 0.3
+      },
+      {
+        "model": "XGBoost",
+        "features": "Lipinski",
+        "roc_auc": 0.6957,
+        "auprc": 0.2362,
+        "f1": 0.2116,
+        "precision": 0.1613,
+        "recall": 0.3077,
+        "train_s": 0.2
+      },
+      {
+        "model": "Random Forest",
+        "features": "Lipinski",
+        "roc_auc": 0.6937,
+        "auprc": 0.2256,
+        "f1": 0.2973,
+        "precision": 0.3587,
+        "recall": 0.2538,
+        "train_s": 1.1
+      },
+      {
+        "model": "Majority class",
+        "features": "none",
+        "roc_auc": 0.5,
+        "auprc": 0.0316,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "train_s": 0.0
+      }
+    ],
+    "champion": "Random Forest (Combined)",
+    "champion_roc_auc": 0.7707,
+    "champion_auprc": 0.3722
+  }
+]
