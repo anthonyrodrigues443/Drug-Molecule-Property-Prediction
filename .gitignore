@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+
+# Data
+data/raw/
+data/processed/
+
+# Models
+models/*.pkl
+models/*.joblib
+models/*.pt
+models/*.pth
+models/*.cbm
+models/*.ckpt
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment
+.env
+*.env

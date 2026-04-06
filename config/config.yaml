@@ -1,0 +1,30 @@
+project:
+  name: Drug-Molecule-Property-Prediction
+  task: regression
+  primary_metric: rmse
+  dataset: ESOL (Delaney, MoleculeNet)
+  target: log_solubility
+  units: log(mol/L)
+
+features:
+  morgan_fp:
+    radius: 2
+    n_bits: 2048
+  lipinski_cols:
+    - logp
+    - mol_weight
+    - hbd
+    - hba
+    - tpsa
+    - rotatable_bonds
+    - aromatic_rings
+    - heavy_atom_count
+    - fraction_csp3
+    - molar_refractivity
+    - qed
+    - lipinski_violations
+
+benchmarks:
+  attentivefp_xiong_2020: 0.584
+  dmpnn_yang_2019: 0.555
+  rf_duvenaud_2015: 0.73
