@@ -30,3 +30,17 @@
 | Yang et al., 2019 | D-MPNN (Chemprop) | 0.555 |
 | Xiong et al., 2020 | AttentiveFP | 0.584 |
 
+
+
+## 2026-04-06 | Phase 1 (Mark) — Fingerprint Radius & Type Sensitivity
+
+| Rank | Model | Features | n_feats | RMSE | R2 |
+|------|-------|----------|---------|------|----|
+| 1 | Delaney Equation (4-feat) | delaney_eq | 4 | 0.9134 | 0.8092 |
+| 2 | XGBoost (Delaney 6-feat) | delaney_6 | 6 | 0.9318 | 0.8015 |
+| 3 | XGBoost (fp2) | fp2 | 1024 | 1.1025 | 0.722 |
+| 4 | XGBoost (ecfp4) | ecfp4 | 4096 | 1.1268 | 0.7097 |
+| 5 | XGBoost (ecfp6) | ecfp6 | 4096 | 1.1458 | 0.6998 |
+| 6 | XGBoost (ecfp8) | ecfp8 | 4096 | 1.1635 | 0.6904 |
+| 7 | XGBoost (ecfp2) | ecfp2 | 4096 | 1.1725 | 0.6857 |
+| 8 | XGBoost (ecfp0) | ecfp0 | 4096 | 1.3582 | 0.5782 |
