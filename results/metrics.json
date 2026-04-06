@@ -1,0 +1,129 @@
+[
+  {
+    "phase": 1,
+    "date": "2026-04-06",
+    "dataset_stats": {
+      "dataset": "ESOL (Delaney)",
+      "source": "MoleculeNet via DeepChem",
+      "total_molecules": 1128,
+      "train": 902,
+      "val": 113,
+      "test": 113,
+      "target": "log_solubility (log(mol/L))",
+      "primary_metric": "RMSE (lower is better)",
+      "target_mean": -0.08865533534590819,
+      "target_std": 1.0143788432604013,
+      "target_min": -4.22558779586744,
+      "target_max": 2.1516543084328825,
+      "lipinski_compliance_pct": 90.2482269503546,
+      "unique_murcko_scaffolds": 269,
+      "scaffold_diversity": 0.23847517730496454,
+      "top_correlation_with_solubility": {
+        "logp": -0.8279178849275887,
+        "molar_refractivity": -0.6997556578967425,
+        "mol_weight": -0.6401894305424645,
+        "heavy_atom_count": -0.585638142135013,
+        "aromatic_rings": -0.48346988612814484,
+        "lipinski_violations": -0.4565186780213335,
+        "rotatable_bonds": -0.24425560414572217,
+        "fraction_csp3": 0.22818287609906568,
+        "hbd": 0.2094288575086623,
+        "tpsa": 0.12321000892453382,
+        "qed": -0.06810932793596357,
+        "hba": 0.055727880655086756
+      },
+      "published_benchmarks": {
+        "Random Forest (Duvenaud et al., 2015)": 0.73,
+        "MPNN (Gilmer et al., 2017)": 0.72,
+        "AttentiveFP (Xiong et al., 2020)": 0.584,
+        "D-MPNN (Chemprop, Yang et al., 2019)": 0.555
+      },
+      "date": "2026-04-06",
+      "phase": 1
+    },
+    "experiments": [
+      {
+        "model": "XGBoost",
+        "features": "Lipinski-only",
+        "rmse": 0.3846,
+        "mae": 0.3189,
+        "r2": 0.8594
+      },
+      {
+        "model": "XGBoost",
+        "features": "Combined",
+        "rmse": 0.3977,
+        "mae": 0.3108,
+        "r2": 0.8496
+      },
+      {
+        "model": "Random Forest",
+        "features": "Combined",
+        "rmse": 0.4,
+        "mae": 0.3153,
+        "r2": 0.8479
+      },
+      {
+        "model": "Random Forest",
+        "features": "Lipinski-only",
+        "rmse": 0.4152,
+        "mae": 0.3254,
+        "r2": 0.8361
+      },
+      {
+        "model": "Ridge Regression",
+        "features": "Lipinski-only",
+        "rmse": 0.5403,
+        "mae": 0.4141,
+        "r2": 0.7224
+      },
+      {
+        "model": "Linear Regression",
+        "features": "Lipinski-only",
+        "rmse": 0.5442,
+        "mae": 0.4158,
+        "r2": 0.7185
+      },
+      {
+        "model": "XGBoost",
+        "features": "Morgan-FP-only",
+        "rmse": 0.7852,
+        "mae": 0.6404,
+        "r2": 0.4139
+      },
+      {
+        "model": "Random Forest",
+        "features": "Morgan-FP-only",
+        "rmse": 0.7976,
+        "mae": 0.6147,
+        "r2": 0.3952
+      },
+      {
+        "model": "Mean baseline",
+        "features": "none",
+        "rmse": 1.1201,
+        "mae": NaN,
+        "r2": 0.0
+      },
+      {
+        "model": "Ridge Regression",
+        "features": "Morgan-FP-only",
+        "rmse": 1.617,
+        "mae": 1.2644,
+        "r2": -1.4858
+      }
+    ],
+    "key_findings": {
+      "champion_baseline": "XGBoost (Lipinski-only)",
+      "champion_rmse": 0.3846,
+      "mean_baseline_rmse": 1.1201170425316551,
+      "logp_only_rmse": 0.8095965046243481,
+      "logp_correlation_with_solubility": -0.8279178849275887,
+      "fp_advantage_over_lipinski_rf": -0.38239999999999996,
+      "combined_advantage_over_fp_rf": 0.39759999999999995,
+      "lipinski_compliance_pct": 90.2482269503546,
+      "top_correlated_feature": "logp",
+      "top_correlation_value": -0.8279178849275887
+    }
+  }
+]

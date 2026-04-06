@@ -1,0 +1,49 @@
+project:
+  name: Drug-Molecule-Property-Prediction
+  task: regression
+  primary_metric: rmse
+  dataset: ESOL (Delaney, MoleculeNet)
+  target: log_solubility
+  units: log(mol/L)
+
+data:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  esol_file: esol_features.csv
+  scaffold_split: true
+  train_ratio: 0.80
+  val_ratio: 0.10
+  test_ratio: 0.10
+
+features:
+  morgan_fp:
+    radius: 2
+    n_bits: 2048
+  lipinski:
+    cols:
+      - logp
+      - mol_weight
+      - hbd
+      - hba
+      - tpsa
+      - rotatable_bonds
+      - aromatic_rings
+      - heavy_atom_count
+      - fraction_csp3
+      - molar_refractivity
+      - qed
+      - lipinski_violations
+
+benchmarks:
+  published_rmse:
+    random_forest_duvenaud_2015: 0.73
+    mpnn_gilmer_2017: 0.72
+    attentivefp_xiong_2020: 0.584
+    dmpnn_yang_2019: 0.555
+
+phase1_results:
+  champion_model: XGBoost
+  champion_features: Lipinski-only
+  champion_rmse: 0.385
+  mean_baseline_rmse: 1.120
+  logp_single_feature_rmse: 0.810
