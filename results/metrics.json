@@ -125,5 +125,209 @@
       "top_correlated_feature": "logp",
       "top_correlation_value": -0.8279178849275887
     }
+  },
+  {
+    "phase": 1,
+    "author": "Mark",
+    "date": "2026-04-06",
+    "dataset": "ESOL (Delaney 2004) - raw logS scale",
+    "split": "80/20 stratified random (seed=42)",
+    "primary_metric": "RMSE",
+    "note": "Raw logS scale [-11.6, 1.58] \u2014 Anthony uses DeepChem normalized scale. Relative comparisons within this experiment are valid.",
+    "experiments": [
+      {
+        "model": "Ridge (Delaney 6-feat)",
+        "features": "delaney_6",
+        "n_features": 6,
+        "rmse": 1.2907,
+        "mae": 0.9812,
+        "r2": 0.6191
+      },
+      {
+        "model": "RF (Delaney 6-feat)",
+        "features": "delaney_6",
+        "n_features": 6,
+        "rmse": 0.9809,
+        "mae": 0.6892,
+        "r2": 0.78
+      },
+      {
+        "model": "XGBoost (Delaney 6-feat)",
+        "features": "delaney_6",
+        "n_features": 6,
+        "rmse": 0.9318,
+        "mae": 0.6696,
+        "r2": 0.8015
+      },
+      {
+        "model": "Delaney Equation (4-feat)",
+        "features": "delaney_eq",
+        "n_features": 4,
+        "rmse": 0.9134,
+        "mae": 0.0,
+        "r2": 0.8092
+      },
+      {
+        "model": "Ridge (ecfp0)",
+        "features": "ecfp0",
+        "n_features": 4096,
+        "rmse": 1.6946,
+        "mae": 1.3218,
+        "r2": 0.3434
+      },
+      {
+        "model": "RF (ecfp0)",
+        "features": "ecfp0",
+        "n_features": 4096,
+        "rmse": 1.3685,
+        "mae": 1.031,
+        "r2": 0.5718
+      },
+      {
+        "model": "XGBoost (ecfp0)",
+        "features": "ecfp0",
+        "n_features": 4096,
+        "rmse": 1.3582,
+        "mae": 1.0522,
+        "r2": 0.5782
+      },
+      {
+        "model": "Ridge (ecfp2)",
+        "features": "ecfp2",
+        "n_features": 4096,
+        "rmse": 1.7555,
+        "mae": 1.2341,
+        "r2": 0.2953
+      },
+      {
+        "model": "RF (ecfp2)",
+        "features": "ecfp2",
+        "n_features": 4096,
+        "rmse": 1.2234,
+        "mae": 0.9009,
+        "r2": 0.6578
+      },
+      {
+        "model": "XGBoost (ecfp2)",
+        "features": "ecfp2",
+        "n_features": 4096,
+        "rmse": 1.1725,
+        "mae": 0.8798,
+        "r2": 0.6857
+      },
+      {
+        "model": "Ridge (ecfp4)",
+        "features": "ecfp4",
+        "n_features": 4096,
+        "rmse": 1.3994,
+        "mae": 1.0742,
+        "r2": 0.5522
+      },
+      {
+        "model": "RF (ecfp4)",
+        "features": "ecfp4",
+        "n_features": 4096,
+        "rmse": 1.1723,
+        "mae": 0.8665,
+        "r2": 0.6857
+      },
+      {
+        "model": "XGBoost (ecfp4)",
+        "features": "ecfp4",
+        "n_features": 4096,
+        "rmse": 1.1268,
+        "mae": 0.8393,
+        "r2": 0.7097
+      },
+      {
+        "model": "Ridge (ecfp6)",
+        "features": "ecfp6",
+        "n_features": 4096,
+        "rmse": 1.574,
+        "mae": 1.1858,
+        "r2": 0.4335
+      },
+      {
+        "model": "RF (ecfp6)",
+        "features": "ecfp6",
+        "n_features": 4096,
+        "rmse": 1.203,
+        "mae": 0.8998,
+        "r2": 0.6691
+      },
+      {
+        "model": "XGBoost (ecfp6)",
+        "features": "ecfp6",
+        "n_features": 4096,
+        "rmse": 1.1458,
+        "mae": 0.8591,
+        "r2": 0.6998
+      },
+      {
+        "model": "Ridge (ecfp8)",
+        "features": "ecfp8",
+        "n_features": 4096,
+        "rmse": 1.4587,
+        "mae": 1.1118,
+        "r2": 0.5135
+      },
+      {
+        "model": "RF (ecfp8)",
+        "features": "ecfp8",
+        "n_features": 4096,
+        "rmse": 1.2167,
+        "mae": 0.9097,
+        "r2": 0.6615
+      },
+      {
+        "model": "XGBoost (ecfp8)",
+        "features": "ecfp8",
+        "n_features": 4096,
+        "rmse": 1.1635,
+        "mae": 0.8807,
+        "r2": 0.6904
+      },
+      {
+        "model": "Ridge (fp2)",
+        "features": "fp2",
+        "n_features": 1024,
+        "rmse": 1.5493,
+        "mae": 1.0571,
+        "r2": 0.4511
+      },
+      {
+        "model": "RF (fp2)",
+        "features": "fp2",
+        "n_features": 1024,
+        "rmse": 1.2058,
+        "mae": 0.8958,
+        "r2": 0.6676
+      },
+      {
+        "model": "XGBoost (fp2)",
+        "features": "fp2",
+        "n_features": 1024,
+        "rmse": 1.1025,
+        "mae": 0.8427,
+        "r2": 0.722
+      }
+    ],
+    "key_findings": {
+      "xgb_domain_6feat_rmse": 0.9318,
+      "delaney_equation_rmse": 0.9134,
+      "ecfp4_rmse": 1.1268,
+      "fp2_path_rmse": 1.1025,
+      "best_fingerprint_type": "fp2",
+      "best_fingerprint_rmse": 1.1025,
+      "ecfp_radius_findings": {
+        "r0": 1.3582,
+        "r1": 1.1725,
+        "r2": 1.1268,
+        "r3": 1.1458,
+        "r4": 1.1635
+      },
+      "radius_sweet_spot": 2,
+      "domain_vs_fingerprint_gap": 0.17070000000000007
+    }
   }
 ]
