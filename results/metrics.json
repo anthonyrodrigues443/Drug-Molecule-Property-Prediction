@@ -104,5 +104,327 @@
     "champion": "Random Forest (Combined)",
     "champion_roc_auc": 0.7707,
     "champion_auprc": 0.3722
+  },
+  {
+    "phase": 1,
+    "author": "Mark",
+    "date": "2026-04-06",
+    "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
+    "primary_metric": "ROC-AUC",
+    "split": "OGB official scaffold split",
+    "experiments": [
+      {
+        "model": "RF (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7655,
+        "auprc": 0.3493,
+        "f1": 0.2548,
+        "precision": 0.7407,
+        "recall": 0.1538,
+        "train_s": 8.8
+      },
+      {
+        "model": "RF (Combined, balanced)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7634,
+        "auprc": 0.3507,
+        "f1": 0.2675,
+        "precision": 0.7778,
+        "recall": 0.1615,
+        "train_s": 6.7
+      },
+      {
+        "model": "XGBoost (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7703,
+        "auprc": 0.3956,
+        "f1": 0.2767,
+        "precision": 0.7586,
+        "recall": 0.1692,
+        "train_s": 3.6
+      },
+      {
+        "model": "XGBoost (Combined, scale_pos_weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7618,
+        "auprc": 0.3936,
+        "f1": 0.3099,
+        "precision": 0.2261,
+        "recall": 0.4923,
+        "train_s": 3.5
+      },
+      {
+        "model": "LightGBM (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7732,
+        "auprc": 0.3826,
+        "f1": 0.2727,
+        "precision": 0.875,
+        "recall": 0.1615,
+        "train_s": 2.1
+      },
+      {
+        "model": "LightGBM (Combined, is_unbalance)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.759,
+        "auprc": 0.3803,
+        "f1": 0.3174,
+        "precision": 0.236,
+        "recall": 0.4846,
+        "train_s": 2.4
+      },
+      {
+        "model": "CatBoost (Combined, auto_weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7782,
+        "auprc": 0.3708,
+        "f1": 0.2693,
+        "precision": 0.1813,
+        "recall": 0.5231,
+        "train_s": 3.7
+      },
+      {
+        "model": "CatBoost (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7746,
+        "auprc": 0.3821,
+        "f1": 0.2675,
+        "precision": 0.7778,
+        "recall": 0.1615,
+        "train_s": 3.5
+      },
+      {
+        "model": "LogReg (Domain 12, no weight)",
+        "features": "domain_12",
+        "n_features": 12,
+        "roc_auc": 0.7366,
+        "auprc": 0.1581,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "train_s": 0.1
+      },
+      {
+        "model": "LogReg (Domain 12, balanced)",
+        "features": "domain_12",
+        "n_features": 12,
+        "roc_auc": 0.746,
+        "auprc": 0.1251,
+        "f1": 0.1429,
+        "precision": 0.0802,
+        "recall": 0.6538,
+        "train_s": 0.1
+      },
+      {
+        "model": "RF (Graph topo 5-feat)",
+        "features": "graph_topo_5",
+        "n_features": 5,
+        "roc_auc": 0.6037,
+        "auprc": 0.1332,
+        "f1": 0.12,
+        "precision": 0.45,
+        "recall": 0.0692,
+        "train_s": 0.8
+      },
+      {
+        "model": "XGBoost (Graph topo 5-feat)",
+        "features": "graph_topo_5",
+        "n_features": 5,
+        "roc_auc": 0.7013,
+        "auprc": 0.1852,
+        "f1": 0.1241,
+        "precision": 0.6,
+        "recall": 0.0692,
+        "train_s": 0.3
+      },
+      {
+        "model": "LightGBM (FP 1024, is_unbalance)",
+        "features": "fp_1024",
+        "n_features": 1024,
+        "roc_auc": 0.7077,
+        "auprc": 0.3318,
+        "f1": 0.3095,
+        "precision": 0.2524,
+        "recall": 0.4,
+        "train_s": 0.8
+      }
+    ],
+    "key_findings": {
+      "champion_model": "CatBoost (Combined, auto_weight)",
+      "champion_roc_auc": 0.7782,
+      "champion_auprc": 0.3708,
+      "anthony_champion_roc_auc": 0.7707,
+      "delta_vs_anthony": 0.0075,
+      "ogb_sota": 0.8476
+    }
+  },
+  {
+    "phase": 1,
+    "author": "Mark",
+    "date": "2026-04-06",
+    "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
+    "primary_metric": "ROC-AUC",
+    "split": "OGB official scaffold split",
+    "experiments": [
+      {
+        "model": "RF (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7655,
+        "auprc": 0.3493,
+        "f1": 0.2548,
+        "precision": 0.7407,
+        "recall": 0.1538,
+        "train_s": 9.3
+      },
+      {
+        "model": "RF (Combined, balanced)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7634,
+        "auprc": 0.3507,
+        "f1": 0.2675,
+        "precision": 0.7778,
+        "recall": 0.1615,
+        "train_s": 28.6
+      },
+      {
+        "model": "XGBoost (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7703,
+        "auprc": 0.3956,
+        "f1": 0.2767,
+        "precision": 0.7586,
+        "recall": 0.1692,
+        "train_s": 20.7
+      },
+      {
+        "model": "XGBoost (Combined, scale_pos_weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7618,
+        "auprc": 0.3936,
+        "f1": 0.3099,
+        "precision": 0.2261,
+        "recall": 0.4923,
+        "train_s": 11.8
+      },
+      {
+        "model": "LightGBM (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7732,
+        "auprc": 0.3826,
+        "f1": 0.2727,
+        "precision": 0.875,
+        "recall": 0.1615,
+        "train_s": 6.7
+      },
+      {
+        "model": "LightGBM (Combined, is_unbalance)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.759,
+        "auprc": 0.3803,
+        "f1": 0.3174,
+        "precision": 0.236,
+        "recall": 0.4846,
+        "train_s": 3.4
+      },
+      {
+        "model": "CatBoost (Combined, auto_weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7782,
+        "auprc": 0.3708,
+        "f1": 0.2693,
+        "precision": 0.1813,
+        "recall": 0.5231,
+        "train_s": 3.4
+      },
+      {
+        "model": "CatBoost (Combined, no weight)",
+        "features": "combined_1036",
+        "n_features": 1036,
+        "roc_auc": 0.7746,
+        "auprc": 0.3821,
+        "f1": 0.2675,
+        "precision": 0.7778,
+        "recall": 0.1615,
+        "train_s": 3.6
+      },
+      {
+        "model": "LogReg (Domain 12, no weight)",
+        "features": "domain_12",
+        "n_features": 12,
+        "roc_auc": 0.7366,
+        "auprc": 0.1581,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "train_s": 0.1
+      },
+      {
+        "model": "LogReg (Domain 12, balanced)",
+        "features": "domain_12",
+        "n_features": 12,
+        "roc_auc": 0.746,
+        "auprc": 0.1251,
+        "f1": 0.1429,
+        "precision": 0.0802,
+        "recall": 0.6538,
+        "train_s": 0.1
+      },
+      {
+        "model": "RF (Graph topo 5-feat)",
+        "features": "graph_topo_5",
+        "n_features": 5,
+        "roc_auc": 0.6037,
+        "auprc": 0.1332,
+        "f1": 0.12,
+        "precision": 0.45,
+        "recall": 0.0692,
+        "train_s": 0.8
+      },
+      {
+        "model": "XGBoost (Graph topo 5-feat)",
+        "features": "graph_topo_5",
+        "n_features": 5,
+        "roc_auc": 0.7013,
+        "auprc": 0.1852,
+        "f1": 0.1241,
+        "precision": 0.6,
+        "recall": 0.0692,
+        "train_s": 0.2
+      },
+      {
+        "model": "LightGBM (FP 1024, is_unbalance)",
+        "features": "fp_1024",
+        "n_features": 1024,
+        "roc_auc": 0.7077,
+        "auprc": 0.3318,
+        "f1": 0.3095,
+        "precision": 0.2524,
+        "recall": 0.4,
+        "train_s": 0.8
+      }
+    ],
+    "key_findings": {
+      "champion_model": "CatBoost (Combined, auto_weight)",
+      "champion_roc_auc": 0.7782,
+      "champion_auprc": 0.3708,
+      "anthony_champion_roc_auc": 0.7707,
+      "delta_vs_anthony": 0.0075,
+      "ogb_sota": 0.8476
+    }
   }
 ]
