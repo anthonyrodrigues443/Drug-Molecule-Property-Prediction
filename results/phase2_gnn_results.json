@@ -1,0 +1,30 @@
+{
+  "GCN": {
+    "val_auc": 0.7532,
+    "test_auc": 0.6938,
+    "params": 43393,
+    "epochs_run": 22,
+    "train_time_s": 81.3
+  },
+  "GIN": {
+    "val_auc": 0.7689,
+    "test_auc": 0.7053,
+    "params": 93700,
+    "epochs_run": 19,
+    "train_time_s": 66.7
+  },
+  "GAT": {
+    "val_auc": 0.7059,
+    "test_auc": 0.6677,
+    "params": 44161,
+    "epochs_run": 35,
+    "train_time_s": 191.2
+  },
+  "GraphSAGE": {
+    "val_auc": 0.7828,
+    "test_auc": 0.705,
+    "params": 77313,
+    "epochs_run": 34,
+    "train_time_s": 100.8
+  }
+}
