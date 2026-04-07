@@ -11,3 +11,5 @@ shap>=0.42.0
 jupyter>=1.0.0
 nbconvert>=7.0.0
 joblib>=1.3.0
+torch>=2.0.0
+torch-geometric>=2.4.0
