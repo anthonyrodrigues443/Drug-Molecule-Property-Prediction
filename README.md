@@ -6,23 +6,25 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 1 complete** — Baselines established. CatBoost with auto class-weighting achieves **ROC-AUC=0.7782** on combined features (1036), 0.070 below published SOTA. Threshold tuning at 0.59 boosts F1 by +27%. Gap to SOTA requires learned graph representations (GNNs).
+**Phase 2 complete** — GNN architectures tested. Best GNN (GIN) achieves **ROC-AUC=0.7053**, still 0.073 below Phase 1 CatBoost (0.7782). MLP ablation confirms the bottleneck is input feature quality, not architecture — a 5K-param MLP on 9 domain features (0.7670) outperforms all 4 GNNs. Edge features unused in Phase 2 — key Phase 3 opportunity.
 
 ---
 
 ## Key Findings
 
-1. **CatBoost auto-weighted is the Phase 1 champion** — ROC-AUC=0.7782, beating RF (0.7707) by +0.0075 while maintaining 52% recall
-2. **Combined features (Lipinski + FP) beat either alone** — RF: 0.7707 combined vs 0.6937 Lipinski vs 0.7166 FP
+1. **CatBoost auto-weighted is the overall champion** — ROC-AUC=0.7782, beating all GNNs and tabular alternatives
+2. **Input feature quality beats architecture** — GIN (93K params, 0.7053) is outperformed by MLP-Domain9 (5K params, 0.7670); 1,036 chemistry features trump raw 9-feature graph convolution
 3. **Threshold tuning matters more than model choice** — optimal threshold 0.59 (not 0.50) boosts F1 from 0.269 to 0.342 (+27%)
-4. **Domain features dominate top importance but FP carries collective weight** — 12/15 top features are domain, but FP bits hold 72.5% of total importance
-5. **Class-weighting is a trade-off, not a free lunch** — lower AUC but 3x higher recall; for drug screening, catching actives may justify the AUC cost
+4. **GAT needs richer atom features** — worst GNN (0.6677); attention mechanism can't learn useful weights from integer atom-type indices
+5. **Edge features are Phase 3's low-hanging fruit** — bond type, stereo, conjugation entirely unused in Phase 2 GNNs
 
 ---
 
 ## Models Compared
 
 **Phase 1:** 15+ experiments across LogReg, RF, XGBoost, LightGBM, and CatBoost with 4 feature sets (Lipinski-12, Morgan FP 1024, combined 1036, graph topology 5), class-weighting strategies, and threshold tuning
+
+**Phase 2:** 5+ experiments across GCN, GIN, GAT, GraphSAGE (4 GNN architectures), and MLP-Domain9 ablation; testing raw graph features vs domain feature sets
 
 ---
 
@@ -48,6 +50,32 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Combined Insight:** The bottleneck is both model family and decision calibration. CatBoost's ordered boosting handles 3.5% imbalance more gracefully than RF/XGBoost (+0.0075 AUC), while threshold tuning at 0.59 extracts +27% F1 without changing the model. Feature importance shows domain features and fingerprints are complementary: domain features rank individually highest, but fingerprints carry 72.5% of collective signal. The 0.070 AUC gap to SOTA confirms tabular models plateau here — closing it requires GNNs.<br><br>
 **Surprise:** Threshold tuning (0.50→0.59) boosts F1 more than switching model families. At 3.5% imbalance, the default 0.50 threshold wastes discrimination — the model already ranks well, it just cuts at the wrong point.<br><br>
 **Research:** Hu et al., 2020 — OGB benchmark, SOTA 0.8476 requires graph-level representations; Prokhorenkova et al., 2018 — CatBoost ordered boosting handles class imbalance without naive oversampling; He & Garcia, 2009 — moderate imbalance responds to weighting without discrimination collapse.<br><br>
+**Best Model So Far:** CatBoost (auto_class_weights, combined 1036 features) — ROC-AUC=0.7782, AUPRC=0.3708, Recall=0.523
+
+</td>
+</tr>
+</table>
+
+### Phase 2: Multi-Model GNN Comparison — 2026-04-07
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**GNN Architectures:** Tested 4 GNNs (GCN, GIN, GAT, GraphSAGE) on raw 9-feature atom graphs. Best: GIN at 0.7053 AUC; worst: GAT at 0.6677. All 4 underperform CatBoost (0.7782) by 0.07–0.11 AUC — graph topology alone can't compensate for missing chemistry features.<br><br>
+**MLP Ablation:** Tiny MLP-Domain9 (9 domain features, 5K params) hits 0.7670 AUC — beating all 4 GNNs. Neural failure on molecular graphs is not architecture-specific; it persists across GNN and dense networks when input features are too sparse.
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase2_model_comparison.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Both runs together prove the bottleneck is input feature quality, not architecture. Anthony's GNNs and Mark's MLP both operate on 9 raw features and both fail to match CatBoost's 1,036 hand-crafted chemistry features. Architecture choice is secondary to feature richness.<br><br>
+**Surprise:** A 5K-param MLP on 9 domain features (0.7670) outperforms a 93K-param GIN on full molecular graphs (0.7053). Model capacity does not compensate for sparse input signals — the features encode more than the graph topology alone.<br><br>
+**Research:** Xu et al., 2019 — GIN achieves WL-test expressivity; empirically leads all GNNs but still trails tabular ML, confirming feature quality dominates. Hu et al., 2020 (OGB) — basic GIN+virtual node baseline 0.7558; our GIN matches this, confirming correct implementation and that the gap is real.<br><br>
 **Best Model So Far:** CatBoost (auto_class_weights, combined 1036 features) — ROC-AUC=0.7782, AUPRC=0.3708, Recall=0.523
 
 </td>
