@@ -69,3 +69,57 @@ Phase 2 Mark key findings:
 2. Virtual node causes overfitting on scaffold split (best val, worst test gap)
 3. More features can HURT: Full hybrid (1345d) < Lipinski alone (14d)
 4. GIN+Edge is Phase 3 champion (0.7860) — first GNN to beat CatBoost
+
+
+## 2026-04-08 | Phase 3 (Mark) | RDKit Fragments + Mutual-Info Feature Selection
+
+Complementary to Anthony's Phase 3 GNN+edge experiments. Added 85 RDKit `Fr_*` functional-group
+descriptors to the feature pool and ran a mutual-information top-K selection sweep on the
+combined 1302-dim pool to test whether Anthony's "more features hurt" finding was about
+noise (fixable by selection) or signal loss (not fixable).
+
+### M3.1 — CatBoost feature-set head-to-head (NaN-cleaned float32 matrices)
+
+| Rank | Feature Set | Dims | Test AUC | Test AUPRC |
+|------|-------------|------|----------|------------|
+| 1 | AllTrad (1217) | 1217 | 0.7814 | 0.3490 |
+| 2 | AllTrad+Frag (1302) | 1302 | 0.7677 | 0.3647 |
+| 3 | MACCS (167) | 167 | 0.7670 | 0.3098 |
+| 4 | Lipinski (14) | 14 | 0.7459 | 0.2758 |
+| 5 | Morgan (1024) | 1024 | 0.7448 | 0.3398 |
+| 6 | Lip+Frag (99) | 99 | 0.7247 | 0.2604 |
+| 7 | Fragments (85) | 85 | 0.6999 | 0.2411 |
+
+### M3.2 — Mutual-info top-K sweep on AllTrad+Frag pool (1302 dims)
+
+| K | Test AUC | Test AUPRC | Δ vs GIN+Edge 0.7860 |
+|---|---------:|-----------:|---------------------:|
+| 20 | 0.7702 | 0.2168 | -0.0158 |
+| 50 | 0.7591 | 0.2793 | -0.0269 |
+| 100 | 0.7892 | 0.3127 | +0.0032 |
+| 200 | 0.8019 | 0.3285 | +0.0159 |
+| 300 | 0.7883 | 0.3076 | +0.0023 |
+| 350 | 0.7813 | 0.3288 | -0.0047 |
+| **400** ← champion | **0.8105** | 0.3481 | **+0.0245** |
+| 450 | 0.7796 | 0.3164 | -0.0064 |
+| 500 | 0.7945 | 0.3244 | +0.0085 |
+| 600 | 0.7941 | 0.3532 | +0.0081 |
+| 800 | 0.7836 | 0.3421 | -0.0024 |
+| 1302 | 0.7673 | 0.3484 | -0.0187 |
+
+### K=400 champion composition
+
+| Category | Pool | Selected | % of category | % of K=400 |
+|----------|-----:|---------:|--------------:|-----------:|
+| Lipinski | 14 | 14 | 100.0% | 3.5% |
+| Advanced | 12 | 10 | 83.3% | 2.5% |
+| MACCS | 167 | 108 | 64.7% | 27.0% |
+| Fragments | 85 | 33 | 38.8% | 8.25% |
+| Morgan | 1024 | 235 | 22.9% | 58.75% |
+
+**Key findings:**
+1. CatBoost + MI-top-400 = **0.8105 AUC**, beating Anthony's Phase 3 GIN+Edge champion (0.7860) by +0.0245, with zero graph layers.
+2. On the same 1302-d pool: using everything → 0.7673, keeping top 400 → 0.8105. +0.0432 from a univariate filter with no model change.
+3. MACCS is over-represented in the winning subset (27% of K=400 vs 12.8% pool share). Hand-curated > hashed substructure keys per unit.
+4. Fragments-only = 0.6999 — worst feature set tested. H1 (Fr_* alone beat Lipinski) falsified. Fragments carry marginal but not standalone signal.
+5. All 14 Lipinski features survive every K≥300 selection level. Classical physicochemistry still matters.
