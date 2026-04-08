@@ -943,5 +943,78 @@
         }
       ]
     }
+  },
+  "phase3_feature_engineering": {
+    "gnn_experiments": {
+      "GIN+Edge (no VN)": {
+        "test_auc": 0.786,
+        "auprc": 0.3441,
+        "params": 144516,
+        "time_s": 297
+      },
+      "GIN+Edge+VN (OGB)": {
+        "test_auc": 0.7622,
+        "auprc": 0.2858,
+        "params": 211204,
+        "time_s": 292
+      },
+      "GIN+VN (no edge)": {
+        "test_auc": 0.7578,
+        "auprc": 0.2642,
+        "params": 206212,
+        "time_s": 199
+      }
+    },
+    "feature_ablation": {
+      "Lipinski (14)": {
+        "test_auc": 0.7744,
+        "auprc": 0.2779
+      },
+      "Morgan FP (1024)": {
+        "test_auc": 0.7176,
+        "auprc": 0.282
+      },
+      "MACCS (167)": {
+        "test_auc": 0.7605,
+        "auprc": 0.2859
+      },
+      "Advanced desc (12)": {
+        "test_auc": 0.7219,
+        "auprc": 0.2123
+      },
+      "GNN embed (128)": {
+        "test_auc": 0.7692,
+        "auprc": 0.2957
+      },
+      "Lip+FP (1038)": {
+        "test_auc": 0.7619,
+        "auprc": 0.3239
+      },
+      "Lip+MACCS (181)": {
+        "test_auc": 0.7568,
+        "auprc": 0.3073
+      },
+      "All traditional (1217)": {
+        "test_auc": 0.7841,
+        "auprc": 0.3416
+      },
+      "GNN+Lip (142)": {
+        "test_auc": 0.7662,
+        "auprc": 0.3101
+      },
+      "GNN+Lip+FP (1166)": {
+        "test_auc": 0.7688,
+        "auprc": 0.3526
+      },
+      "Full hybrid (1345)": {
+        "test_auc": 0.7415,
+        "auprc": 0.222
+      }
+    },
+    "champion": {
+      "name": "GIN+Edge (no VN)",
+      "test_auc": 0.786
+    },
+    "key_finding": "Edge features (bond type + stereo + conjugation) boost GIN from 0.7053 to 0.7860 (+0.081 AUC)"
   }
 }

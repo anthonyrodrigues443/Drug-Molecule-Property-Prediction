@@ -11,3 +11,4 @@ models/*.pt
 .ipynb_checkpoints/
 .DS_Store
 .env
+catboost_info/
