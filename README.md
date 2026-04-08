@@ -6,17 +6,17 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 3 complete** — Edge features unlock GNN potential. GIN+Edge (BondEncoder) achieves **ROC-AUC=0.7860**, surpassing Phase 1 CatBoost (0.7782) for the first time. Bond features (+0.081 AUC) are the single largest improvement across all phases. Virtual node improves validation but overfits on scaffold splits. Feature ablation shows 14 Lipinski features nearly match 1038-dim fingerprints — curse of dimensionality confirmed on 32K samples.
+**Phase 3 complete** — Feature curation is the new frontier. Mark's CatBoost + MI-top-400 achieves **ROC-AUC=0.8105**, beating Anthony's GIN+Edge (0.7860) and pulling within 0.037 of SOTA without any graph layers. Key insight: mutual-information selection on a 1302-d pool recovers +0.043 AUC vs naive full-feature CatBoost (0.7673). Bond features (+0.081) remain the single largest per-feature gain; MACCS keys are the most information-dense fingerprint family.
 
 ---
 
 ## Key Findings
 
-1. **GIN+Edge is the new champion** — ROC-AUC=0.7860 (Phase 3), surpassing CatBoost (0.7782); 3 bond features (type, stereo, conjugation via BondEncoder) deliver +0.081 AUC — the single largest improvement across all phases
-2. **Input feature quality beats architecture** — GIN (93K params, 0.7053) outperformed by MLP-Domain9 (5K params, 0.7670); 1,036 chemistry features trump raw 9-feature graph convolution
-3. **Threshold tuning matters more than model choice** — optimal threshold 0.59 (not 0.50) boosts F1 from 0.269 to 0.342 (+27%)
+1. **Feature curation beats feature quantity** — CatBoost + MI-top-400 (0.8105) beats GIN+Edge (0.7860) by +0.025; same 1302-d pool with naive concatenation gives 0.7673 — MI selection recovers +0.043 AUC with no model change
+2. **Edge features were the key GNN unlock** — 3 BondEncoder dims (+0.081 AUC to GIN) is the largest single-feature gain across all phases; bond type/stereo/conjugation encodes chemical connectivity Morgan fingerprints only approximate
+3. **MACCS punches above its weight** — MI retains 65% of 167 MACCS keys vs 23% of 1024 Morgan bits; hand-curated substructure keys carry more per-bit signal than hashed substructure space
 4. **Virtual node overfits on scaffold splits** — best val AUC (0.8333) but largest val-test gap (0.071); VN memorizes scaffold-specific global patterns that don't transfer to novel scaffolds
-5. **More features can hurt** — full hybrid (1345d, 0.7415) < Lipinski alone (14d, 0.7744); domain knowledge compresses 1038 features into 14 with <1% AUC loss
+5. **All 14 Lipinski features survive every MI threshold** — classical physicochemistry is not obsoleted by modern fingerprints; domain descriptors and structural bits remain complementary at every K
 
 ---
 
@@ -26,7 +26,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 **Phase 2:** 5+ experiments across GCN, GIN, GAT, GraphSAGE (4 GNN architectures), and MLP-Domain9 ablation; testing raw graph features vs domain feature sets
 
-**Phase 3:** 14+ experiments — GIN+Edge (BondEncoder), GIN+VN, GIN+Edge+VN (3 GNN variants), and CatBoost feature ablation across 11 feature combinations (Lipinski, Morgan FP, MACCS, advanced descriptors, hybrid sets)
+**Phase 3:** 26+ experiments — GIN+Edge (BondEncoder), GIN+VN, GIN+Edge+VN (3 GNN variants), CatBoost ablation across 11 feature sets (Anthony), plus 7-set fragment ablation and MI sweep across 12 K-values on a 1302-d pool with K=400 composition audit (Mark)
 
 ---
 
@@ -58,31 +58,6 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 </tr>
 </table>
 
-### Phase 3: Feature Engineering + Deep Dive — 2026-04-08
-
-<table>
-<tr>
-<td valign="top" width="38%">
-
-**Feature Engineering:** Tested 3 GNN variants (GIN+Edge, GIN+VN, GIN+Edge+VN) using AtomEncoder/BondEncoder, then ran CatBoost ablation across 11 feature combinations. GIN+Edge (BondEncoder, no VN) reaches 0.7860 AUC — the new overall champion. Feature ablation shows All Traditional (1217d, 0.7841) nearly matches GIN+Edge, while Lipinski alone (14d, 0.7744) competes with 1038-dim Lip+FP via 87x compression.
-
-</td>
-<td align="center" width="24%">
-
-<img src="results/phase3_model_comparison.png" width="220">
-
-</td>
-<td valign="top" width="38%">
-
-**Combined Insight:** Bond information is the critical missing ingredient: 3 BondEncoder dims (+0.081 AUC) outperform all architectural changes from Phase 2. Traditional ML can nearly match GNN+Edge by stacking diverse fingerprints (1217d, 0.7841) — but naive concatenation (1345d hybrid, 0.7415) falls below 14-feature Lipinski (0.7744), confirming curse of dimensionality on 32K samples.<br><br>
-**Surprise:** GIN+Edge+VN has the best validation AUC (0.8333) but worse test AUC than edge-only (0.7622 vs 0.7860). Virtual node memorizes scaffold-specific global patterns that fail to generalize — val-test gap of 0.071 is the largest across all models tested.<br><br>
-**Research:** Hu et al., 2020 (OGB) — AtomEncoder/BondEncoder is the standard encoding; GIN+VN baseline ~0.77 AUC on molhiv. Gilmer et al., 2017 (MPNN) — edge features are critical for bond-aware message passing, so we added BondEncoder which delivered the largest single improvement across all three phases.<br><br>
-**Best Model So Far:** GIN+Edge (AtomEncoder + BondEncoder, no VN) — ROC-AUC=0.7860, AUPRC=0.3441
-
-</td>
-</tr>
-</table>
-
 ### Phase 2: Multi-Model GNN Comparison — 2026-04-07
 
 <table>
@@ -104,6 +79,32 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Surprise:** A 5K-param MLP on 9 domain features (0.7670) outperforms a 93K-param GIN on full molecular graphs (0.7053). Model capacity does not compensate for sparse input signals — the features encode more than the graph topology alone.<br><br>
 **Research:** Xu et al., 2019 — GIN achieves WL-test expressivity; empirically leads all GNNs but still trails tabular ML, confirming feature quality dominates. Hu et al., 2020 (OGB) — basic GIN+virtual node baseline 0.7558; our GIN matches this, confirming correct implementation and that the gap is real.<br><br>
 **Best Model So Far:** CatBoost (auto_class_weights, combined 1036 features) — ROC-AUC=0.7782, AUPRC=0.3708, Recall=0.523
+
+</td>
+</tr>
+</table>
+
+### Phase 3: Feature Engineering + Deep Dive — 2026-04-08
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**Edge Features & Ablation:** GIN+Edge (BondEncoder) jumps from 0.7053 to 0.7860 AUC (+0.081) — first GNN to beat CatBoost and the largest single gain across all phases. GIN+VN (0.7578) and GIN+Edge+VN (0.7622) both fall below GIN+Edge. CatBoost ablation over 11 feature sets confirms Lipinski-14 (0.7744) captures 98.5% of 1038-dim Lip+FP signal; full hybrid (1345d, 0.7415) is the worst CatBoost result.<br><br>
+**MI Feature Selection:** Mutual-information sweep on a 1302-d pool (AllTrad+85 RDKit Fragments). K=400 reaches 0.8105 AUC — new overall champion, beating GIN+Edge by +0.025. K=200 (0.8019) and K=500 (0.7945) also clear GIN+Edge. Composition: all 14 Lipinski features survive; MACCS selected at 65% vs Morgan at 23% — hand-curated keys carry more per-bit signal.
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase3_mark_leaderboard.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Anthony proved bond information is the key GNN ingredient (+0.081 AUC from BondEncoder); Mark proved feature curation on a richer pool is the key tabular ingredient (+0.043 AUC from MI-top-400 vs naive concatenation). Both findings share the same root cause: it's not the quantity of information, it's the signal-to-noise ratio of what you feed the model.<br><br>
+**Surprise:** GIN+Edge+VN has best val AUC (0.8333) but 3rd-worst test AUC (0.7622) — virtual node overfits scaffold-specific global patterns. Meanwhile, Mark's K=50 (0.7591) is worse than K=20 (0.7702): Morgan bits ranked 21–50 are high-MI on training scaffolds but don't transfer to novel ones.<br><br>
+**Research:** Hu et al., 2020 (OGB) — AtomEncoder/BondEncoder standard encoding, GIN+VN baseline ~0.77; prompted Anthony's BondEncoder addition. Battiti, 1994 (IEEE TNN) — MI outperforms Pearson/chi² for non-linear heterogeneous pools; motivated Mark's MI sweep over the mixed-cardinality 1302-d set.<br><br>
+**Best Model So Far:** CatBoost + MI-top-400 (AllTrad+Frag, K=400) — ROC-AUC=0.8105
 
 </td>
 </tr>
