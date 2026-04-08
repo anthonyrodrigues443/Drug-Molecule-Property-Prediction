@@ -1016,5 +1016,130 @@
       "test_auc": 0.786
     },
     "key_finding": "Edge features (bond type + stereo + conjugation) boost GIN from 0.7053 to 0.7860 (+0.081 AUC)"
+  },
+  "phase3_mark": {
+    "date": "2026-04-08",
+    "author": "Mark",
+    "champion": {
+      "name": "CatBoost + MI-top-400 (AllTrad+Frag)",
+      "test_auc": 0.8105,
+      "auprc": 0.3481,
+      "K": 400,
+      "delta_vs_anthony_gin_edge": 0.0245
+    },
+    "feature_set_ablation": {
+      "Lipinski (14)": {
+        "test_auc": 0.7459,
+        "test_auprc": 0.2758,
+        "dims": 14,
+        "fit_s": 9.3
+      },
+      "Fragments (85)": {
+        "test_auc": 0.6999,
+        "test_auprc": 0.2411,
+        "dims": 85,
+        "fit_s": 4.7
+      },
+      "Lip+Frag (99)": {
+        "test_auc": 0.7247,
+        "test_auprc": 0.2604,
+        "dims": 99,
+        "fit_s": 8.1
+      },
+      "Morgan (1024)": {
+        "test_auc": 0.7448,
+        "test_auprc": 0.3398,
+        "dims": 1024,
+        "fit_s": 47.4
+      },
+      "MACCS (167)": {
+        "test_auc": 0.767,
+        "test_auprc": 0.3098,
+        "dims": 167,
+        "fit_s": 19.8
+      },
+      "AllTrad (1217)": {
+        "test_auc": 0.7814,
+        "test_auprc": 0.349,
+        "dims": 1217,
+        "fit_s": 59.5
+      },
+      "AllTrad+Frag (1302)": {
+        "test_auc": 0.7677,
+        "test_auprc": 0.3647,
+        "dims": 1302,
+        "fit_s": 66.1
+      }
+    },
+    "mi_selection_sweep": {
+      "20": {
+        "auc": 0.7702,
+        "auprc": 0.2168
+      },
+      "50": {
+        "auc": 0.7591,
+        "auprc": 0.2793
+      },
+      "100": {
+        "auc": 0.7892,
+        "auprc": 0.3127
+      },
+      "200": {
+        "auc": 0.8019,
+        "auprc": 0.3285
+      },
+      "400": {
+        "auc": 0.8105,
+        "auprc": 0.3481
+      },
+      "800": {
+        "auc": 0.7836,
+        "auprc": 0.3421
+      },
+      "1302": {
+        "auc": 0.7673,
+        "auprc": 0.3484
+      }
+    },
+    "fine_grained_sweep": {
+      "300": {
+        "auc": 0.7883,
+        "auprc": 0.3076
+      },
+      "350": {
+        "auc": 0.7813,
+        "auprc": 0.3288
+      },
+      "400": {
+        "auc": 0.8105,
+        "auprc": 0.3481
+      },
+      "450": {
+        "auc": 0.7796,
+        "auprc": 0.3164
+      },
+      "500": {
+        "auc": 0.7945,
+        "auprc": 0.3244
+      },
+      "600": {
+        "auc": 0.7941,
+        "auprc": 0.3532
+      }
+    },
+    "composition_K400": {
+      "Morgan": 235,
+      "MACCS": 108,
+      "Fragments": 33,
+      "Lipinski": 14,
+      "Advanced": 10
+    },
+    "key_finding": "Mutual-info top-400 on 1302-d Lipinski+Fragments+Morgan+MACCS+Adv pool beats Anthony GIN+Edge (0.7860) by +0.0245 with pure CatBoost, no graph layers."
+  },
+  "overall_champion_phase3": {
+    "name": "CatBoost + MI-top-400",
+    "test_auc": 0.8105,
+    "author": "Mark",
+    "date": "2026-04-08"
   }
 }
