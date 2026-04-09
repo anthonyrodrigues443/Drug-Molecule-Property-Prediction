@@ -1,0 +1,424 @@
+{
+  "gin_tuning": {
+    "best_test_trial": 2,
+    "best_test_auc": 0.7904,
+    "best_val_trial": 6,
+    "best_val_auc": 0.8107,
+    "all_trials": [
+      {
+        "trial": 0,
+        "hidden_dim": 128,
+        "num_layers": 4,
+        "dropout": 0.2,
+        "lr": 0.0002,
+        "batch_size": 512,
+        "pool_type": "mean",
+        "val_auc": 0.793,
+        "test_auc": 0.786,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 1,
+        "hidden_dim": 128,
+        "num_layers": 2,
+        "dropout": 0.3,
+        "lr": 0.0002,
+        "batch_size": 512,
+        "pool_type": "add",
+        "val_auc": 0.7918,
+        "test_auc": 0.7237,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 2,
+        "hidden_dim": 64,
+        "num_layers": 3,
+        "dropout": 0.4,
+        "lr": 0.0037,
+        "batch_size": 512,
+        "pool_type": "add",
+        "val_auc": 0.7957,
+        "test_auc": 0.7904,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 3,
+        "hidden_dim": 64,
+        "num_layers": 5,
+        "dropout": 0.7,
+        "lr": 0.0041,
+        "batch_size": 256,
+        "pool_type": "add",
+        "val_auc": 0.7852,
+        "test_auc": 0.6932,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 4,
+        "hidden_dim": 128,
+        "num_layers": 5,
+        "dropout": 0.3,
+        "lr": 0.0021,
+        "batch_size": 512,
+        "pool_type": "add",
+        "val_auc": 0.7788,
+        "test_auc": 0.6941,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 5,
+        "hidden_dim": 64,
+        "num_layers": 5,
+        "dropout": 0.5,
+        "lr": 0.007,
+        "batch_size": 512,
+        "pool_type": "mean",
+        "val_auc": 0.7733,
+        "test_auc": 0.7152,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 6,
+        "hidden_dim": 256,
+        "num_layers": 3,
+        "dropout": 0.3,
+        "lr": 0.0012,
+        "batch_size": 512,
+        "pool_type": "mean",
+        "val_auc": 0.8107,
+        "test_auc": 0.7631,
+        "model_type": "GIN+Edge"
+      },
+      {
+        "trial": 7,
+        "hidden_dim": 64,
+        "num_layers": 5,
+        "dropout": 0.6,
+        "lr": 0.0029,
+        "batch_size": 256,
+        "pool_type": "add",
+        "val_auc": 0.7893,
+        "test_auc": 0.6943,
+        "model_type": "GIN+Edge"
+      }
+    ],
+    "insight": "Smaller model (64d) generalizes better. Val-test gap problem on scaffold split."
+  },
+  "catboost_tuning": {
+    "best_test_trial": 10,
+    "best_test_auc": 0.7671458659401389,
+    "best_val_trial": 0,
+    "best_val_auc": 0.8427,
+    "all_trials": [
+      {
+        "trial": 0,
+        "depth": 6,
+        "lr": 0.2537,
+        "l2": 22.2,
+        "iters": 1000,
+        "val_auc": 0.8427,
+        "test_auc": 0.7857,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 1,
+        "depth": 4,
+        "lr": 0.2708,
+        "l2": 25.1,
+        "iters": 500,
+        "val_auc": 0.8207,
+        "test_auc": 0.7875,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 2,
+        "depth": 8,
+        "lr": 0.0161,
+        "l2": 9.5,
+        "iters": 700,
+        "val_auc": 0.8064,
+        "test_auc": 0.78,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 3,
+        "depth": 8,
+        "lr": 0.0179,
+        "l2": 2.9,
+        "iters": 1500,
+        "val_auc": 0.8051,
+        "test_auc": 0.7785,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 4,
+        "depth": 4,
+        "lr": 0.0539,
+        "l2": 2.0,
+        "iters": 1400,
+        "val_auc": 0.7744,
+        "test_auc": 0.7397,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 5,
+        "depth": 10,
+        "lr": 0.1396,
+        "l2": 28.2,
+        "iters": 1400,
+        "val_auc": 0.8401,
+        "test_auc": 0.7664,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 6,
+        "depth": 6,
+        "lr": 0.0252,
+        "l2": 25.0,
+        "iters": 700,
+        "val_auc": 0.7974,
+        "test_auc": 0.7849,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 7,
+        "depth": 9,
+        "lr": 0.0197,
+        "l2": 1.2,
+        "iters": 1300,
+        "val_auc": 0.8019,
+        "test_auc": 0.7751,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 8,
+        "depth": 10,
+        "lr": 0.0833,
+        "l2": 10.6,
+        "iters": 300,
+        "val_auc": 0.8145,
+        "test_auc": 0.7673,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 9,
+        "depth": 4,
+        "lr": 0.1131,
+        "l2": 23.1,
+        "iters": 1000,
+        "val_auc": 0.7989,
+        "test_auc": 0.7694,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 10,
+        "depth": 6,
+        "lr": 0.2388,
+        "l2": 18.2,
+        "iters": 1100,
+        "val_auc": 0.8072,
+        "test_auc": 0.7909,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 11,
+        "depth": 6,
+        "lr": 0.1513,
+        "l2": 29.9,
+        "iters": 1200,
+        "val_auc": 0.7989,
+        "test_auc": 0.7678,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 12,
+        "depth": 10,
+        "lr": 0.173,
+        "l2": 29.8,
+        "iters": 900,
+        "val_auc": 0.7709,
+        "test_auc": 0.7713,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 13,
+        "depth": 7,
+        "lr": 0.0496,
+        "l2": 19.9,
+        "iters": 800,
+        "val_auc": 0.8024,
+        "test_auc": 0.7708,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 14,
+        "depth": 7,
+        "lr": 0.0947,
+        "l2": 13.7,
+        "iters": 1500,
+        "val_auc": 0.8178,
+        "test_auc": 0.7867,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 15,
+        "depth": 5,
+        "lr": 0.2911,
+        "l2": 21.5,
+        "iters": 1200,
+        "val_auc": 0.7734,
+        "test_auc": 0.741,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 16,
+        "depth": 9,
+        "lr": 0.1635,
+        "l2": 26.8,
+        "iters": 1000,
+        "val_auc": 0.8418,
+        "test_auc": 0.7792,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 17,
+        "depth": 8,
+        "lr": 0.037,
+        "l2": 16.8,
+        "iters": 1000,
+        "val_auc": 0.8043,
+        "test_auc": 0.7902,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 18,
+        "depth": 9,
+        "lr": 0.1718,
+        "l2": 25.4,
+        "iters": 500,
+        "val_auc": 0.824,
+        "test_auc": 0.7713,
+        "model_type": "CatBoost"
+      },
+      {
+        "trial": 19,
+        "depth": 5,
+        "lr": 0.0105,
+        "l2": 13.9,
+        "iters": 900,
+        "val_auc": 0.7869,
+        "test_auc": 0.7682,
+        "model_type": "CatBoost"
+      }
+    ],
+    "insight": "None of 20 tuned configs beat Mark P3 default (0.8105). Gap is MI randomness, not hyperparameters."
+  },
+  "learning_curve": [
+    {
+      "fraction": 0.1,
+      "n_train": 3289,
+      "test_auc": 0.6723929047591444
+    },
+    {
+      "fraction": 0.2,
+      "n_train": 6579,
+      "test_auc": 0.710719185361235
+    },
+    {
+      "fraction": 0.4,
+      "n_train": 13159,
+      "test_auc": 0.7263250439588044
+    },
+    {
+      "fraction": 0.6,
+      "n_train": 19738,
+      "test_auc": 0.7892866114041698
+    },
+    {
+      "fraction": 0.8,
+      "n_train": 26318,
+      "test_auc": 0.776011052499372
+    },
+    {
+      "fraction": 1.0,
+      "n_train": 32898,
+      "test_auc": 0.7341642030413698
+    }
+  ],
+  "scaffold_analysis": {
+    "count": {
+      "singleton": 0,
+      "2-3": 0,
+      "4-10": 0,
+      "11-50": 0,
+      "50+": 0
+    },
+    "positive_rate": {
+      "singleton": NaN,
+      "2-3": NaN,
+      "4-10": NaN,
+      "11-50": NaN,
+      "50+": NaN
+    },
+    "accuracy": {
+      "singleton": NaN,
+      "2-3": NaN,
+      "4-10": NaN,
+      "11-50": NaN,
+      "50+": NaN
+    },
+    "avg_pred_prob": {
+      "singleton": NaN,
+      "2-3": NaN,
+      "4-10": NaN,
+      "11-50": NaN,
+      "50+": NaN
+    }
+  },
+  "optimal_threshold": 0.7200551353999899,
+  "optimal_f1": 0.3948497853583967,
+  "comparison": [
+    {
+      "Rank": 1,
+      "Model": "Phase 3 CB MI-400 (Mark default)",
+      "Test AUC": 0.8105,
+      "Source": "Phase 3"
+    },
+    {
+      "Rank": 2,
+      "Model": "Phase 4 CatBoost (tuned trial 10)",
+      "Test AUC": 0.7671458659401389,
+      "Source": "Phase 4"
+    },
+    {
+      "Rank": 3,
+      "Model": "Phase 4 GIN+Edge (tuned trial 2)",
+      "Test AUC": 0.7904,
+      "Source": "Phase 4"
+    },
+    {
+      "Rank": 4,
+      "Model": "Phase 3 GIN+Edge (default)",
+      "Test AUC": 0.786,
+      "Source": "Phase 3"
+    },
+    {
+      "Rank": 5,
+      "Model": "Phase 1 CatBoost (Mark)",
+      "Test AUC": 0.7782,
+      "Source": "Phase 1"
+    },
+    {
+      "Rank": 6,
+      "Model": "Phase 1 RF+Combined",
+      "Test AUC": 0.7707,
+      "Source": "Phase 1"
+    },
+    {
+      "Rank": 7,
+      "Model": "Phase 2 GIN (raw)",
+      "Test AUC": 0.7053,
+      "Source": "Phase 2"
+    }
+  ]
+}

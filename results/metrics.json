@@ -1141,5 +1141,14 @@
     "test_auc": 0.8105,
     "author": "Mark",
     "date": "2026-04-08"
+  },
+  "phase4": {
+    "gin_tuned_best_test_auc": 0.7904,
+    "gin_tuned_best_val_auc": 0.8107,
+    "catboost_tuned_test_auc": 0.7671458659401389,
+    "catboost_tuned_val_auc": 0.8180436847103513,
+    "catboost_tuned_auprc": 0.32701592064293594,
+    "optimal_threshold": 0.7200551353999899,
+    "key_finding": "Hyperparameter tuning yields marginal gains (+0.004 GIN, -0.02 CB). Feature selection quality matters more."
   }
 }

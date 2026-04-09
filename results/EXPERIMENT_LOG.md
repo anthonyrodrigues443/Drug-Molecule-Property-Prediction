@@ -123,3 +123,57 @@ noise (fixable by selection) or signal loss (not fixable).
 3. MACCS is over-represented in the winning subset (27% of K=400 vs 12.8% pool share). Hand-curated > hashed substructure keys per unit.
 4. Fragments-only = 0.6999 — worst feature set tested. H1 (Fr_* alone beat Lipinski) falsified. Fragments carry marginal but not standalone signal.
 5. All 14 Lipinski features survive every K≥300 selection level. Classical physicochemistry still matters.
+
+
+## 2026-04-09 | Phase 4 (Anthony) | Hyperparameter Tuning + Error Analysis
+
+### 4.1 — GIN+Edge Optuna Tuning (8 trials, TPE sampler)
+
+| Trial | Dim | Layers | Dropout | LR | Pool | Val AUC | Test AUC |
+|-------|-----|--------|---------|----|------|---------|----------|
+| 2 | 64 | 3 | 0.4 | 0.0037 | add | 0.7957 | **0.7904** |
+| 0 | 128 | 4 | 0.2 | 0.0002 | mean | 0.7930 | 0.7860 |
+| 6 | 256 | 3 | 0.3 | 0.0012 | mean | **0.8107** | 0.7631 |
+| 1 | 128 | 2 | 0.3 | 0.0002 | add | 0.7918 | 0.7237 |
+| 5 | 64 | 5 | 0.5 | 0.0070 | mean | 0.7733 | 0.7152 |
+| 7 | 64 | 5 | 0.6 | 0.0029 | add | 0.7893 | 0.6943 |
+| 4 | 128 | 5 | 0.3 | 0.0021 | add | 0.7788 | 0.6941 |
+| 3 | 64 | 5 | 0.7 | 0.0041 | add | 0.7852 | 0.6932 |
+
+### 4.2 — CatBoost MI-top-400 Optuna Tuning (20 trials, top 10 shown)
+
+| Trial | Depth | LR | L2 | Iters | Val AUC | Test AUC |
+|-------|-------|------|----|-------|---------|----------|
+| 10 | 6 | 0.24 | 18.2 | 1100 | 0.8072 | **0.7909** |
+| 17 | 8 | 0.04 | 16.8 | 1000 | 0.8043 | 0.7902 |
+| 1 | 4 | 0.27 | 25.1 | 500 | 0.8207 | 0.7875 |
+| 14 | 7 | 0.09 | 13.7 | 1500 | 0.8178 | 0.7867 |
+| 0 | 6 | 0.25 | 22.2 | 1000 | 0.8427 | 0.7857 |
+
+### 4.3 — Error Analysis by Molecular Properties
+
+| Property Range | Accuracy | Positive Rate | n |
+|----------------|----------|---------------|---|
+| MW < 200 | 97.6% | 1.3% | 379 |
+| MW > 500 | **81.1%** | 11.3% | 594 |
+| logP < 0 | 95.6% | 2.1% | 387 |
+| logP > 5 | **88.9%** | 7.0% | 702 |
+| Rings > 5 | **87.6%** | 9.5% | 485 |
+
+### 4.4 — Learning Curves (CatBoost MI-400)
+
+| % Data | n | Test AUC |
+|--------|---|----------|
+| 10% | 3,289 | 0.6724 |
+| 20% | 6,579 | 0.7107 |
+| 40% | 13,159 | 0.7263 |
+| 60% | 19,738 | 0.7893 |
+| 80% | 26,318 | 0.7760 |
+| 100% | 32,898 | 0.7342 |
+
+**Key findings:**
+1. Hyperparameter tuning yields MARGINAL gains: GIN +0.004, CatBoost -0.020 vs Mark P3 default
+2. Val-test gap increases with model size: 256d GIN has 0.048 gap vs 64d GIN at 0.005
+3. Large, lipophilic, multi-ring molecules are the systematic failure mode
+4. Feature selection variance (~0.02 AUC) dominates hyperparameter effects
+5. Learning curve is non-monotonic — more data can hurt on scaffold split
