@@ -1,1145 +1,1375 @@
-{
-  "phase1_experiments": [
-    {
-      "phase": 1,
-      "date": "2026-04-06",
-      "dataset": "ogbg-molhiv (OGB)",
-      "dataset_selection_rationale": "Chosen over ESOL (1128), Lipophilicity (4200), BBBP (2050), AqSolDB (9982) for size (41K), OGB leaderboard, and HIV drug impact",
-      "total_molecules": 41120,
-      "positive_rate": 0.0351,
-      "primary_metric": "ROC-AUC",
-      "metric_rationale": "OGB leaderboard standard + drug screening literature uses ROC-AUC for ranking ability; AUPRC tracked as secondary",
-      "published_sota": 0.8476,
-      "experiments": [
-        {
-          "model": "Random Forest",
-          "features": "Combined",
-          "roc_auc": 0.7707,
-          "auprc": 0.3722,
-          "f1": 0.4061,
-          "precision": 0.597,
-          "recall": 0.3077,
-          "train_s": 0.9
-        },
-        {
-          "model": "XGBoost",
-          "features": "Combined",
-          "roc_auc": 0.7613,
-          "auprc": 0.3486,
-          "f1": 0.4,
-          "precision": 0.3733,
-          "recall": 0.4308,
-          "train_s": 1.8
-        },
-        {
-          "model": "LogReg",
-          "features": "Lipinski",
-          "roc_auc": 0.7463,
-          "auprc": 0.1771,
-          "f1": 0.1356,
-          "precision": 0.0773,
-          "recall": 0.5538,
-          "train_s": 0.0
-        },
-        {
-          "model": "XGBoost",
-          "features": "Morgan FP",
-          "roc_auc": 0.7293,
-          "auprc": 0.2834,
-          "f1": 0.35,
-          "precision": 0.3267,
-          "recall": 0.3769,
-          "train_s": 1.6
-        },
-        {
-          "model": "Random Forest",
-          "features": "Morgan FP",
-          "roc_auc": 0.7166,
-          "auprc": 0.3447,
-          "f1": 0.383,
-          "precision": 0.6207,
-          "recall": 0.2769,
-          "train_s": 0.8
-        },
-        {
-          "model": "LogReg",
-          "features": "Morgan FP",
-          "roc_auc": 0.7114,
-          "auprc": 0.1858,
-          "f1": 0.1479,
-          "precision": 0.0859,
-          "recall": 0.5308,
-          "train_s": 0.3
-        },
-        {
-          "model": "XGBoost",
-          "features": "Lipinski",
-          "roc_auc": 0.6957,
-          "auprc": 0.2362,
-          "f1": 0.2116,
-          "precision": 0.1613,
-          "recall": 0.3077,
-          "train_s": 0.2
-        },
-        {
-          "model": "Random Forest",
-          "features": "Lipinski",
-          "roc_auc": 0.6937,
-          "auprc": 0.2256,
-          "f1": 0.2973,
-          "precision": 0.3587,
-          "recall": 0.2538,
-          "train_s": 1.1
-        },
-        {
-          "model": "Majority class",
-          "features": "none",
-          "roc_auc": 0.5,
-          "auprc": 0.0316,
-          "f1": 0.0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "train_s": 0.0
-        }
-      ],
-      "champion": "Random Forest (Combined)",
-      "champion_roc_auc": 0.7707,
-      "champion_auprc": 0.3722
-    },
-    {
-      "phase": 1,
-      "author": "Mark",
-      "date": "2026-04-06",
-      "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
-      "primary_metric": "ROC-AUC",
-      "split": "OGB official scaffold split",
-      "experiments": [
-        {
-          "model": "RF (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7655,
-          "auprc": 0.3493,
-          "f1": 0.2548,
-          "precision": 0.7407,
-          "recall": 0.1538,
-          "train_s": 8.8
-        },
-        {
-          "model": "RF (Combined, balanced)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7634,
-          "auprc": 0.3507,
-          "f1": 0.2675,
-          "precision": 0.7778,
-          "recall": 0.1615,
-          "train_s": 6.7
-        },
-        {
-          "model": "XGBoost (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7703,
-          "auprc": 0.3956,
-          "f1": 0.2767,
-          "precision": 0.7586,
-          "recall": 0.1692,
-          "train_s": 3.6
-        },
-        {
-          "model": "XGBoost (Combined, scale_pos_weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7618,
-          "auprc": 0.3936,
-          "f1": 0.3099,
-          "precision": 0.2261,
-          "recall": 0.4923,
-          "train_s": 3.5
-        },
-        {
-          "model": "LightGBM (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7732,
-          "auprc": 0.3826,
-          "f1": 0.2727,
-          "precision": 0.875,
-          "recall": 0.1615,
-          "train_s": 2.1
-        },
-        {
-          "model": "LightGBM (Combined, is_unbalance)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.759,
-          "auprc": 0.3803,
-          "f1": 0.3174,
-          "precision": 0.236,
-          "recall": 0.4846,
-          "train_s": 2.4
-        },
-        {
-          "model": "CatBoost (Combined, auto_weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7782,
-          "auprc": 0.3708,
-          "f1": 0.2693,
-          "precision": 0.1813,
-          "recall": 0.5231,
-          "train_s": 3.7
-        },
-        {
-          "model": "CatBoost (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7746,
-          "auprc": 0.3821,
-          "f1": 0.2675,
-          "precision": 0.7778,
-          "recall": 0.1615,
-          "train_s": 3.5
-        },
-        {
-          "model": "LogReg (Domain 12, no weight)",
-          "features": "domain_12",
-          "n_features": 12,
-          "roc_auc": 0.7366,
-          "auprc": 0.1581,
-          "f1": 0.0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "train_s": 0.1
-        },
-        {
-          "model": "LogReg (Domain 12, balanced)",
-          "features": "domain_12",
-          "n_features": 12,
-          "roc_auc": 0.746,
-          "auprc": 0.1251,
-          "f1": 0.1429,
-          "precision": 0.0802,
-          "recall": 0.6538,
-          "train_s": 0.1
-        },
-        {
-          "model": "RF (Graph topo 5-feat)",
-          "features": "graph_topo_5",
-          "n_features": 5,
-          "roc_auc": 0.6037,
-          "auprc": 0.1332,
-          "f1": 0.12,
-          "precision": 0.45,
-          "recall": 0.0692,
-          "train_s": 0.8
-        },
-        {
-          "model": "XGBoost (Graph topo 5-feat)",
-          "features": "graph_topo_5",
-          "n_features": 5,
-          "roc_auc": 0.7013,
-          "auprc": 0.1852,
-          "f1": 0.1241,
-          "precision": 0.6,
-          "recall": 0.0692,
-          "train_s": 0.3
-        },
-        {
-          "model": "LightGBM (FP 1024, is_unbalance)",
-          "features": "fp_1024",
-          "n_features": 1024,
-          "roc_auc": 0.7077,
-          "auprc": 0.3318,
-          "f1": 0.3095,
-          "precision": 0.2524,
-          "recall": 0.4,
-          "train_s": 0.8
-        }
-      ],
-      "key_findings": {
-        "champion_model": "CatBoost (Combined, auto_weight)",
-        "champion_roc_auc": 0.7782,
-        "champion_auprc": 0.3708,
-        "anthony_champion_roc_auc": 0.7707,
-        "delta_vs_anthony": 0.0075,
-        "ogb_sota": 0.8476
-      }
-    },
-    {
-      "phase": 1,
-      "author": "Mark",
-      "date": "2026-04-06",
-      "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
-      "primary_metric": "ROC-AUC",
-      "split": "OGB official scaffold split",
-      "experiments": [
-        {
-          "model": "RF (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7655,
-          "auprc": 0.3493,
-          "f1": 0.2548,
-          "precision": 0.7407,
-          "recall": 0.1538,
-          "train_s": 9.3
-        },
-        {
-          "model": "RF (Combined, balanced)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7634,
-          "auprc": 0.3507,
-          "f1": 0.2675,
-          "precision": 0.7778,
-          "recall": 0.1615,
-          "train_s": 28.6
-        },
-        {
-          "model": "XGBoost (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7703,
-          "auprc": 0.3956,
-          "f1": 0.2767,
-          "precision": 0.7586,
-          "recall": 0.1692,
-          "train_s": 20.7
-        },
-        {
-          "model": "XGBoost (Combined, scale_pos_weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7618,
-          "auprc": 0.3936,
-          "f1": 0.3099,
-          "precision": 0.2261,
-          "recall": 0.4923,
-          "train_s": 11.8
-        },
-        {
-          "model": "LightGBM (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7732,
-          "auprc": 0.3826,
-          "f1": 0.2727,
-          "precision": 0.875,
-          "recall": 0.1615,
-          "train_s": 6.7
-        },
-        {
-          "model": "LightGBM (Combined, is_unbalance)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.759,
-          "auprc": 0.3803,
-          "f1": 0.3174,
-          "precision": 0.236,
-          "recall": 0.4846,
-          "train_s": 3.4
-        },
-        {
-          "model": "CatBoost (Combined, auto_weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7782,
-          "auprc": 0.3708,
-          "f1": 0.2693,
-          "precision": 0.1813,
-          "recall": 0.5231,
-          "train_s": 3.4
-        },
-        {
-          "model": "CatBoost (Combined, no weight)",
-          "features": "combined_1036",
-          "n_features": 1036,
-          "roc_auc": 0.7746,
-          "auprc": 0.3821,
-          "f1": 0.2675,
-          "precision": 0.7778,
-          "recall": 0.1615,
-          "train_s": 3.6
-        },
-        {
-          "model": "LogReg (Domain 12, no weight)",
-          "features": "domain_12",
-          "n_features": 12,
-          "roc_auc": 0.7366,
-          "auprc": 0.1581,
-          "f1": 0.0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "train_s": 0.1
-        },
-        {
-          "model": "LogReg (Domain 12, balanced)",
-          "features": "domain_12",
-          "n_features": 12,
-          "roc_auc": 0.746,
-          "auprc": 0.1251,
-          "f1": 0.1429,
-          "precision": 0.0802,
-          "recall": 0.6538,
-          "train_s": 0.1
-        },
-        {
-          "model": "RF (Graph topo 5-feat)",
-          "features": "graph_topo_5",
-          "n_features": 5,
-          "roc_auc": 0.6037,
-          "auprc": 0.1332,
-          "f1": 0.12,
-          "precision": 0.45,
-          "recall": 0.0692,
-          "train_s": 0.8
-        },
-        {
-          "model": "XGBoost (Graph topo 5-feat)",
-          "features": "graph_topo_5",
-          "n_features": 5,
-          "roc_auc": 0.7013,
-          "auprc": 0.1852,
-          "f1": 0.1241,
-          "precision": 0.6,
-          "recall": 0.0692,
-          "train_s": 0.2
-        },
-        {
-          "model": "LightGBM (FP 1024, is_unbalance)",
-          "features": "fp_1024",
-          "n_features": 1024,
-          "roc_auc": 0.7077,
-          "auprc": 0.3318,
-          "f1": 0.3095,
-          "precision": 0.2524,
-          "recall": 0.4,
-          "train_s": 0.8
-        }
-      ],
-      "key_findings": {
-        "champion_model": "CatBoost (Combined, auto_weight)",
-        "champion_roc_auc": 0.7782,
-        "champion_auprc": 0.3708,
-        "anthony_champion_roc_auc": 0.7707,
-        "delta_vs_anthony": 0.0075,
-        "ogb_sota": 0.8476
-      }
-    }
-  ],
-  "phase2_gnn_comparison": {
-    "GCN": {
-      "val_auc": 0.7532,
-      "test_auc": 0.6938,
-      "params": 43393,
-      "epochs_run": 22,
-      "train_time_s": 81.3
-    },
-    "GIN": {
-      "val_auc": 0.7689,
-      "test_auc": 0.7053,
-      "params": 93700,
-      "epochs_run": 19,
-      "train_time_s": 66.7
-    },
-    "GAT": {
-      "val_auc": 0.7059,
-      "test_auc": 0.6677,
-      "params": 44161,
-      "epochs_run": 35,
-      "train_time_s": 191.2
-    },
-    "GraphSAGE": {
-      "val_auc": 0.7828,
-      "test_auc": 0.705,
-      "params": 77313,
-      "epochs_run": 34,
-      "train_time_s": 100.8
-    }
-  },
-  "phase2_champion": {
-    "model": "GIN",
-    "test_auc": 0.7053291596622417,
-    "val_auc": 0.768909107618785
-  },
-  "phase2_mark": {
-    "phase": 2,
-    "author": "Mark",
-    "date": "2026-04-07",
-    "dataset": "ogbg-molhiv (OGB)",
-    "primary_metric": "ROC-AUC",
-    "split": "OGB scaffold split",
-    "research_question": "Is Anthony Phase 2 GNN failure (-0.073 AUC vs CatBoost) GNN-specific, or do any neural models lose to tree-based learners on molecular fingerprints?",
-    "baselines": {
-      "catboost_mark_p1": 0.7782,
-      "rf_anthony_p1": 0.7707,
-      "gin_anthony_p2_best": 0.7053,
-      "graphsage_anthony_p2": 0.705,
-      "gcn_anthony_p2": 0.6938,
-      "gat_anthony_p2": 0.6677,
-      "ogb_sota_deepergcn": 0.8476
-    },
-    "experiments": [
+[
+  {
+    "phase1_experiments": [
       {
-        "model": "MLP-Domain9",
-        "features": "Domain 9",
-        "test_roc_auc": 0.767,
-        "val_roc_auc": 0.7561,
-        "test_f1_t0p5": 0.1618,
-        "params": 4065,
-        "best_epoch": 5,
-        "train_s": 7.2,
-        "delta_vs_catboost_p1": -0.0112,
-        "delta_vs_anthony_gin_p2": 0.0617
+        "phase": 1,
+        "date": "2026-04-06",
+        "dataset": "ogbg-molhiv (OGB)",
+        "dataset_selection_rationale": "Chosen over ESOL (1128), Lipophilicity (4200), BBBP (2050), AqSolDB (9982) for size (41K), OGB leaderboard, and HIV drug impact",
+        "total_molecules": 41120,
+        "positive_rate": 0.0351,
+        "primary_metric": "ROC-AUC",
+        "metric_rationale": "OGB leaderboard standard + drug screening literature uses ROC-AUC for ranking ability; AUPRC tracked as secondary",
+        "published_sota": 0.8476,
+        "experiments": [
+          {
+            "model": "Random Forest",
+            "features": "Combined",
+            "roc_auc": 0.7707,
+            "auprc": 0.3722,
+            "f1": 0.4061,
+            "precision": 0.597,
+            "recall": 0.3077,
+            "train_s": 0.9
+          },
+          {
+            "model": "XGBoost",
+            "features": "Combined",
+            "roc_auc": 0.7613,
+            "auprc": 0.3486,
+            "f1": 0.4,
+            "precision": 0.3733,
+            "recall": 0.4308,
+            "train_s": 1.8
+          },
+          {
+            "model": "LogReg",
+            "features": "Lipinski",
+            "roc_auc": 0.7463,
+            "auprc": 0.1771,
+            "f1": 0.1356,
+            "precision": 0.0773,
+            "recall": 0.5538,
+            "train_s": 0.0
+          },
+          {
+            "model": "XGBoost",
+            "features": "Morgan FP",
+            "roc_auc": 0.7293,
+            "auprc": 0.2834,
+            "f1": 0.35,
+            "precision": 0.3267,
+            "recall": 0.3769,
+            "train_s": 1.6
+          },
+          {
+            "model": "Random Forest",
+            "features": "Morgan FP",
+            "roc_auc": 0.7166,
+            "auprc": 0.3447,
+            "f1": 0.383,
+            "precision": 0.6207,
+            "recall": 0.2769,
+            "train_s": 0.8
+          },
+          {
+            "model": "LogReg",
+            "features": "Morgan FP",
+            "roc_auc": 0.7114,
+            "auprc": 0.1858,
+            "f1": 0.1479,
+            "precision": 0.0859,
+            "recall": 0.5308,
+            "train_s": 0.3
+          },
+          {
+            "model": "XGBoost",
+            "features": "Lipinski",
+            "roc_auc": 0.6957,
+            "auprc": 0.2362,
+            "f1": 0.2116,
+            "precision": 0.1613,
+            "recall": 0.3077,
+            "train_s": 0.2
+          },
+          {
+            "model": "Random Forest",
+            "features": "Lipinski",
+            "roc_auc": 0.6937,
+            "auprc": 0.2256,
+            "f1": 0.2973,
+            "precision": 0.3587,
+            "recall": 0.2538,
+            "train_s": 1.1
+          },
+          {
+            "model": "Majority class",
+            "features": "none",
+            "roc_auc": 0.5,
+            "auprc": 0.0316,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "train_s": 0.0
+          }
+        ],
+        "champion": "Random Forest (Combined)",
+        "champion_roc_auc": 0.7707,
+        "champion_auprc": 0.3722
       },
       {
-        "model": "MLP-Morgan1024",
-        "features": "Morgan FP 1024",
-        "test_roc_auc": 0.6736,
-        "val_roc_auc": 0.7925,
-        "test_f1_t0p5": 0.2651,
-        "params": 304513,
-        "best_epoch": 8,
-        "train_s": 106.8,
-        "delta_vs_catboost_p1": -0.1046,
-        "delta_vs_anthony_gin_p2": -0.0317
+        "phase": 1,
+        "author": "Mark",
+        "date": "2026-04-06",
+        "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
+        "primary_metric": "ROC-AUC",
+        "split": "OGB official scaffold split",
+        "experiments": [
+          {
+            "model": "RF (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7655,
+            "auprc": 0.3493,
+            "f1": 0.2548,
+            "precision": 0.7407,
+            "recall": 0.1538,
+            "train_s": 8.8
+          },
+          {
+            "model": "RF (Combined, balanced)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7634,
+            "auprc": 0.3507,
+            "f1": 0.2675,
+            "precision": 0.7778,
+            "recall": 0.1615,
+            "train_s": 6.7
+          },
+          {
+            "model": "XGBoost (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7703,
+            "auprc": 0.3956,
+            "f1": 0.2767,
+            "precision": 0.7586,
+            "recall": 0.1692,
+            "train_s": 3.6
+          },
+          {
+            "model": "XGBoost (Combined, scale_pos_weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7618,
+            "auprc": 0.3936,
+            "f1": 0.3099,
+            "precision": 0.2261,
+            "recall": 0.4923,
+            "train_s": 3.5
+          },
+          {
+            "model": "LightGBM (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7732,
+            "auprc": 0.3826,
+            "f1": 0.2727,
+            "precision": 0.875,
+            "recall": 0.1615,
+            "train_s": 2.1
+          },
+          {
+            "model": "LightGBM (Combined, is_unbalance)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.759,
+            "auprc": 0.3803,
+            "f1": 0.3174,
+            "precision": 0.236,
+            "recall": 0.4846,
+            "train_s": 2.4
+          },
+          {
+            "model": "CatBoost (Combined, auto_weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7782,
+            "auprc": 0.3708,
+            "f1": 0.2693,
+            "precision": 0.1813,
+            "recall": 0.5231,
+            "train_s": 3.7
+          },
+          {
+            "model": "CatBoost (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7746,
+            "auprc": 0.3821,
+            "f1": 0.2675,
+            "precision": 0.7778,
+            "recall": 0.1615,
+            "train_s": 3.5
+          },
+          {
+            "model": "LogReg (Domain 12, no weight)",
+            "features": "domain_12",
+            "n_features": 12,
+            "roc_auc": 0.7366,
+            "auprc": 0.1581,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "train_s": 0.1
+          },
+          {
+            "model": "LogReg (Domain 12, balanced)",
+            "features": "domain_12",
+            "n_features": 12,
+            "roc_auc": 0.746,
+            "auprc": 0.1251,
+            "f1": 0.1429,
+            "precision": 0.0802,
+            "recall": 0.6538,
+            "train_s": 0.1
+          },
+          {
+            "model": "RF (Graph topo 5-feat)",
+            "features": "graph_topo_5",
+            "n_features": 5,
+            "roc_auc": 0.6037,
+            "auprc": 0.1332,
+            "f1": 0.12,
+            "precision": 0.45,
+            "recall": 0.0692,
+            "train_s": 0.8
+          },
+          {
+            "model": "XGBoost (Graph topo 5-feat)",
+            "features": "graph_topo_5",
+            "n_features": 5,
+            "roc_auc": 0.7013,
+            "auprc": 0.1852,
+            "f1": 0.1241,
+            "precision": 0.6,
+            "recall": 0.0692,
+            "train_s": 0.3
+          },
+          {
+            "model": "LightGBM (FP 1024, is_unbalance)",
+            "features": "fp_1024",
+            "n_features": 1024,
+            "roc_auc": 0.7077,
+            "auprc": 0.3318,
+            "f1": 0.3095,
+            "precision": 0.2524,
+            "recall": 0.4,
+            "train_s": 0.8
+          }
+        ],
+        "key_findings": {
+          "champion_model": "CatBoost (Combined, auto_weight)",
+          "champion_roc_auc": 0.7782,
+          "champion_auprc": 0.3708,
+          "anthony_champion_roc_auc": 0.7707,
+          "delta_vs_anthony": 0.0075,
+          "ogb_sota": 0.8476
+        }
       },
       {
-        "model": "MLP-Combined1033",
-        "features": "Combined 1033",
-        "test_roc_auc": 0.7011,
-        "val_roc_auc": 0.8235,
-        "test_f1_t0p5": 0.2244,
-        "params": 306817,
-        "best_epoch": 7,
-        "train_s": 159.5,
-        "delta_vs_catboost_p1": -0.0771,
-        "delta_vs_anthony_gin_p2": -0.0042
-      },
-      {
-        "model": "MLP-Wide-Combined",
-        "features": "Combined 1033",
-        "test_roc_auc": 0.7064,
-        "val_roc_auc": 0.8051,
-        "test_f1_t0p5": 0.2796,
-        "params": 703873,
-        "best_epoch": 15,
-        "train_s": 101.9,
-        "delta_vs_catboost_p1": -0.0718,
-        "delta_vs_anthony_gin_p2": 0.0011
+        "phase": 1,
+        "author": "Mark",
+        "date": "2026-04-06",
+        "dataset": "ogbg-molhiv (OGB) - 41,127 molecules",
+        "primary_metric": "ROC-AUC",
+        "split": "OGB official scaffold split",
+        "experiments": [
+          {
+            "model": "RF (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7655,
+            "auprc": 0.3493,
+            "f1": 0.2548,
+            "precision": 0.7407,
+            "recall": 0.1538,
+            "train_s": 9.3
+          },
+          {
+            "model": "RF (Combined, balanced)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7634,
+            "auprc": 0.3507,
+            "f1": 0.2675,
+            "precision": 0.7778,
+            "recall": 0.1615,
+            "train_s": 28.6
+          },
+          {
+            "model": "XGBoost (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7703,
+            "auprc": 0.3956,
+            "f1": 0.2767,
+            "precision": 0.7586,
+            "recall": 0.1692,
+            "train_s": 20.7
+          },
+          {
+            "model": "XGBoost (Combined, scale_pos_weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7618,
+            "auprc": 0.3936,
+            "f1": 0.3099,
+            "precision": 0.2261,
+            "recall": 0.4923,
+            "train_s": 11.8
+          },
+          {
+            "model": "LightGBM (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7732,
+            "auprc": 0.3826,
+            "f1": 0.2727,
+            "precision": 0.875,
+            "recall": 0.1615,
+            "train_s": 6.7
+          },
+          {
+            "model": "LightGBM (Combined, is_unbalance)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.759,
+            "auprc": 0.3803,
+            "f1": 0.3174,
+            "precision": 0.236,
+            "recall": 0.4846,
+            "train_s": 3.4
+          },
+          {
+            "model": "CatBoost (Combined, auto_weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7782,
+            "auprc": 0.3708,
+            "f1": 0.2693,
+            "precision": 0.1813,
+            "recall": 0.5231,
+            "train_s": 3.4
+          },
+          {
+            "model": "CatBoost (Combined, no weight)",
+            "features": "combined_1036",
+            "n_features": 1036,
+            "roc_auc": 0.7746,
+            "auprc": 0.3821,
+            "f1": 0.2675,
+            "precision": 0.7778,
+            "recall": 0.1615,
+            "train_s": 3.6
+          },
+          {
+            "model": "LogReg (Domain 12, no weight)",
+            "features": "domain_12",
+            "n_features": 12,
+            "roc_auc": 0.7366,
+            "auprc": 0.1581,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "train_s": 0.1
+          },
+          {
+            "model": "LogReg (Domain 12, balanced)",
+            "features": "domain_12",
+            "n_features": 12,
+            "roc_auc": 0.746,
+            "auprc": 0.1251,
+            "f1": 0.1429,
+            "precision": 0.0802,
+            "recall": 0.6538,
+            "train_s": 0.1
+          },
+          {
+            "model": "RF (Graph topo 5-feat)",
+            "features": "graph_topo_5",
+            "n_features": 5,
+            "roc_auc": 0.6037,
+            "auprc": 0.1332,
+            "f1": 0.12,
+            "precision": 0.45,
+            "recall": 0.0692,
+            "train_s": 0.8
+          },
+          {
+            "model": "XGBoost (Graph topo 5-feat)",
+            "features": "graph_topo_5",
+            "n_features": 5,
+            "roc_auc": 0.7013,
+            "auprc": 0.1852,
+            "f1": 0.1241,
+            "precision": 0.6,
+            "recall": 0.0692,
+            "train_s": 0.2
+          },
+          {
+            "model": "LightGBM (FP 1024, is_unbalance)",
+            "features": "fp_1024",
+            "n_features": 1024,
+            "roc_auc": 0.7077,
+            "auprc": 0.3318,
+            "f1": 0.3095,
+            "precision": 0.2524,
+            "recall": 0.4,
+            "train_s": 0.8
+          }
+        ],
+        "key_findings": {
+          "champion_model": "CatBoost (Combined, auto_weight)",
+          "champion_roc_auc": 0.7782,
+          "champion_auprc": 0.3708,
+          "anthony_champion_roc_auc": 0.7707,
+          "delta_vs_anthony": 0.0075,
+          "ogb_sota": 0.8476
+        }
       }
     ],
-    "histories": {
-      "MLP-Domain9": [
+    "phase2_gnn_comparison": {
+      "GCN": {
+        "val_auc": 0.7532,
+        "test_auc": 0.6938,
+        "params": 43393,
+        "epochs_run": 22,
+        "train_time_s": 81.3
+      },
+      "GIN": {
+        "val_auc": 0.7689,
+        "test_auc": 0.7053,
+        "params": 93700,
+        "epochs_run": 19,
+        "train_time_s": 66.7
+      },
+      "GAT": {
+        "val_auc": 0.7059,
+        "test_auc": 0.6677,
+        "params": 44161,
+        "epochs_run": 35,
+        "train_time_s": 191.2
+      },
+      "GraphSAGE": {
+        "val_auc": 0.7828,
+        "test_auc": 0.705,
+        "params": 77313,
+        "epochs_run": 34,
+        "train_time_s": 100.8
+      }
+    },
+    "phase2_champion": {
+      "model": "GIN",
+      "test_auc": 0.7053291596622417,
+      "val_auc": 0.768909107618785
+    },
+    "phase2_mark": {
+      "phase": 2,
+      "author": "Mark",
+      "date": "2026-04-07",
+      "dataset": "ogbg-molhiv (OGB)",
+      "primary_metric": "ROC-AUC",
+      "split": "OGB scaffold split",
+      "research_question": "Is Anthony Phase 2 GNN failure (-0.073 AUC vs CatBoost) GNN-specific, or do any neural models lose to tree-based learners on molecular fingerprints?",
+      "baselines": {
+        "catboost_mark_p1": 0.7782,
+        "rf_anthony_p1": 0.7707,
+        "gin_anthony_p2_best": 0.7053,
+        "graphsage_anthony_p2": 0.705,
+        "gcn_anthony_p2": 0.6938,
+        "gat_anthony_p2": 0.6677,
+        "ogb_sota_deepergcn": 0.8476
+      },
+      "experiments": [
         {
-          "epoch": 1,
-          "loss": 1.2998459442079018,
-          "val": 0.703500085733882,
-          "test": 0.7478012321597559
+          "model": "MLP-Domain9",
+          "features": "Domain 9",
+          "test_roc_auc": 0.767,
+          "val_roc_auc": 0.7561,
+          "test_f1_t0p5": 0.1618,
+          "params": 4065,
+          "best_epoch": 5,
+          "train_s": 7.2,
+          "delta_vs_catboost_p1": -0.0112,
+          "delta_vs_anthony_gin_p2": 0.0617
         },
         {
-          "epoch": 2,
-          "loss": 1.2631507110879767,
-          "val": 0.7330905227317265,
-          "test": 0.7529249309565654
+          "model": "MLP-Morgan1024",
+          "features": "Morgan FP 1024",
+          "test_roc_auc": 0.6736,
+          "val_roc_auc": 0.7925,
+          "test_f1_t0p5": 0.2651,
+          "params": 304513,
+          "best_epoch": 8,
+          "train_s": 106.8,
+          "delta_vs_catboost_p1": -0.1046,
+          "delta_vs_anthony_gin_p2": -0.0317
         },
         {
-          "epoch": 3,
-          "loss": 1.2421726344483286,
-          "val": 0.7384733857534783,
-          "test": 0.7577589370207999
+          "model": "MLP-Combined1033",
+          "features": "Combined 1033",
+          "test_roc_auc": 0.7011,
+          "val_roc_auc": 0.8235,
+          "test_f1_t0p5": 0.2244,
+          "params": 306817,
+          "best_epoch": 7,
+          "train_s": 159.5,
+          "delta_vs_catboost_p1": -0.0771,
+          "delta_vs_anthony_gin_p2": -0.0042
         },
         {
-          "epoch": 4,
-          "loss": 1.2213722565975498,
-          "val": 0.7526378478346071,
-          "test": 0.7571370632882056
-        },
-        {
-          "epoch": 5,
-          "loss": 1.2190190271375998,
-          "val": 0.7561161939055457,
-          "test": 0.7669730972015683
-        },
-        {
-          "epoch": 6,
-          "loss": 1.21563514646348,
-          "val": 0.7518417475014697,
-          "test": 0.7599953649162788
-        },
-        {
-          "epoch": 7,
-          "loss": 1.2095420474064198,
-          "val": 0.7531798084460122,
-          "test": 0.7647038374630641
-        },
-        {
-          "epoch": 8,
-          "loss": 1.199036804286438,
-          "val": 0.7510425852439742,
-          "test": 0.7551439772880898
-        },
-        {
-          "epoch": 9,
-          "loss": 1.2009506743568978,
-          "val": 0.7480449612972762,
-          "test": 0.7459259545375538
-        },
-        {
-          "epoch": 10,
-          "loss": 1.2019519196673043,
-          "val": 0.7536268494023124,
-          "test": 0.7534251337414782
-        },
-        {
-          "epoch": 11,
-          "loss": 1.1963044030790049,
-          "val": 0.748556302665099,
-          "test": 0.7586975414743429
-        },
-        {
-          "epoch": 12,
-          "loss": 1.1886871499619018,
-          "val": 0.7460394008426415,
-          "test": 0.752662276212364
-        },
-        {
-          "epoch": 13,
-          "loss": 1.1915209251697845,
-          "val": 0.7415046908681168,
-          "test": 0.7611541358465788
+          "model": "MLP-Wide-Combined",
+          "features": "Combined 1033",
+          "test_roc_auc": 0.7064,
+          "val_roc_auc": 0.8051,
+          "test_f1_t0p5": 0.2796,
+          "params": 703873,
+          "best_epoch": 15,
+          "train_s": 101.9,
+          "delta_vs_catboost_p1": -0.0718,
+          "delta_vs_anthony_gin_p2": 0.0011
         }
       ],
-      "MLP-Morgan1024": [
-        {
-          "epoch": 1,
-          "loss": 1.1695424022980654,
-          "val": 0.7679137884577699,
-          "test": 0.6803105506093203
+      "histories": {
+        "MLP-Domain9": [
+          {
+            "epoch": 1,
+            "loss": 1.2998459442079018,
+            "val": 0.703500085733882,
+            "test": 0.7478012321597559
+          },
+          {
+            "epoch": 2,
+            "loss": 1.2631507110879767,
+            "val": 0.7330905227317265,
+            "test": 0.7529249309565654
+          },
+          {
+            "epoch": 3,
+            "loss": 1.2421726344483286,
+            "val": 0.7384733857534783,
+            "test": 0.7577589370207999
+          },
+          {
+            "epoch": 4,
+            "loss": 1.2213722565975498,
+            "val": 0.7526378478346071,
+            "test": 0.7571370632882056
+          },
+          {
+            "epoch": 5,
+            "loss": 1.2190190271375998,
+            "val": 0.7561161939055457,
+            "test": 0.7669730972015683
+          },
+          {
+            "epoch": 6,
+            "loss": 1.21563514646348,
+            "val": 0.7518417475014697,
+            "test": 0.7599953649162788
+          },
+          {
+            "epoch": 7,
+            "loss": 1.2095420474064198,
+            "val": 0.7531798084460122,
+            "test": 0.7647038374630641
+          },
+          {
+            "epoch": 8,
+            "loss": 1.199036804286438,
+            "val": 0.7510425852439742,
+            "test": 0.7551439772880898
+          },
+          {
+            "epoch": 9,
+            "loss": 1.2009506743568978,
+            "val": 0.7480449612972762,
+            "test": 0.7459259545375538
+          },
+          {
+            "epoch": 10,
+            "loss": 1.2019519196673043,
+            "val": 0.7536268494023124,
+            "test": 0.7534251337414782
+          },
+          {
+            "epoch": 11,
+            "loss": 1.1963044030790049,
+            "val": 0.748556302665099,
+            "test": 0.7586975414743429
+          },
+          {
+            "epoch": 12,
+            "loss": 1.1886871499619018,
+            "val": 0.7460394008426415,
+            "test": 0.752662276212364
+          },
+          {
+            "epoch": 13,
+            "loss": 1.1915209251697845,
+            "val": 0.7415046908681168,
+            "test": 0.7611541358465788
+          }
+        ],
+        "MLP-Morgan1024": [
+          {
+            "epoch": 1,
+            "loss": 1.1695424022980654,
+            "val": 0.7679137884577699,
+            "test": 0.6803105506093203
+          },
+          {
+            "epoch": 2,
+            "loss": 0.8994242637730859,
+            "val": 0.7539850945522242,
+            "test": 0.6664516502829332
+          },
+          {
+            "epoch": 3,
+            "loss": 0.7059379012431567,
+            "val": 0.7500872648442093,
+            "test": 0.6633693196083355
+          },
+          {
+            "epoch": 4,
+            "loss": 0.5747816335491517,
+            "val": 0.7357727684695278,
+            "test": 0.6482647405318759
+          },
+          {
+            "epoch": 5,
+            "loss": 0.5362622782160912,
+            "val": 0.7473192852243778,
+            "test": 0.6626180497885243
+          },
+          {
+            "epoch": 6,
+            "loss": 0.45677690660821996,
+            "val": 0.7834040637860082,
+            "test": 0.6584155738813032
+          },
+          {
+            "epoch": 7,
+            "loss": 0.43393192636539524,
+            "val": 0.7665144890260631,
+            "test": 0.6823345371675776
+          },
+          {
+            "epoch": 8,
+            "loss": 0.39645030352142546,
+            "val": 0.7925439079952968,
+            "test": 0.6736476177600957
+          },
+          {
+            "epoch": 9,
+            "loss": 0.35463195837745876,
+            "val": 0.7727363193219675,
+            "test": 0.6718882172309237
+          },
+          {
+            "epoch": 10,
+            "loss": 0.33065161558165856,
+            "val": 0.7768209264158338,
+            "test": 0.6837385812781244
+          },
+          {
+            "epoch": 11,
+            "loss": 0.33142744438115096,
+            "val": 0.7869069052518126,
+            "test": 0.6812607427721663
+          },
+          {
+            "epoch": 12,
+            "loss": 0.32345041917939704,
+            "val": 0.7803452013521458,
+            "test": 0.6567585314509743
+          },
+          {
+            "epoch": 13,
+            "loss": 0.2723553298328652,
+            "val": 0.769233477856163,
+            "test": 0.6709206435041233
+          },
+          {
+            "epoch": 14,
+            "loss": 0.2813473002047768,
+            "val": 0.7836826989026063,
+            "test": 0.6799165684930184
+          },
+          {
+            "epoch": 15,
+            "loss": 0.2453400188748052,
+            "val": 0.7704184425827945,
+            "test": 0.6830761505629696
+          },
+          {
+            "epoch": 16,
+            "loss": 0.2524238909194145,
+            "val": 0.7645150524201451,
+            "test": 0.6911411962378571
+          }
+        ],
+        "MLP-Combined1033": [
+          {
+            "epoch": 1,
+            "loss": 1.157492996443333,
+            "val": 0.7900254752106604,
+            "test": 0.7135788640182313
+          },
+          {
+            "epoch": 2,
+            "loss": 0.873427297535582,
+            "val": 0.7853407309425828,
+            "test": 0.6963962224067672
+          },
+          {
+            "epoch": 3,
+            "loss": 0.7072724744585603,
+            "val": 0.7942693023711542,
+            "test": 0.6959558894532533
+          },
+          {
+            "epoch": 4,
+            "loss": 0.5760018166711361,
+            "val": 0.7971597589653145,
+            "test": 0.6888786959964465
+          },
+          {
+            "epoch": 5,
+            "loss": 0.5161972848797514,
+            "val": 0.7864491475602586,
+            "test": 0.6822167287896638
+          },
+          {
+            "epoch": 6,
+            "loss": 0.4778144281787904,
+            "val": 0.808225553595924,
+            "test": 0.7011452519361131
+          },
+          {
+            "epoch": 7,
+            "loss": 0.41739180528017195,
+            "val": 0.8235412992357437,
+            "test": 0.7011220765175071
+          },
+          {
+            "epoch": 8,
+            "loss": 0.40234586568680336,
+            "val": 0.7953838428375466,
+            "test": 0.697649626296375
+          },
+          {
+            "epoch": 9,
+            "loss": 0.3465091099747517,
+            "val": 0.8037275867136978,
+            "test": 0.6904131018366519
+          },
+          {
+            "epoch": 10,
+            "loss": 0.34582775951334016,
+            "val": 0.7891099598275524,
+            "test": 0.7004577145174685
+          },
+          {
+            "epoch": 11,
+            "loss": 0.32486431036367663,
+            "val": 0.7951940035273368,
+            "test": 0.6669711659166844
+          },
+          {
+            "epoch": 12,
+            "loss": 0.29359991320693846,
+            "val": 0.8155619243582206,
+            "test": 0.7117557310878928
+          },
+          {
+            "epoch": 13,
+            "loss": 0.30648445492294263,
+            "val": 0.8021353860474231,
+            "test": 0.6892118426389077
+          },
+          {
+            "epoch": 14,
+            "loss": 0.2737771906097922,
+            "val": 0.8163794581618655,
+            "test": 0.6889202186214488
+          },
+          {
+            "epoch": 15,
+            "loss": 0.25637558698907803,
+            "val": 0.8017648932000784,
+            "test": 0.6842793410455976
+          }
+        ],
+        "MLP-Wide-Combined": [
+          {
+            "epoch": 1,
+            "loss": 1.237533850346085,
+            "val": 0.771730477170292,
+            "test": 0.7208926398733078
+          },
+          {
+            "epoch": 2,
+            "loss": 0.9597766512176019,
+            "val": 0.7768285812267294,
+            "test": 0.6926920179995751
+          },
+          {
+            "epoch": 3,
+            "loss": 0.8018798217458648,
+            "val": 0.7598287771898883,
+            "test": 0.6755789026439291
+          },
+          {
+            "epoch": 4,
+            "loss": 0.6542170076202699,
+            "val": 0.7832310650597688,
+            "test": 0.688582243766778
+          },
+          {
+            "epoch": 5,
+            "loss": 0.5603622671286135,
+            "val": 0.7634418479325886,
+            "test": 0.6787829042662084
+          },
+          {
+            "epoch": 6,
+            "loss": 0.4952145994301969,
+            "val": 0.7708241475602586,
+            "test": 0.6923521118600204
+          },
+          {
+            "epoch": 7,
+            "loss": 0.445585444747581,
+            "val": 0.7698320840681951,
+            "test": 0.7038336004944089
+          },
+          {
+            "epoch": 8,
+            "loss": 0.42561641932059185,
+            "val": 0.7736135606505977,
+            "test": 0.7018926591861565
+          },
+          {
+            "epoch": 9,
+            "loss": 0.3696565513266484,
+            "val": 0.787854570840682,
+            "test": 0.6996330558720717
+          },
+          {
+            "epoch": 10,
+            "loss": 0.35451984624816146,
+            "val": 0.7794097834607094,
+            "test": 0.7066725892736437
+          },
+          {
+            "epoch": 11,
+            "loss": 0.345877560832675,
+            "val": 0.7884026553008034,
+            "test": 0.6951505436566948
+          },
+          {
+            "epoch": 12,
+            "loss": 0.3321068265373513,
+            "val": 0.7690267979619831,
+            "test": 0.6913246683018212
+          },
+          {
+            "epoch": 13,
+            "loss": 0.3470883003699084,
+            "val": 0.7691584607093866,
+            "test": 0.6893798644238012
+          },
+          {
+            "epoch": 14,
+            "loss": 0.3237741671586152,
+            "val": 0.7627621007250637,
+            "test": 0.6696344077714904
+          },
+          {
+            "epoch": 15,
+            "loss": 0.27124382662099566,
+            "val": 0.8050778953556731,
+            "test": 0.7064195909538616
+          },
+          {
+            "epoch": 16,
+            "loss": 0.27372553462556587,
+            "val": 0.7733165539878503,
+            "test": 0.7013499681337995
+          },
+          {
+            "epoch": 17,
+            "loss": 0.2716777143019216,
+            "val": 0.7494947824808936,
+            "test": 0.6921531895169857
+          },
+          {
+            "epoch": 18,
+            "loss": 0.26695574870767474,
+            "val": 0.7676979227905154,
+            "test": 0.6945972305374766
+          },
+          {
+            "epoch": 19,
+            "loss": 0.2566840135903711,
+            "val": 0.7505021555947482,
+            "test": 0.6919484733192993
+          },
+          {
+            "epoch": 20,
+            "loss": 0.2354046223179982,
+            "val": 0.7696269351361944,
+            "test": 0.7191158577801812
+          },
+          {
+            "epoch": 21,
+            "loss": 0.23534119240415374,
+            "val": 0.7923984665882814,
+            "test": 0.6992892871627494
+          },
+          {
+            "epoch": 22,
+            "loss": 0.2639248042457216,
+            "val": 0.783304551244366,
+            "test": 0.7097896830761505
+          },
+          {
+            "epoch": 23,
+            "loss": 0.22786714149961312,
+            "val": 0.7879923574368018,
+            "test": 0.7112806350064698
+          }
+        ]
+      }
+    },
+    "phase3_feature_engineering": {
+      "gnn_experiments": {
+        "GIN+Edge (no VN)": {
+          "test_auc": 0.786,
+          "auprc": 0.3441,
+          "params": 144516,
+          "time_s": 297
         },
-        {
-          "epoch": 2,
-          "loss": 0.8994242637730859,
-          "val": 0.7539850945522242,
-          "test": 0.6664516502829332
+        "GIN+Edge+VN (OGB)": {
+          "test_auc": 0.7622,
+          "auprc": 0.2858,
+          "params": 211204,
+          "time_s": 292
         },
-        {
-          "epoch": 3,
-          "loss": 0.7059379012431567,
-          "val": 0.7500872648442093,
-          "test": 0.6633693196083355
-        },
-        {
-          "epoch": 4,
-          "loss": 0.5747816335491517,
-          "val": 0.7357727684695278,
-          "test": 0.6482647405318759
-        },
-        {
-          "epoch": 5,
-          "loss": 0.5362622782160912,
-          "val": 0.7473192852243778,
-          "test": 0.6626180497885243
-        },
-        {
-          "epoch": 6,
-          "loss": 0.45677690660821996,
-          "val": 0.7834040637860082,
-          "test": 0.6584155738813032
-        },
-        {
-          "epoch": 7,
-          "loss": 0.43393192636539524,
-          "val": 0.7665144890260631,
-          "test": 0.6823345371675776
-        },
-        {
-          "epoch": 8,
-          "loss": 0.39645030352142546,
-          "val": 0.7925439079952968,
-          "test": 0.6736476177600957
-        },
-        {
-          "epoch": 9,
-          "loss": 0.35463195837745876,
-          "val": 0.7727363193219675,
-          "test": 0.6718882172309237
-        },
-        {
-          "epoch": 10,
-          "loss": 0.33065161558165856,
-          "val": 0.7768209264158338,
-          "test": 0.6837385812781244
-        },
-        {
-          "epoch": 11,
-          "loss": 0.33142744438115096,
-          "val": 0.7869069052518126,
-          "test": 0.6812607427721663
-        },
-        {
-          "epoch": 12,
-          "loss": 0.32345041917939704,
-          "val": 0.7803452013521458,
-          "test": 0.6567585314509743
-        },
-        {
-          "epoch": 13,
-          "loss": 0.2723553298328652,
-          "val": 0.769233477856163,
-          "test": 0.6709206435041233
-        },
-        {
-          "epoch": 14,
-          "loss": 0.2813473002047768,
-          "val": 0.7836826989026063,
-          "test": 0.6799165684930184
-        },
-        {
-          "epoch": 15,
-          "loss": 0.2453400188748052,
-          "val": 0.7704184425827945,
-          "test": 0.6830761505629696
-        },
-        {
-          "epoch": 16,
-          "loss": 0.2524238909194145,
-          "val": 0.7645150524201451,
-          "test": 0.6911411962378571
+        "GIN+VN (no edge)": {
+          "test_auc": 0.7578,
+          "auprc": 0.2642,
+          "params": 206212,
+          "time_s": 199
         }
-      ],
-      "MLP-Combined1033": [
-        {
-          "epoch": 1,
-          "loss": 1.157492996443333,
-          "val": 0.7900254752106604,
-          "test": 0.7135788640182313
+      },
+      "feature_ablation": {
+        "Lipinski (14)": {
+          "test_auc": 0.7744,
+          "auprc": 0.2779
         },
-        {
-          "epoch": 2,
-          "loss": 0.873427297535582,
-          "val": 0.7853407309425828,
-          "test": 0.6963962224067672
+        "Morgan FP (1024)": {
+          "test_auc": 0.7176,
+          "auprc": 0.282
         },
-        {
-          "epoch": 3,
-          "loss": 0.7072724744585603,
-          "val": 0.7942693023711542,
-          "test": 0.6959558894532533
+        "MACCS (167)": {
+          "test_auc": 0.7605,
+          "auprc": 0.2859
         },
-        {
-          "epoch": 4,
-          "loss": 0.5760018166711361,
-          "val": 0.7971597589653145,
-          "test": 0.6888786959964465
+        "Advanced desc (12)": {
+          "test_auc": 0.7219,
+          "auprc": 0.2123
         },
-        {
-          "epoch": 5,
-          "loss": 0.5161972848797514,
-          "val": 0.7864491475602586,
-          "test": 0.6822167287896638
+        "GNN embed (128)": {
+          "test_auc": 0.7692,
+          "auprc": 0.2957
         },
-        {
-          "epoch": 6,
-          "loss": 0.4778144281787904,
-          "val": 0.808225553595924,
-          "test": 0.7011452519361131
+        "Lip+FP (1038)": {
+          "test_auc": 0.7619,
+          "auprc": 0.3239
         },
-        {
-          "epoch": 7,
-          "loss": 0.41739180528017195,
-          "val": 0.8235412992357437,
-          "test": 0.7011220765175071
+        "Lip+MACCS (181)": {
+          "test_auc": 0.7568,
+          "auprc": 0.3073
         },
-        {
-          "epoch": 8,
-          "loss": 0.40234586568680336,
-          "val": 0.7953838428375466,
-          "test": 0.697649626296375
+        "All traditional (1217)": {
+          "test_auc": 0.7841,
+          "auprc": 0.3416
         },
-        {
-          "epoch": 9,
-          "loss": 0.3465091099747517,
-          "val": 0.8037275867136978,
-          "test": 0.6904131018366519
+        "GNN+Lip (142)": {
+          "test_auc": 0.7662,
+          "auprc": 0.3101
         },
-        {
-          "epoch": 10,
-          "loss": 0.34582775951334016,
-          "val": 0.7891099598275524,
-          "test": 0.7004577145174685
+        "GNN+Lip+FP (1166)": {
+          "test_auc": 0.7688,
+          "auprc": 0.3526
         },
-        {
-          "epoch": 11,
-          "loss": 0.32486431036367663,
-          "val": 0.7951940035273368,
-          "test": 0.6669711659166844
-        },
-        {
-          "epoch": 12,
-          "loss": 0.29359991320693846,
-          "val": 0.8155619243582206,
-          "test": 0.7117557310878928
-        },
-        {
-          "epoch": 13,
-          "loss": 0.30648445492294263,
-          "val": 0.8021353860474231,
-          "test": 0.6892118426389077
-        },
-        {
-          "epoch": 14,
-          "loss": 0.2737771906097922,
-          "val": 0.8163794581618655,
-          "test": 0.6889202186214488
-        },
-        {
-          "epoch": 15,
-          "loss": 0.25637558698907803,
-          "val": 0.8017648932000784,
-          "test": 0.6842793410455976
+        "Full hybrid (1345)": {
+          "test_auc": 0.7415,
+          "auprc": 0.222
         }
-      ],
-      "MLP-Wide-Combined": [
-        {
-          "epoch": 1,
-          "loss": 1.237533850346085,
-          "val": 0.771730477170292,
-          "test": 0.7208926398733078
+      },
+      "champion": {
+        "name": "GIN+Edge (no VN)",
+        "test_auc": 0.786
+      },
+      "key_finding": "Edge features (bond type + stereo + conjugation) boost GIN from 0.7053 to 0.7860 (+0.081 AUC)"
+    },
+    "phase3_mark": {
+      "date": "2026-04-08",
+      "author": "Mark",
+      "champion": {
+        "name": "CatBoost + MI-top-400 (AllTrad+Frag)",
+        "test_auc": 0.8105,
+        "auprc": 0.3481,
+        "K": 400,
+        "delta_vs_anthony_gin_edge": 0.0245
+      },
+      "feature_set_ablation": {
+        "Lipinski (14)": {
+          "test_auc": 0.7459,
+          "test_auprc": 0.2758,
+          "dims": 14,
+          "fit_s": 9.3
         },
-        {
-          "epoch": 2,
-          "loss": 0.9597766512176019,
-          "val": 0.7768285812267294,
-          "test": 0.6926920179995751
+        "Fragments (85)": {
+          "test_auc": 0.6999,
+          "test_auprc": 0.2411,
+          "dims": 85,
+          "fit_s": 4.7
         },
-        {
-          "epoch": 3,
-          "loss": 0.8018798217458648,
-          "val": 0.7598287771898883,
-          "test": 0.6755789026439291
+        "Lip+Frag (99)": {
+          "test_auc": 0.7247,
+          "test_auprc": 0.2604,
+          "dims": 99,
+          "fit_s": 8.1
         },
-        {
-          "epoch": 4,
-          "loss": 0.6542170076202699,
-          "val": 0.7832310650597688,
-          "test": 0.688582243766778
+        "Morgan (1024)": {
+          "test_auc": 0.7448,
+          "test_auprc": 0.3398,
+          "dims": 1024,
+          "fit_s": 47.4
         },
-        {
-          "epoch": 5,
-          "loss": 0.5603622671286135,
-          "val": 0.7634418479325886,
-          "test": 0.6787829042662084
+        "MACCS (167)": {
+          "test_auc": 0.767,
+          "test_auprc": 0.3098,
+          "dims": 167,
+          "fit_s": 19.8
         },
-        {
-          "epoch": 6,
-          "loss": 0.4952145994301969,
-          "val": 0.7708241475602586,
-          "test": 0.6923521118600204
+        "AllTrad (1217)": {
+          "test_auc": 0.7814,
+          "test_auprc": 0.349,
+          "dims": 1217,
+          "fit_s": 59.5
         },
-        {
-          "epoch": 7,
-          "loss": 0.445585444747581,
-          "val": 0.7698320840681951,
-          "test": 0.7038336004944089
-        },
-        {
-          "epoch": 8,
-          "loss": 0.42561641932059185,
-          "val": 0.7736135606505977,
-          "test": 0.7018926591861565
-        },
-        {
-          "epoch": 9,
-          "loss": 0.3696565513266484,
-          "val": 0.787854570840682,
-          "test": 0.6996330558720717
-        },
-        {
-          "epoch": 10,
-          "loss": 0.35451984624816146,
-          "val": 0.7794097834607094,
-          "test": 0.7066725892736437
-        },
-        {
-          "epoch": 11,
-          "loss": 0.345877560832675,
-          "val": 0.7884026553008034,
-          "test": 0.6951505436566948
-        },
-        {
-          "epoch": 12,
-          "loss": 0.3321068265373513,
-          "val": 0.7690267979619831,
-          "test": 0.6913246683018212
-        },
-        {
-          "epoch": 13,
-          "loss": 0.3470883003699084,
-          "val": 0.7691584607093866,
-          "test": 0.6893798644238012
-        },
-        {
-          "epoch": 14,
-          "loss": 0.3237741671586152,
-          "val": 0.7627621007250637,
-          "test": 0.6696344077714904
-        },
-        {
-          "epoch": 15,
-          "loss": 0.27124382662099566,
-          "val": 0.8050778953556731,
-          "test": 0.7064195909538616
-        },
-        {
-          "epoch": 16,
-          "loss": 0.27372553462556587,
-          "val": 0.7733165539878503,
-          "test": 0.7013499681337995
-        },
-        {
-          "epoch": 17,
-          "loss": 0.2716777143019216,
-          "val": 0.7494947824808936,
-          "test": 0.6921531895169857
-        },
-        {
-          "epoch": 18,
-          "loss": 0.26695574870767474,
-          "val": 0.7676979227905154,
-          "test": 0.6945972305374766
-        },
-        {
-          "epoch": 19,
-          "loss": 0.2566840135903711,
-          "val": 0.7505021555947482,
-          "test": 0.6919484733192993
-        },
-        {
-          "epoch": 20,
-          "loss": 0.2354046223179982,
-          "val": 0.7696269351361944,
-          "test": 0.7191158577801812
-        },
-        {
-          "epoch": 21,
-          "loss": 0.23534119240415374,
-          "val": 0.7923984665882814,
-          "test": 0.6992892871627494
-        },
-        {
-          "epoch": 22,
-          "loss": 0.2639248042457216,
-          "val": 0.783304551244366,
-          "test": 0.7097896830761505
-        },
-        {
-          "epoch": 23,
-          "loss": 0.22786714149961312,
-          "val": 0.7879923574368018,
-          "test": 0.7112806350064698
+        "AllTrad+Frag (1302)": {
+          "test_auc": 0.7677,
+          "test_auprc": 0.3647,
+          "dims": 1302,
+          "fit_s": 66.1
         }
-      ]
+      },
+      "mi_selection_sweep": {
+        "20": {
+          "auc": 0.7702,
+          "auprc": 0.2168
+        },
+        "50": {
+          "auc": 0.7591,
+          "auprc": 0.2793
+        },
+        "100": {
+          "auc": 0.7892,
+          "auprc": 0.3127
+        },
+        "200": {
+          "auc": 0.8019,
+          "auprc": 0.3285
+        },
+        "400": {
+          "auc": 0.8105,
+          "auprc": 0.3481
+        },
+        "800": {
+          "auc": 0.7836,
+          "auprc": 0.3421
+        },
+        "1302": {
+          "auc": 0.7673,
+          "auprc": 0.3484
+        }
+      },
+      "fine_grained_sweep": {
+        "300": {
+          "auc": 0.7883,
+          "auprc": 0.3076
+        },
+        "350": {
+          "auc": 0.7813,
+          "auprc": 0.3288
+        },
+        "400": {
+          "auc": 0.8105,
+          "auprc": 0.3481
+        },
+        "450": {
+          "auc": 0.7796,
+          "auprc": 0.3164
+        },
+        "500": {
+          "auc": 0.7945,
+          "auprc": 0.3244
+        },
+        "600": {
+          "auc": 0.7941,
+          "auprc": 0.3532
+        }
+      },
+      "composition_K400": {
+        "Morgan": 235,
+        "MACCS": 108,
+        "Fragments": 33,
+        "Lipinski": 14,
+        "Advanced": 10
+      },
+      "key_finding": "Mutual-info top-400 on 1302-d Lipinski+Fragments+Morgan+MACCS+Adv pool beats Anthony GIN+Edge (0.7860) by +0.0245 with pure CatBoost, no graph layers."
+    },
+    "overall_champion_phase3": {
+      "name": "CatBoost + MI-top-400",
+      "test_auc": 0.8105,
+      "author": "Mark",
+      "date": "2026-04-08"
     }
   },
-  "phase3_feature_engineering": {
-    "gnn_experiments": {
-      "GIN+Edge (no VN)": {
+  {
+    "phase": "4-mark",
+    "date": "2026-04-09",
+    "baseline": {
+      "model": "CatBoost default + MI-top-400",
+      "val_auc": 0.7878,
+      "test_auc": 0.7584,
+      "test_auprc": 0.3179,
+      "note": "Phase 3 reported 0.8105 \u2014 run-to-run variance on scaffold split"
+    },
+    "optuna": {
+      "n_trials": 40,
+      "best_val_auc": 0.8229,
+      "best_params": {
+        "iterations": 300,
+        "learning_rate": 0.05538,
+        "depth": 8,
+        "l2_leaf_reg": 4.71,
+        "min_data_in_leaf": 38,
+        "random_strength": 1.057,
+        "bagging_temperature": 0.854,
+        "border_count": 64
+      },
+      "tuned_val_auc": 0.8229,
+      "tuned_test_auc": 0.7854,
+      "tuned_test_auprc": 0.3179,
+      "delta_val": 0.0351,
+      "delta_test": 0.027,
+      "val_test_gap_default": 0.0294,
+      "val_test_gap_tuned": 0.0375,
+      "key_insight": "Optuna val gain (+0.035) did not transfer to test (+0.027). Val-test gap WIDENED \u2014 hyperparameter overfitting on val scaffold."
+    },
+    "stability": {
+      "method": "3x bootstrap 80% training, global MI ranking, K in [100,200,400,600]",
+      "k_values": [
+        100,
+        200,
+        400,
+        600
+      ],
+      "boot0": {
+        "K100": 0.8004,
+        "K200": 0.7636,
+        "K400": 0.8029,
+        "K600": 0.8023,
+        "best": 400
+      },
+      "boot1": {
+        "K100": 0.8076,
+        "K200": 0.7717,
+        "K400": 0.8018,
+        "K600": 0.7707,
+        "best": 100
+      },
+      "boot2": {
+        "K100": 0.7786,
+        "K200": 0.8069,
+        "K400": 0.8092,
+        "K600": 0.759,
+        "best": 400
+      },
+      "mean_per_k": {
+        "100": 0.7955,
+        "200": 0.7807,
+        "400": 0.8046,
+        "600": 0.7773
+      },
+      "std_per_k": {
+        "100": 0.0152,
+        "200": 0.0228,
+        "400": 0.004,
+        "600": 0.0218
+      },
+      "best_k_per_boot": [
+        400,
+        100,
+        400
+      ],
+      "most_frequent_k": 400,
+      "verdict": "K=400 wins 2/3 bootstraps and has lowest std (0.0040 vs 0.015-0.022 for others). Most stable selection."
+    },
+    "error_analysis": {
+      "youden_threshold": 0.3958,
+      "TP": 77,
+      "TN": 3419,
+      "FP": 564,
+      "FN": 53,
+      "precision": 0.1201,
+      "recall": 0.5923,
+      "f1": 0.1997,
+      "near_threshold_error_rate": 0.601,
+      "lipinski_0viol_recall": 0.4,
+      "lipinski_2plus_recall": 0.828,
+      "counterintuitive_finding": "Lipinski-violating actives have HIGHER recall (0.828) than rule-compliant actives (0.400). Model is better at large complex HIV inhibitors than small simple ones.",
+      "fn_vs_tp_property_diffs": {
+        "mw": {
+          "FN_mean": 423.95,
+          "TP_mean": 630.02,
+          "p": 0.0,
+          "note": "Missed actives are ~200 Da lighter"
+        },
+        "logp": {
+          "FN_mean": 2.74,
+          "TP_mean": 5.44,
+          "p": 0.0,
+          "note": "Missed actives are more hydrophilic"
+        },
+        "hbd": {
+          "FN_mean": 2.36,
+          "TP_mean": 4.35,
+          "p": 0.0,
+          "note": "Fewer H-bond donors in misses"
+        },
+        "hba": {
+          "FN_mean": 6.19,
+          "TP_mean": 9.55,
+          "p": 0.0,
+          "note": "Fewer H-bond acceptors in misses"
+        },
+        "tpsa": {
+          "FN_mean": 102.02,
+          "TP_mean": 181.07,
+          "p": 0.0,
+          "note": "Lower polarity surface in misses"
+        },
+        "rings": {
+          "FN_mean": 3.96,
+          "TP_mean": 5.6,
+          "p": 0.0,
+          "note": "Fewer ring systems in misses"
+        },
+        "arom": {
+          "FN_mean": 2.32,
+          "TP_mean": 4.44,
+          "p": 0.0,
+          "note": "Fewer aromatic rings in misses"
+        },
+        "heavyatoms": {
+          "FN_mean": 29.7,
+          "TP_mean": 43.91,
+          "p": 0.0,
+          "note": "14 fewer heavy atoms on average"
+        },
+        "frac_csp3": {
+          "FN_mean": 0.35,
+          "TP_mean": 0.16,
+          "p": 0.0,
+          "note": "Misses have MORE sp3 carbons \u2014 more saturated, drug-like"
+        }
+      },
+      "scaffold_finding": "No single scaffold dominates high-FN rate \u2014 misses are distributed across chemical space of simple molecules",
+      "error_class_distribution": {
+        "TN": 3419,
+        "FP": 564,
+        "TP": 77,
+        "FN": 53
+      },
+      "scaffold_diversity": {
+        "TP": "~65 unique",
+        "FN": "~50 unique",
+        "FP": "~450+ unique",
+        "TN": "2800+ unique"
+      }
+    },
+    "feature_importance": {
+      "top10": [
+        "maccs_144",
+        "adv_11",
+        "lip_0",
+        "lip_13",
+        "maccs_81",
+        "fr_hdrzone",
+        "adv_2",
+        "adv_8",
+        "adv_5",
+        "morgan_967"
+      ],
+      "n_for_50pct": 41,
+      "n_for_80pct": 110,
+      "n_for_95pct": 192,
+      "category_pct": {
+        "MACCS": 0.31,
+        "Morgan FP": 0.279,
+        "Advanced": 0.163,
+        "Fragment": 0.129,
+        "Lipinski": 0.12
+      },
+      "concentration_insight": "50% of importance in top 41 features (of 400). MACCS 31% despite being 12.8% of feature pool \u2014 hand-curated substructure keys punch above their weight."
+    },
+    "leaderboard": [
+      {
+        "model": "Tuned CatBoost MI-400 [Mark P4]",
+        "val_auc": 0.8229,
+        "test_auc": 0.7854,
+        "auprc": 0.3179
+      },
+      {
+        "model": "Default CatBoost MI-400 [Mark P3, this run]",
+        "val_auc": 0.7878,
+        "test_auc": 0.7584,
+        "auprc": 0.3179
+      },
+      {
+        "model": "CatBoost MI-400 [Phase 3 reported]",
+        "val_auc": null,
+        "test_auc": 0.8105,
+        "auprc": 0.3481
+      },
+      {
+        "model": "GIN+Edge [Anthony P3]",
+        "val_auc": null,
         "test_auc": 0.786,
-        "auprc": 0.3441,
-        "params": 144516,
-        "time_s": 297
+        "auprc": 0.3441
       },
-      "GIN+Edge+VN (OGB)": {
-        "test_auc": 0.7622,
-        "auprc": 0.2858,
-        "params": 211204,
-        "time_s": 292
-      },
-      "GIN+VN (no edge)": {
-        "test_auc": 0.7578,
-        "auprc": 0.2642,
-        "params": 206212,
-        "time_s": 199
-      }
-    },
-    "feature_ablation": {
-      "Lipinski (14)": {
-        "test_auc": 0.7744,
-        "auprc": 0.2779
-      },
-      "Morgan FP (1024)": {
-        "test_auc": 0.7176,
-        "auprc": 0.282
-      },
-      "MACCS (167)": {
-        "test_auc": 0.7605,
-        "auprc": 0.2859
-      },
-      "Advanced desc (12)": {
-        "test_auc": 0.7219,
-        "auprc": 0.2123
-      },
-      "GNN embed (128)": {
-        "test_auc": 0.7692,
-        "auprc": 0.2957
-      },
-      "Lip+FP (1038)": {
-        "test_auc": 0.7619,
-        "auprc": 0.3239
-      },
-      "Lip+MACCS (181)": {
-        "test_auc": 0.7568,
-        "auprc": 0.3073
-      },
-      "All traditional (1217)": {
-        "test_auc": 0.7841,
-        "auprc": 0.3416
-      },
-      "GNN+Lip (142)": {
-        "test_auc": 0.7662,
-        "auprc": 0.3101
-      },
-      "GNN+Lip+FP (1166)": {
-        "test_auc": 0.7688,
-        "auprc": 0.3526
-      },
-      "Full hybrid (1345)": {
-        "test_auc": 0.7415,
-        "auprc": 0.222
-      }
-    },
-    "champion": {
-      "name": "GIN+Edge (no VN)",
-      "test_auc": 0.786
-    },
-    "key_finding": "Edge features (bond type + stereo + conjugation) boost GIN from 0.7053 to 0.7860 (+0.081 AUC)"
-  },
-  "phase3_mark": {
-    "date": "2026-04-08",
-    "author": "Mark",
-    "champion": {
-      "name": "CatBoost + MI-top-400 (AllTrad+Frag)",
-      "test_auc": 0.8105,
-      "auprc": 0.3481,
-      "K": 400,
-      "delta_vs_anthony_gin_edge": 0.0245
-    },
-    "feature_set_ablation": {
-      "Lipinski (14)": {
-        "test_auc": 0.7459,
-        "test_auprc": 0.2758,
-        "dims": 14,
-        "fit_s": 9.3
-      },
-      "Fragments (85)": {
-        "test_auc": 0.6999,
-        "test_auprc": 0.2411,
-        "dims": 85,
-        "fit_s": 4.7
-      },
-      "Lip+Frag (99)": {
-        "test_auc": 0.7247,
-        "test_auprc": 0.2604,
-        "dims": 99,
-        "fit_s": 8.1
-      },
-      "Morgan (1024)": {
-        "test_auc": 0.7448,
-        "test_auprc": 0.3398,
-        "dims": 1024,
-        "fit_s": 47.4
-      },
-      "MACCS (167)": {
+      {
+        "model": "MLP-Domain9 [Mark P2]",
+        "val_auc": null,
         "test_auc": 0.767,
-        "test_auprc": 0.3098,
-        "dims": 167,
-        "fit_s": 19.8
+        "auprc": null
       },
-      "AllTrad (1217)": {
-        "test_auc": 0.7814,
-        "test_auprc": 0.349,
-        "dims": 1217,
-        "fit_s": 59.5
-      },
-      "AllTrad+Frag (1302)": {
-        "test_auc": 0.7677,
-        "test_auprc": 0.3647,
-        "dims": 1302,
-        "fit_s": 66.1
+      {
+        "model": "CatBoost default [Mark P1]",
+        "val_auc": null,
+        "test_auc": 0.7782,
+        "auprc": 0.3708
       }
-    },
-    "mi_selection_sweep": {
-      "20": {
-        "auc": 0.7702,
-        "auprc": 0.2168
-      },
-      "50": {
-        "auc": 0.7591,
-        "auprc": 0.2793
-      },
-      "100": {
-        "auc": 0.7892,
-        "auprc": 0.3127
-      },
-      "200": {
-        "auc": 0.8019,
-        "auprc": 0.3285
-      },
-      "400": {
-        "auc": 0.8105,
-        "auprc": 0.3481
-      },
-      "800": {
-        "auc": 0.7836,
-        "auprc": 0.3421
-      },
-      "1302": {
-        "auc": 0.7673,
-        "auprc": 0.3484
-      }
-    },
-    "fine_grained_sweep": {
-      "300": {
-        "auc": 0.7883,
-        "auprc": 0.3076
-      },
-      "350": {
-        "auc": 0.7813,
-        "auprc": 0.3288
-      },
-      "400": {
-        "auc": 0.8105,
-        "auprc": 0.3481
-      },
-      "450": {
-        "auc": 0.7796,
-        "auprc": 0.3164
-      },
-      "500": {
-        "auc": 0.7945,
-        "auprc": 0.3244
-      },
-      "600": {
-        "auc": 0.7941,
-        "auprc": 0.3532
-      }
-    },
-    "composition_K400": {
-      "Morgan": 235,
-      "MACCS": 108,
-      "Fragments": 33,
-      "Lipinski": 14,
-      "Advanced": 10
-    },
-    "key_finding": "Mutual-info top-400 on 1302-d Lipinski+Fragments+Morgan+MACCS+Adv pool beats Anthony GIN+Edge (0.7860) by +0.0245 with pure CatBoost, no graph layers."
-  },
-  "overall_champion_phase3": {
-    "name": "CatBoost + MI-top-400",
-    "test_auc": 0.8105,
-    "author": "Mark",
-    "date": "2026-04-08"
+    ]
   }
-}
+]
