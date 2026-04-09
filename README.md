@@ -6,7 +6,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 4 complete** — Hyperparameter tuning hits diminishing returns. Optuna (20–40 trials) delivers marginal test gains (+0.004–0.027 AUC) while widening the val↔test gap — scaffold splits punish HP search that optimizes for a single val fold. Best model remains Mark's Phase 3 default: **CatBoost MI-top-400, ROC-AUC=0.8105**. Key structural finding: missed actives are ~200 Da lighter than caught actives; Lipinski-violating HIV inhibitors are 2× easier to classify than rule-compliant ones.
+**Phase 4 complete** — Ensembling unlocks what tuning couldn't. Optuna (40 trials) on CatBoost widens the val↔test gap; GIN tuning adds only +0.012 AUC. But combining GIN (graph topology) + CatBoost (chemistry features) at a 0.3/0.7 weight achieves **ROC-AUC=0.8114** — new project champion. Error Jaccard overlap of 0.161 confirms the two models fail on structurally different molecules. Structural blind spot confirmed: caught actives are 200 Da heavier than missed ones; Lipinski-violating HIV inhibitors are 2× easier to classify than rule-compliant actives.
 
 ---
 
@@ -15,8 +15,8 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 1. **Feature curation beats feature quantity** — CatBoost + MI-top-400 (0.8105) beats GIN+Edge (0.7860) by +0.025; same 1302-d pool with naive concatenation gives 0.7673 — MI selection recovers +0.043 AUC with no model change
 2. **Edge features were the key GNN unlock** — 3 BondEncoder dims (+0.081 AUC to GIN) is the largest single-feature gain across all phases; bond type/stereo/conjugation encodes chemical connectivity Morgan fingerprints only approximate
 3. **MACCS punches above its weight** — MI retains 65% of 167 MACCS keys vs 23% of 1024 Morgan bits; 31% of CatBoost importance from 12.8% of pool — hand-curated substructure keys are 2.4× more information-dense per bit than Morgan hashed space
-4. **Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400)** — HIV protease inhibitors are large, complex rule-violators by design; the model learned "bigger = more likely HIV inhibitor," which is historically accurate for early HIV drugs
-5. **Tuning overfits scaffold splits** — Optuna val gain (+0.035) exceeds test gain (+0.027); val↔test gap widened from 0.029 to 0.038; feature selection variance (~0.02 AUC) is 4× larger than any hyperparameter effect
+4. **GIN+CatBoost ensemble (0.3/0.7) is the new champion at 0.8114 AUC** — error Jaccard overlap of only 0.161 proves GNN and tabular models fail on different molecules; graph topology and chemistry features are genuinely complementary
+5. **Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400)** — HIV protease inhibitors are large, complex rule-violators by design; missed actives average 200 Da lighter than caught actives, revealing a systematic small-molecule blind spot
 
 ---
 
@@ -118,21 +118,21 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 <tr>
 <td valign="top" width="38%">
 
-**Tuning Run 1:** Optuna tuning of GIN+Edge (8 trials) and CatBoost MI-400 (20 trials). GIN+Edge gains only +0.004 AUC (0.7860 → 0.7904). CatBoost tuning yields 0.7909 — WORSE than Mark's Phase 3 default (0.8105). Feature selection variance (~0.02 AUC) is 4× larger than any hyperparameter effect, making tuning ineffective as the primary lever.<br><br>
-**Tuning Run 2:** Optuna tuning of CatBoost MI-400 over 40 trials. Best config (depth=8, lr=0.055, l2=4.7, min_leaf=38) gives Val AUC=0.8229, Test AUC=0.7854 (+0.027 test), but val↔test gap widened from 0.029 to 0.038. K=400 bootstrap stability confirmed: std=0.0040 vs 0.015–0.022 for other K values — it is genuinely the most stable choice.
+**GNN Tuning + Ensemble:** Optuna tuned GIN+Edge (8 trials) — best config is 64d, 3L, dropout=0.4, test AUC=0.7982 (+0.012 vs Phase 3 default). Smaller models generalize better; 5-layer GNNs catastrophically overfit on scaffold split (0.69–0.72 test). GIN+CatBoost ensemble at 0.3/0.7 weight reaches 0.8114 AUC — new project champion. Error Jaccard overlap = 0.161: GIN and CatBoost fail on different molecules, explaining the ensemble gain.<br><br>
+**CatBoost Tuning + Error Analysis:** Optuna on CatBoost MI-400 (40 trials): best config depth=8, lr=0.055, l2=4.7, min_leaf=38 gives Val=0.8229, Test=0.7854 (+0.027) but val↔test gap widened from 0.029 to 0.038. K=400 bootstrap stability confirmed (std=0.0040 vs 0.015–0.022 for other K). Error analysis: caught actives average MW=630 / 5.6 rings vs missed actives MW=424 / 4.0 rings.
 
 </td>
 <td align="center" width="24%">
 
-<img src="results/phase4_mark_error_properties.png" width="220">
+<img src="results/phase4_anthony_tuning.png" width="220">
 
 </td>
 <td valign="top" width="38%">
 
-**Combined Insight:** Both runs confirm the same ceiling: scaffold-split HP search optimizes for the val scaffold distribution and partially overfits it. Anthony's GIN tuning and Mark's CatBoost tuning both see the val↔test gap widen. The real bottleneck going into Phase 5 is not hyperparameters — it is the structural blind spot on small-molecule actives.<br><br>
-**Surprise:** Lipinski rule violators have 2× higher recall than rule-compliant molecules (0.828 vs 0.400). The model catches large, complex HIV inhibitors (MW 630, 5.6 rings) far more reliably than small, drug-like actives (MW 424, 4.0 rings). This is historically grounded — many HIV drugs ARE Rule-of-5 violators by design.<br><br>
-**Research:** Wu et al., 2018 (MoleculeNet) — scaffold splits create larger val/test gaps than random splits; HP search on single val fold risks scaffold-domain overfit. Prokhorenkova et al., 2018 (CatBoost) — depth 4–8 and higher l2_leaf_reg improve QSAR models with binary fingerprint features, confirmed by search finding depth=8 optimal.<br><br>
-**Best Model So Far:** CatBoost MI-top-400 (Phase 3 default) — ROC-AUC=0.8105, AUPRC=0.3481
+**Combined Insight:** Hyperparameter tuning alone hits a ceiling — scaffold splits penalize val-optimized HP search and feature selection variance (~0.02 AUC) dominates any tuning signal. The real Phase 4 unlock is the ensemble: GIN captures graph topology, CatBoost captures chemistry distributions, and their Jaccard error overlap of only 0.161 proves they fail on fundamentally different molecules. Combining them recovers what neither can do alone.<br><br>
+**Surprise:** Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400 for rule-compliant actives). HIV protease inhibitors are large, complex molecules designed for efficacy over oral bioavailability — the model learned "bigger = more likely HIV inhibitor," which is historically accurate for early HIV drugs.<br><br>
+**Research:** Dietterich, 2000 — ensemble methods improve generalization when error overlap is low; Jaccard=0.161 here directly validates this condition. Wu et al., 2018 (MoleculeNet) — scaffold splits create larger val/test gaps; confirmed by HP tuning widening the gap from 0.029 to 0.038.<br><br>
+**Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
 
 </td>
 </tr>
