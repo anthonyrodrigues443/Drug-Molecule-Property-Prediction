@@ -6,7 +6,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 3 complete** — Feature curation is the new frontier. Mark's CatBoost + MI-top-400 achieves **ROC-AUC=0.8105**, beating Anthony's GIN+Edge (0.7860) and pulling within 0.037 of SOTA without any graph layers. Key insight: mutual-information selection on a 1302-d pool recovers +0.043 AUC vs naive full-feature CatBoost (0.7673). Bond features (+0.081) remain the single largest per-feature gain; MACCS keys are the most information-dense fingerprint family.
+**Phase 4 complete** — Hyperparameter tuning hits diminishing returns. Optuna (20–40 trials) delivers marginal test gains (+0.004–0.027 AUC) while widening the val↔test gap — scaffold splits punish HP search that optimizes for a single val fold. Best model remains Mark's Phase 3 default: **CatBoost MI-top-400, ROC-AUC=0.8105**. Key structural finding: missed actives are ~200 Da lighter than caught actives; Lipinski-violating HIV inhibitors are 2× easier to classify than rule-compliant ones.
 
 ---
 
@@ -14,9 +14,9 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 1. **Feature curation beats feature quantity** — CatBoost + MI-top-400 (0.8105) beats GIN+Edge (0.7860) by +0.025; same 1302-d pool with naive concatenation gives 0.7673 — MI selection recovers +0.043 AUC with no model change
 2. **Edge features were the key GNN unlock** — 3 BondEncoder dims (+0.081 AUC to GIN) is the largest single-feature gain across all phases; bond type/stereo/conjugation encodes chemical connectivity Morgan fingerprints only approximate
-3. **MACCS punches above its weight** — MI retains 65% of 167 MACCS keys vs 23% of 1024 Morgan bits; hand-curated substructure keys carry more per-bit signal than hashed substructure space
-4. **Virtual node overfits on scaffold splits** — best val AUC (0.8333) but largest val-test gap (0.071); VN memorizes scaffold-specific global patterns that don't transfer to novel scaffolds
-5. **All 14 Lipinski features survive every MI threshold** — classical physicochemistry is not obsoleted by modern fingerprints; domain descriptors and structural bits remain complementary at every K
+3. **MACCS punches above its weight** — MI retains 65% of 167 MACCS keys vs 23% of 1024 Morgan bits; 31% of CatBoost importance from 12.8% of pool — hand-curated substructure keys are 2.4× more information-dense per bit than Morgan hashed space
+4. **Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400)** — HIV protease inhibitors are large, complex rule-violators by design; the model learned "bigger = more likely HIV inhibitor," which is historically accurate for early HIV drugs
+5. **Tuning overfits scaffold splits** — Optuna val gain (+0.035) exceeds test gain (+0.027); val↔test gap widened from 0.029 to 0.038; feature selection variance (~0.02 AUC) is 4× larger than any hyperparameter effect
 
 ---
 
@@ -27,6 +27,8 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Phase 2:** 5+ experiments across GCN, GIN, GAT, GraphSAGE (4 GNN architectures), and MLP-Domain9 ablation; testing raw graph features vs domain feature sets
 
 **Phase 3:** 26+ experiments — GIN+Edge (BondEncoder), GIN+VN, GIN+Edge+VN (3 GNN variants), CatBoost ablation across 11 feature sets (Anthony), plus 7-set fragment ablation and MI sweep across 12 K-values on a 1302-d pool with K=400 composition audit (Mark)
+
+**Phase 4:** 20+ experiments — Optuna tuning of GIN+Edge (8 trials) and CatBoost MI-400 (20 + 40 trials), K=400 bootstrap stability analysis (3 bootstraps × 4 K-values), deep error analysis across 4,113 test molecules by 11 molecular properties, Lipinski violation stratification, and feature importance attribution across 5 chemical categories
 
 ---
 
@@ -105,6 +107,32 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Surprise:** GIN+Edge+VN has best val AUC (0.8333) but 3rd-worst test AUC (0.7622) — virtual node overfits scaffold-specific global patterns. Meanwhile, Mark's K=50 (0.7591) is worse than K=20 (0.7702): Morgan bits ranked 21–50 are high-MI on training scaffolds but don't transfer to novel ones.<br><br>
 **Research:** Hu et al., 2020 (OGB) — AtomEncoder/BondEncoder standard encoding, GIN+VN baseline ~0.77; prompted Anthony's BondEncoder addition. Battiti, 1994 (IEEE TNN) — MI outperforms Pearson/chi² for non-linear heterogeneous pools; motivated Mark's MI sweep over the mixed-cardinality 1302-d set.<br><br>
 **Best Model So Far:** CatBoost + MI-top-400 (AllTrad+Frag, K=400) — ROC-AUC=0.8105
+
+</td>
+</tr>
+</table>
+
+### Phase 4: Hyperparameter Tuning + Error Analysis — 2026-04-09
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**Tuning Run 1:** Optuna tuning of GIN+Edge (8 trials) and CatBoost MI-400 (20 trials). GIN+Edge gains only +0.004 AUC (0.7860 → 0.7904). CatBoost tuning yields 0.7909 — WORSE than Mark's Phase 3 default (0.8105). Feature selection variance (~0.02 AUC) is 4× larger than any hyperparameter effect, making tuning ineffective as the primary lever.<br><br>
+**Tuning Run 2:** Optuna tuning of CatBoost MI-400 over 40 trials. Best config (depth=8, lr=0.055, l2=4.7, min_leaf=38) gives Val AUC=0.8229, Test AUC=0.7854 (+0.027 test), but val↔test gap widened from 0.029 to 0.038. K=400 bootstrap stability confirmed: std=0.0040 vs 0.015–0.022 for other K values — it is genuinely the most stable choice.
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase4_mark_error_properties.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Both runs confirm the same ceiling: scaffold-split HP search optimizes for the val scaffold distribution and partially overfits it. Anthony's GIN tuning and Mark's CatBoost tuning both see the val↔test gap widen. The real bottleneck going into Phase 5 is not hyperparameters — it is the structural blind spot on small-molecule actives.<br><br>
+**Surprise:** Lipinski rule violators have 2× higher recall than rule-compliant molecules (0.828 vs 0.400). The model catches large, complex HIV inhibitors (MW 630, 5.6 rings) far more reliably than small, drug-like actives (MW 424, 4.0 rings). This is historically grounded — many HIV drugs ARE Rule-of-5 violators by design.<br><br>
+**Research:** Wu et al., 2018 (MoleculeNet) — scaffold splits create larger val/test gaps than random splits; HP search on single val fold risks scaffold-domain overfit. Prokhorenkova et al., 2018 (CatBoost) — depth 4–8 and higher l2_leaf_reg improve QSAR models with binary fingerprint features, confirmed by search finding depth=8 optimal.<br><br>
+**Best Model So Far:** CatBoost MI-top-400 (Phase 3 default) — ROC-AUC=0.8105, AUPRC=0.3481
 
 </td>
 </tr>
