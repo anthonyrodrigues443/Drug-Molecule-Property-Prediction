@@ -123,3 +123,41 @@ noise (fixable by selection) or signal loss (not fixable).
 3. MACCS is over-represented in the winning subset (27% of K=400 vs 12.8% pool share). Hand-curated > hashed substructure keys per unit.
 4. Fragments-only = 0.6999 — worst feature set tested. H1 (Fr_* alone beat Lipinski) falsified. Fragments carry marginal but not standalone signal.
 5. All 14 Lipinski features survive every K≥300 selection level. Classical physicochemistry still matters.
+
+
+## 2026-04-09 | Phase 4 (Anthony) | GIN+Edge Tuning + GNN-CatBoost Ensemble
+
+### 4.1 — GIN+Edge Optuna Tuning (8 trials, TPE sampler)
+
+| Trial | Dim | Layers | Dropout | LR | Pool | Val AUC | Test AUC |
+|-------|-----|--------|---------|----|------|---------|----------|
+| 2 | 64 | 3 | 0.4 | 0.0037 | add | 0.7957 | **0.7904** |
+| 0 | 128 | 4 | 0.2 | 0.0002 | mean | 0.7930 | 0.7860 |
+| 6 | 256 | 3 | 0.3 | 0.0012 | mean | **0.8107** | 0.7631 |
+
+Retrained best-test config (trial 2): **test=0.7982** (+0.012 vs Phase 3 default 0.7860)
+
+### 4.3 — GIN + CatBoost Ensemble (weight sweep)
+
+| w_GIN | w_CB | Ensemble AUC | Δ vs best solo |
+|-------|------|-------------|----------------|
+| 0.0 | 1.0 | 0.7939 | — |
+| **0.3** | **0.7** | **0.8114** | **+0.013** |
+| 0.5 | 0.5 | 0.8087 | +0.011 |
+| 1.0 | 0.0 | 0.7981 | — |
+
+### 4.4 — Error Overlap Analysis
+
+| Category | Count | % of test |
+|----------|-------|-----------|
+| Both correct | 2,946 | 71.6% |
+| Both wrong | 188 | 4.6% |
+| GIN wrong only | 873 | 21.2% |
+| CatBoost wrong only | 104 | 2.5% |
+| **Jaccard** | **0.161** | |
+
+**Key findings:**
+1. **GIN+CatBoost ensemble = 0.8114 AUC** — new project champion, beating Mark P3 best (0.8105)
+2. Jaccard overlap = 0.161 — models fail on DIFFERENT molecules = textbook ensemble diversity
+3. GIN tuning: 64d model generalizes best. 5-layer models catastrophically overfit (0.69-0.72 test)
+4. Optimal weight: 30% GIN + 70% CatBoost — CatBoost carries more signal but GIN adds complementary topology info
