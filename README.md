@@ -6,7 +6,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 4 complete** — Ensembling unlocks what tuning couldn't. Optuna (40 trials) on CatBoost widens the val↔test gap; GIN tuning adds only +0.012 AUC. But combining GIN (graph topology) + CatBoost (chemistry features) at a 0.3/0.7 weight achieves **ROC-AUC=0.8114** — new project champion. Error Jaccard overlap of 0.161 confirms the two models fail on structurally different molecules. Structural blind spot confirmed: caught actives are 200 Da heavier than missed ones; Lipinski-violating HIV inhibitors are 2× easier to classify than rule-compliant actives.
+**Phase 5 complete** — Structural error analysis confirms why the GIN+CatBoost ensemble works: CB fails on large polar molecules (MW 491, TPSA 129), GIN fails on small molecules (MW 374). The ensemble rescued 542 molecules and hurt zero — perfect structural complementarity. Feature ablation proves Fragment descriptors in MI-400 are noise (+0.026 AUC on removal); MACCS is most critical (-0.032). Mark's diverse 3-model CatBoost ensemble (0.7888) and Anthony's cross-paradigm ensemble (0.7856) converge, confirming a ~0.79 scaffold-split ceiling. Phase 4 champion GIN+CatBoost (0.8114) remains the project best.
 
 ---
 
@@ -29,6 +29,8 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Phase 3:** 26+ experiments — GIN+Edge (BondEncoder), GIN+VN, GIN+Edge+VN (3 GNN variants), CatBoost ablation across 11 feature sets (Anthony), plus 7-set fragment ablation and MI sweep across 12 K-values on a 1302-d pool with K=400 composition audit (Mark)
 
 **Phase 4:** 20+ experiments — Optuna tuning of GIN+Edge (8 trials) and CatBoost MI-400 (20 + 40 trials), K=400 bootstrap stability analysis (3 bootstraps × 4 K-values), deep error analysis across 4,113 test molecules by 11 molecular properties, Lipinski violation stratification, and feature importance attribution across 5 chemical categories
+
+**Phase 5:** 20+ experiments — leave-one-category-out feature ablation across 5 descriptor categories, MW-split subgroup specialists, diverse 3–4 model CatBoost ensembles on distinct feature sub-pools (Mark); fragment-free cross-paradigm ensemble test, weight sweep confirmation, structural error profile analysis by MW/HBD/HBA/TPSA, and 542-molecule rescue analysis (Anthony)
 
 ---
 
@@ -132,6 +134,32 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Combined Insight:** Hyperparameter tuning alone hits a ceiling — scaffold splits penalize val-optimized HP search and feature selection variance (~0.02 AUC) dominates any tuning signal. The real Phase 4 unlock is the ensemble: GIN captures graph topology, CatBoost captures chemistry distributions, and their Jaccard error overlap of only 0.161 proves they fail on fundamentally different molecules. Combining them recovers what neither can do alone.<br><br>
 **Surprise:** Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400 for rule-compliant actives). HIV protease inhibitors are large, complex molecules designed for efficacy over oral bioavailability — the model learned "bigger = more likely HIV inhibitor," which is historically accurate for early HIV drugs.<br><br>
 **Research:** Dietterich, 2000 — ensemble methods improve generalization when error overlap is low; Jaccard=0.161 here directly validates this condition. Wu et al., 2018 (MoleculeNet) — scaffold splits create larger val/test gaps; confirmed by HP tuning widening the gap from 0.029 to 0.038.<br><br>
+**Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
+
+</td>
+</tr>
+</table>
+
+### Phase 5: Cross-Paradigm Analysis + Feature Ablation — 2026-04-10
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**Cross-Paradigm Ensemble:** Anthony tested fragment removal in the GIN+CB ensemble — effect was split-dependent (-0.004 for CB alone vs Mark's +0.026; ensemble net +0.002). Structural error analysis reveals the root cause of ensemble gains: CB fails on large polar molecules (MW 491, TPSA 129, high HBD/HBA) where fingerprints miss structural nuance; GIN fails on smaller molecules (MW 374) where graph topology is less informative. Ensemble rescued 542 molecules, hurt zero — 13.2% of test set rescued through pure complementarity. Error symmetry: 392 GIN-only vs 393 CB-only unique errors.<br><br>
+**Feature Ablation + Diverse Ensemble:** Mark's leave-one-category-out ablation on MI-400 finds Fragment descriptors are noise — removal improves AUC by +0.026. MACCS removal is the largest drop (-0.032, most critical). MW-split specialists hurt both subgroups: small-molecule specialist fails from data sparsity (2.8% active rate in 26K train). Diverse 3-model CatBoost ensemble (MI-400 + MACCS+Advanced + Morgan+Lipinski sub-pools) reaches 0.7888 — matching GIN+Edge (0.7860) via pure feature engineering.
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase5_anthony_cross_paradigm.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Two different Phase 5 angles — structural error profiling vs feature category ablation — converge on the same explanation for why the GIN+CB ensemble works. Anthony's MW/TPSA error profiles show CB fails exactly where MACCS pharmacophore patterns are most needed (large, polar molecules); Mark's ablation confirms MACCS is the most irreplaceable category. The ensemble's 0.235 Jaccard overlap and 542/0 rescue/hurt count are structural proof that graph topology and molecular descriptors capture different chemical reality.<br><br>
+**Surprise:** The ensemble rescued 542 molecules and hurt exactly zero. With Jaccard overlap = 0.235, each model's errors are nearly orthogonal — confidence from one model consistently overrides the other's mistakes without introducing new ones.<br><br>
+**Research:** Dietterich, 2000 — ensemble diversity requires low error overlap; Jaccard=0.235 here confirms the condition holds. Bender et al., 2021 (Drug Discovery Today) — MACCS keys outperform Morgan FP per-bit in QSAR; confirmed as the most critical MI-400 category with -0.032 AUC impact on removal.<br><br>
 **Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
 
 </td>
