@@ -1,0 +1,87 @@
+{
+  "fragment_ablation": {
+    "cb_with_frags": 0.7662782833845381,
+    "cb_no_frags": 0.7619152512897802,
+    "delta": -0.004363032094757857,
+    "mark_found": 0.026
+  },
+  "ensembles": {
+    "gin_alone": 0.7464717021235484,
+    "cb_frag": 0.7662782833845381,
+    "cb_nofrag": 0.7619152512897802,
+    "ens_frag_03_07": 0.7831545997333489,
+    "ens_nofrag_03_07": 0.7855776476725986,
+    "ens_best_weight": 0.7855776476725986,
+    "best_gin_weight": 0.30000000000000004,
+    "logreg_stacking": 0.7762815682182675
+  },
+  "error_analysis": {
+    "both_correct": 3085,
+    "both_wrong": 241,
+    "gin_only": 392,
+    "cb_only": 393,
+    "jaccard": 0.23489278752436646
+  },
+  "master": [
+    [
+      "P4",
+      "GIN+CB Ensemble (Phase 4)",
+      0.8114,
+      "Anthony"
+    ],
+    [
+      "P3",
+      "CatBoost MI-400 (Mark best run)",
+      0.8105,
+      "Mark"
+    ],
+    [
+      "P4",
+      "GIN+Edge tuned",
+      0.7982,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "Mark 3-model CB ensemble",
+      0.7888,
+      "Mark"
+    ],
+    [
+      "P3",
+      "GIN+Edge (Phase 3)",
+      0.786,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "GIN+CB no-frag (best w=0.3)",
+      0.7855776476725986,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "GIN+CB no-frag (0.3/0.7)",
+      0.7855776476725986,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "GIN+CB with-frag (0.3/0.7)",
+      0.7831545997333489,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "LogReg Stacking",
+      0.7762815682182675,
+      "Anthony"
+    ],
+    [
+      "P5",
+      "CB no-frag (Mark finding)",
+      0.7619152512897802,
+      "Anthony"
+    ]
+  ]
+}
