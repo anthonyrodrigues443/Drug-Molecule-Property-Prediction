@@ -161,3 +161,45 @@ Retrained best-test config (trial 2): **test=0.7982** (+0.012 vs Phase 3 default
 2. Jaccard overlap = 0.161 — models fail on DIFFERENT molecules = textbook ensemble diversity
 3. GIN tuning: 64d model generalizes best. 5-layer models catastrophically overfit (0.69-0.72 test)
 4. Optimal weight: 30% GIN + 70% CatBoost — CatBoost carries more signal but GIN adds complementary topology info
+
+
+## 2026-04-10 | Phase 5 (Mark) | Ablation + Ensemble + LLM Comparison
+
+### 5.1: Ablation Study (leave-one-category-out from MI-400)
+
+| Category Removed | Features Left | Test AUC | Delta |
+|-----------------|--------------|----------|-------|
+| MACCS | 291 | 0.7343 | -0.0323 |
+| Morgan FP | 169 | 0.7477 | -0.0189 |
+| Advanced | 388 | 0.7559 | -0.0107 |
+| Lipinski | 388 | 0.7712 | +0.0046 |
+| **Fragment** | **364** | **0.7929** | **+0.0263** |
+
+Single-category models: MACCS(167)=0.7481 | Morgan(1024)=0.7259 | Lipinski(14)=0.7534 | Advanced(12)=0.7205
+
+**Key:** Fragment removal HELPS. Fragment descriptors passed MI filter but are collective noise.
+
+### 5.2: Subgroup Specialist (MW < 450 vs MW >= 450)
+
+Small specialist AUC=0.6264 | Large specialist AUC=0.8718 | Combined=0.7634 (delta=-0.003)
+Specialist HURT: sparse actives in small-MW subgroup (2.8%) prevent reliable learning.
+
+### 5.3: Diverse CatBoost Ensemble
+
+| Combo | n_models | AUC | Delta |
+|-------|---------|-----|-------|
+| A+B+C | 3 | **0.7888** | **+0.0221** |
+| A+B+C+D | 4 | 0.7875 | +0.0209 |
+| A+B | 2 | 0.7790 | +0.0124 |
+| B+D | 2 | 0.7750 | +0.0083 |
+| A+D | 2 | 0.7716 | +0.0049 |
+| A | 1 | 0.7666 | baseline |
+
+Best: 3-model avg (MI-400 + MACCS+Adv + Morgan+Lip) = 0.7888 — matches Anthony GIN+Edge (0.7860).
+
+### 5.4: LLM Baseline
+API blocked (no ANTHROPIC_API_KEY). Custom model on 260-sample eval subset: AUC=0.7677.
+Projected LLM (from OpenBioML benchmark): ~0.65-0.68 AUC. To be measured in Phase 6.
+
+**Phase 5 champion:** 3-model ensemble 0.7888
+**Overall champion (both researchers):** GIN+CatBoost ensemble (Anthony P4) 0.8114

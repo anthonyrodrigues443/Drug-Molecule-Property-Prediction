@@ -1,0 +1,165 @@
+{
+  "phase": 5,
+  "date": "2026-04-10",
+  "researcher": "Mark",
+  "experiments": {
+    "5.1_ablation": [
+      {
+        "experiment": "MI-400 baseline",
+        "removed": "none",
+        "n_features": 400,
+        "auc": 0.7666235346375945,
+        "auprc": 0.34609845027859043,
+        "delta": 0.0
+      },
+      {
+        "experiment": "Remove MACCS",
+        "removed": "MACCS",
+        "n_features": 291,
+        "auc": 0.7343170011008324,
+        "auprc": 0.31308485792763524,
+        "delta": -0.03230653353676205
+      },
+      {
+        "experiment": "Remove Morgan FP",
+        "removed": "Morgan FP",
+        "n_features": 169,
+        "auc": 0.7477288089766121,
+        "auprc": 0.3043344073012775,
+        "delta": -0.01889472566098238
+      },
+      {
+        "experiment": "Remove Advanced",
+        "removed": "Advanced",
+        "n_features": 388,
+        "auc": 0.7559261476660422,
+        "auprc": 0.3656242403301712,
+        "delta": -0.010697386971552314
+      },
+      {
+        "experiment": "Remove Lipinski",
+        "removed": "Lipinski",
+        "n_features": 388,
+        "auc": 0.7712141988064661,
+        "auprc": 0.33712962448974393,
+        "delta": 0.004590664168871661
+      },
+      {
+        "experiment": "Remove Fragment",
+        "removed": "Fragment",
+        "n_features": 364,
+        "auc": 0.7928774213484231,
+        "auprc": 0.3649993432698805,
+        "delta": 0.026253886710828622
+      },
+      {
+        "experiment": "MACCS only",
+        "removed": "others",
+        "n_features": 167,
+        "auc": 0.7480870623225633,
+        "auprc": 0.31166101482968356,
+        "delta": -0.018536472315031194
+      },
+      {
+        "experiment": "Morgan only",
+        "removed": "others",
+        "n_features": 1024,
+        "auc": 0.7258695610189461,
+        "auprc": 0.3443018486778653,
+        "delta": -0.04075397361864841
+      },
+      {
+        "experiment": "Lipinski only",
+        "removed": "others",
+        "n_features": 14,
+        "auc": 0.7533536762007764,
+        "auprc": 0.2752536111056151,
+        "delta": -0.01326985843681805
+      },
+      {
+        "experiment": "Advanced only",
+        "removed": "others",
+        "n_features": 12,
+        "auc": 0.7204735510535158,
+        "auprc": 0.23892204547382506,
+        "delta": -0.046149983584078624
+      }
+    ],
+    "5.2_subgroup_specialist": {
+      "combined_auc": 0.763351938044381,
+      "combined_auprc": 0.3197104623554943,
+      "delta_vs_generalist": -0.0032715965932135216,
+      "small_specialist_auc": 0.6263640107061972,
+      "large_specialist_auc": 0.87184740374426,
+      "small_molecules_test": 3292,
+      "large_molecules_test": 821,
+      "recall_by_group": {
+        "small_gen": 0.07407407407407407,
+        "small_spec": 0.05555555555555555,
+        "large_gen": 0.631578947368421,
+        "large_spec": 0.4868421052631579,
+        "all_gen": 0.4,
+        "all_spec": 0.3076923076923077
+      }
+    },
+    "5.3_ensemble": [
+      {
+        "combo": "A+B+C: 3-model avg",
+        "n_models": 3,
+        "auc": 0.7887599219760906,
+        "auprc": 0.3614134293116563,
+        "delta": 0.0221363873384961
+      },
+      {
+        "combo": "A+B+C+D: 4-model avg",
+        "n_models": 4,
+        "auc": 0.7874872052376445,
+        "auprc": 0.3623997193654719,
+        "delta": 0.02086367060005001
+      },
+      {
+        "combo": "A+B: MI400 + MACCS+Adv",
+        "n_models": 2,
+        "auc": 0.7789876204638947,
+        "auprc": 0.3324237713188412,
+        "delta": 0.01236408582630022
+      },
+      {
+        "combo": "B+D: 2x MACCS",
+        "n_models": 2,
+        "auc": 0.7749695822630798,
+        "auprc": 0.3238662391091753,
+        "delta": 0.008346047625485298
+      },
+      {
+        "combo": "A+D: MI400 + AllMACS",
+        "n_models": 2,
+        "auc": 0.7715676239402074,
+        "auprc": 0.34860582311724997,
+        "delta": 0.00494408930261292
+      },
+      {
+        "combo": "A: MI-400 only",
+        "n_models": 1,
+        "auc": 0.7666235346375945,
+        "auprc": 0.34609845027859043,
+        "delta": 0.0
+      }
+    ],
+    "5.4_llm_baseline": {
+      "model": "claude-haiku-4-5-20251001",
+      "n_eval_samples": 260,
+      "custom_auc_on_subset": 0.7676923076923078,
+      "llm_auc": null,
+      "delta_custom_minus_llm": null,
+      "api_blocked": "ANTHROPIC_API_KEY not set in environment",
+      "note": "LLM blocked by missing API key. Custom model AUC on eval set: 0.7677"
+    }
+  },
+  "champion_phase5": {
+    "model": "A+B+C: 3-model avg",
+    "auc": 0.7887599219760906,
+    "delta_vs_single_baseline": 0.0221363873384961
+  },
+  "phase3_best_run": 0.8105
+}
