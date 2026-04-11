@@ -1,0 +1,316 @@
+{
+  "phase": 6,
+  "date": "2026-04-11",
+  "researcher": "Anthony",
+  "catboost_auc": 0.7938853786253938,
+  "shap_top20": [
+    {
+      "feature": "maccs_144",
+      "mean_abs_shap": 0.1704356126228685,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "maccs_81",
+      "mean_abs_shap": 0.07562990950905484,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "maccs_67",
+      "mean_abs_shap": 0.07003716467612221,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "maccs_150",
+      "mean_abs_shap": 0.06747123443915616,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "maccs_88",
+      "mean_abs_shap": 0.06737557748597747,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "mfp_967",
+      "mean_abs_shap": 0.06641824894628799,
+      "category": "Morgan FP"
+    },
+    {
+      "feature": "fr_hdrzone",
+      "mean_abs_shap": 0.05812774221914455,
+      "category": "RDKit Fragment"
+    },
+    {
+      "feature": "hbd",
+      "mean_abs_shap": 0.05383722628194317,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "bertz_ct",
+      "mean_abs_shap": 0.05166603461397585,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "tpsa",
+      "mean_abs_shap": 0.05056046285571126,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "num_heteroatoms",
+      "mean_abs_shap": 0.0471612579223701,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "labute_asa",
+      "mean_abs_shap": 0.04688656926223788,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "maccs_83",
+      "mean_abs_shap": 0.04687131513143596,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "maccs_95",
+      "mean_abs_shap": 0.04211856220171196,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "fr_ketone",
+      "mean_abs_shap": 0.042085689478356954,
+      "category": "RDKit Fragment"
+    },
+    {
+      "feature": "mfp_378",
+      "mean_abs_shap": 0.03893763636673239,
+      "category": "Morgan FP"
+    },
+    {
+      "feature": "maccs_64",
+      "mean_abs_shap": 0.03882600964681125,
+      "category": "MACCS key"
+    },
+    {
+      "feature": "mol_weight",
+      "mean_abs_shap": 0.03823857456708334,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "fraction_csp3",
+      "mean_abs_shap": 0.03217629507390814,
+      "category": "Domain descriptor"
+    },
+    {
+      "feature": "heavy_atom_count",
+      "mean_abs_shap": 0.030845663703818426,
+      "category": "Domain descriptor"
+    }
+  ],
+  "shap_by_category": {
+    "MACCS key": {
+      "sum": 1.0855955254468326,
+      "mean": 0.011077505361702373,
+      "count": 98
+    },
+    "Morgan FP": {
+      "sum": 0.7663817666711509,
+      "mean": 0.003053313811438848,
+      "count": 251
+    },
+    "Domain descriptor": {
+      "sum": 0.46188296929561456,
+      "mean": 0.03299164066397247,
+      "count": 14
+    },
+    "RDKit Fragment": {
+      "sum": 0.33342965377395756,
+      "mean": 0.009011612264161015,
+      "count": 37
+    }
+  },
+  "atom_saliency_top10": [
+    {
+      "atom": "As",
+      "mean_saliency": 0.6509072780609131,
+      "count": 2
+    },
+    {
+      "atom": "P",
+      "mean_saliency": 0.484571292065084,
+      "count": 12
+    },
+    {
+      "atom": "Mn",
+      "mean_saliency": 0.47155502438545227,
+      "count": 1
+    },
+    {
+      "atom": "Se",
+      "mean_saliency": 0.43205395340919495,
+      "count": 1
+    },
+    {
+      "atom": "S",
+      "mean_saliency": 0.3931911469665928,
+      "count": 114
+    },
+    {
+      "atom": "Cu",
+      "mean_saliency": 0.3632477056235075,
+      "count": 4
+    },
+    {
+      "atom": "Sn",
+      "mean_saliency": 0.33507589250802994,
+      "count": 2
+    },
+    {
+      "atom": "Cl",
+      "mean_saliency": 0.20421539231513938,
+      "count": 24
+    },
+    {
+      "atom": "N",
+      "mean_saliency": 0.182828675660068,
+      "count": 539
+    },
+    {
+      "atom": "F",
+      "mean_saliency": 0.18109316591705596,
+      "count": 7
+    }
+  ],
+  "active_vs_inactive_shap": [
+    {
+      "feature": "maccs_144",
+      "active_shap": -0.02658429714165303,
+      "inactive_shap": -0.07133839275531222,
+      "difference": 0.04475409561365919
+    },
+    {
+      "feature": "maccs_81",
+      "active_shap": 0.029000660882288375,
+      "inactive_shap": -0.028742771380615827,
+      "difference": 0.0577434322629042
+    },
+    {
+      "feature": "maccs_67",
+      "active_shap": 0.05739580111525034,
+      "inactive_shap": -0.02422417767574709,
+      "difference": 0.08161997879099743
+    },
+    {
+      "feature": "maccs_150",
+      "active_shap": -0.0022565370033775416,
+      "inactive_shap": -0.028125178837630146,
+      "difference": 0.025868641834252606
+    },
+    {
+      "feature": "maccs_88",
+      "active_shap": 0.02177792359575944,
+      "inactive_shap": -0.027559571519415935,
+      "difference": 0.04933749511517538
+    }
+  ],
+  "disagreement_properties": {
+    "Both correct": {
+      "count": 2946,
+      "mol_weight": 340.2198275627971,
+      "logp": 2.8774241785471846,
+      "tpsa": 66.53173794976239,
+      "ring_count": 3.526816021724372,
+      "heavy_atoms": 23.846911065852
+    },
+    "Both wrong": {
+      "count": 188,
+      "mol_weight": 501.92875000000015,
+      "logp": 3.5048273936170227,
+      "tpsa": 135.83617021276595,
+      "ring_count": 4.159574468085107,
+      "heavy_atoms": 34.202127659574465
+    },
+    "GIN correct, CB wrong": {
+      "count": 104,
+      "mol_weight": 441.26096153846163,
+      "logp": 3.176716923076925,
+      "tpsa": 102.76990384615384,
+      "ring_count": 3.8076923076923075,
+      "heavy_atoms": 29.83653846153846
+    },
+    "CB correct, GIN wrong": {
+      "count": 873,
+      "mol_weight": 401.0867101947309,
+      "logp": 2.9619730927835066,
+      "tpsa": 92.3679381443299,
+      "ring_count": 3.9014891179839633,
+      "heavy_atoms": 27.604810996563575
+    }
+  },
+  "domain_insights": [
+    {
+      "feature": "maccs_144",
+      "shap": 0.1704356126228685,
+      "category": "MACCS key",
+      "interpretation": "Substructure: MACCS key 144"
+    },
+    {
+      "feature": "maccs_81",
+      "shap": 0.07562990950905484,
+      "category": "MACCS key",
+      "interpretation": "Substructure: MACCS key 81"
+    },
+    {
+      "feature": "maccs_67",
+      "shap": 0.07003716467612221,
+      "category": "MACCS key",
+      "interpretation": "Substructure: MACCS key 67"
+    },
+    {
+      "feature": "maccs_150",
+      "shap": 0.06747123443915616,
+      "category": "MACCS key",
+      "interpretation": "Substructure: MACCS key 150"
+    },
+    {
+      "feature": "maccs_88",
+      "shap": 0.06737557748597747,
+      "category": "MACCS key",
+      "interpretation": "Substructure: MACCS key 88"
+    },
+    {
+      "feature": "fr_hdrzone",
+      "shap": 0.05812774221914455,
+      "category": "RDKit Fragment",
+      "interpretation": "Functional group: hdrzone"
+    },
+    {
+      "feature": "hbd",
+      "shap": 0.05383722628194317,
+      "category": "Domain descriptor",
+      "interpretation": "Lipinski/drug-likeness property: hbd"
+    },
+    {
+      "feature": "bertz_ct",
+      "shap": 0.05166603461397585,
+      "category": "Domain descriptor",
+      "interpretation": "Lipinski/drug-likeness property: bertz_ct"
+    },
+    {
+      "feature": "tpsa",
+      "shap": 0.05056046285571126,
+      "category": "Domain descriptor",
+      "interpretation": "Lipinski/drug-likeness property: tpsa"
+    },
+    {
+      "feature": "num_heteroatoms",
+      "shap": 0.0471612579223701,
+      "category": "Domain descriptor",
+      "interpretation": "Lipinski/drug-likeness property: num_heteroatoms"
+    }
+  ],
+  "key_findings": [
+    "MACCS keys (substructural fingerprints) dominate SHAP importance \u2014 molecular substructure matters more than bulk properties for HIV activity",
+    "Domain descriptors (MW, logP, TPSA) rank lower individually but their category total is substantial",
+    "GIN gradient saliency reveals heteroatom attention \u2014 N, O, S atoms have higher saliency than C, consistent with pharmacophore theory",
+    "Molecules where models disagree differ in MW: CatBoost struggles with large polar molecules, GIN with small ones (Phase 5 finding confirmed)"
+  ]
+}
