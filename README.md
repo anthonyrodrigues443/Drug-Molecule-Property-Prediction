@@ -6,7 +6,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ## Current Status
 
-**Phase 5 complete** — Structural error analysis confirms why the GIN+CatBoost ensemble works: CB fails on large polar molecules (MW 491, TPSA 129), GIN fails on small molecules (MW 374). The ensemble rescued 542 molecules and hurt zero — perfect structural complementarity. Feature ablation proves Fragment descriptors in MI-400 are noise (+0.026 AUC on removal); MACCS is most critical (-0.032). Mark's diverse 3-model CatBoost ensemble (0.7888) and Anthony's cross-paradigm ensemble (0.7856) converge, confirming a ~0.79 scaffold-split ceiling. Phase 4 champion GIN+CatBoost (0.8114) remains the project best.
+**Phase 6 complete** — Explainability analysis reveals why GIN+CatBoost succeeds and where it fails. Anthony's global SHAP shows MACCS keys dominate (1.35 total vs 0.56 domain) and GIN gradient saliency independently discovers sulfur as 2.8x more salient than carbon — consistent with HIV protease pharmacophore design. Mark's local LIME reveals SHAP and LIME agree on only 4.2% of top features per molecule (Jaccard=0.042), and subgroup analysis exposes a critical blind spot: AUC=0.6707 / recall=3.3% on Lipinski-compliant actives vs AUC=0.8450 / recall=54.3% on violators. 14 domain features alone nearly match 1,024 Morgan bits (0.7581 vs 0.7550 AUC), exposing SHAP collinearity compression. Phase 4 champion GIN+CatBoost (0.8114) remains the project best.
 
 ---
 
@@ -16,7 +16,7 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 2. **Edge features were the key GNN unlock** — 3 BondEncoder dims (+0.081 AUC to GIN) is the largest single-feature gain across all phases; bond type/stereo/conjugation encodes chemical connectivity Morgan fingerprints only approximate
 3. **MACCS punches above its weight** — MI retains 65% of 167 MACCS keys vs 23% of 1024 Morgan bits; 31% of CatBoost importance from 12.8% of pool — hand-curated substructure keys are 2.4× more information-dense per bit than Morgan hashed space
 4. **GIN+CatBoost ensemble (0.3/0.7) is the new champion at 0.8114 AUC** — error Jaccard overlap of only 0.161 proves GNN and tabular models fail on different molecules; graph topology and chemistry features are genuinely complementary
-5. **Lipinski violators are 2× easier to classify (recall 0.828 vs 0.400)** — HIV protease inhibitors are large, complex rule-violators by design; missed actives average 200 Da lighter than caught actives, revealing a systematic small-molecule blind spot
+5. **Lipinski violators define the model's usable range** — Subgroup AUC=0.8450 / recall=54.3% for violators vs AUC=0.6707 / recall=3.3% for compliant actives; the model learned to find large, complex HIV protease inhibitors and nearly fails on small drug-like actives — a systematic blind spot revealed only through subgroup analysis
 
 ---
 
@@ -31,6 +31,8 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Phase 4:** 20+ experiments — Optuna tuning of GIN+Edge (8 trials) and CatBoost MI-400 (20 + 40 trials), K=400 bootstrap stability analysis (3 bootstraps × 4 K-values), deep error analysis across 4,113 test molecules by 11 molecular properties, Lipinski violation stratification, and feature importance attribution across 5 chemical categories
 
 **Phase 5:** 20+ experiments — leave-one-category-out feature ablation across 5 descriptor categories, MW-split subgroup specialists, diverse 3–4 model CatBoost ensembles on distinct feature sub-pools (Mark); fragment-free cross-paradigm ensemble test, weight sweep confirmation, structural error profile analysis by MW/HBD/HBA/TPSA, and 542-molecule rescue analysis (Anthony)
+
+**Phase 6:** 20+ experiments — SHAP TreeExplainer on 1000 test molecules, active vs inactive SHAP differential analysis, GIN gradient saliency via forward hooks on atom embeddings (200 molecules), ensemble disagreement property profiling (Anthony); LIME local explanations on 8 representative molecules (5000 perturbations each), Lipinski subgroup SHAP comparison (compliant vs violating), feature group solo-AUC attribution across 5 categories, LIME-SHAP agreement Jaccard scoring by prediction type (Mark)
 
 ---
 
@@ -160,6 +162,32 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Combined Insight:** Two different Phase 5 angles — structural error profiling vs feature category ablation — converge on the same explanation for why the GIN+CB ensemble works. Anthony's MW/TPSA error profiles show CB fails exactly where MACCS pharmacophore patterns are most needed (large, polar molecules); Mark's ablation confirms MACCS is the most irreplaceable category. The ensemble's 0.235 Jaccard overlap and 542/0 rescue/hurt count are structural proof that graph topology and molecular descriptors capture different chemical reality.<br><br>
 **Surprise:** The ensemble rescued 542 molecules and hurt exactly zero. With Jaccard overlap = 0.235, each model's errors are nearly orthogonal — confidence from one model consistently overrides the other's mistakes without introducing new ones.<br><br>
 **Research:** Dietterich, 2000 — ensemble diversity requires low error overlap; Jaccard=0.235 here confirms the condition holds. Bender et al., 2021 (Drug Discovery Today) — MACCS keys outperform Morgan FP per-bit in QSAR; confirmed as the most critical MI-400 category with -0.032 AUC impact on removal.<br><br>
+**Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
+
+</td>
+</tr>
+</table>
+
+### Phase 6: Explainability & Model Understanding — 2026-04-11
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**Global XAI:** SHAP TreeExplainer on 1,000 test molecules: MACCS keys dominate total SHAP (1.35 vs 0.56 for domain descriptors). maccs_144 is the top feature at 0.191 mean |SHAP|. GIN gradient saliency via atom embedding hooks (200 molecules): sulfur saliency 0.393, 2.8x carbon (0.138) — the GNN independently discovered thiol groups as the key pharmacophore for HIV protease inhibitor binding.<br><br>
+**Local XAI:** LIME on 8 representative molecules (2 TP, 2 TN, 2 FP, 2 FN) yields LIME-SHAP Jaccard = 0.042 — near-zero agreement per molecule. LIME says Morgan dominates locally (63.7%) while SHAP says MACCS dominates globally (43%). Subgroup analysis: Lipinski-compliant actives achieve only AUC=0.6707 / recall=3.3% vs Lipinski-violating actives at AUC=0.8450 / recall=54.3%.
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase6_explainability.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Anthony's global SHAP and Mark's local LIME are both correct — they describe different views of the same model. SHAP captures collinearity-adjusted population credit (MACCS dominates); LIME captures per-molecule perturbation sensitivity (Morgan dominates locally). The near-zero Jaccard (0.042) is not measurement noise — it exposes that the model uses different feature pathways depending on the individual molecule. The model is more complex than any single global summary can capture.<br><br>
+**Surprise:** 14 domain features (Lipinski properties: MW, logP, TPSA, etc.) trained alone reach AUC=0.7581 — nearly matching 1,024 Morgan fingerprint bits (0.7550). SHAP credits domain at only 16-20% when combined, revealing collinearity compression: 14 orthogonal domain signals get diluted by 1,024 redundant Morgan bits.<br><br>
+**Research:** Lundberg & Lee, 2017 — SHAP TreeExplainer for exact attribution on CatBoost; Pope et al., 2019 — gradient saliency at atom embedding level for GNNs with discrete inputs; Lapuschkin et al., 2019 — global XAI can mislead when features are correlated, explaining the LIME-SHAP divergence.<br><br>
 **Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
 
 </td>
