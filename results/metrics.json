@@ -1536,5 +1536,15 @@
       },
       "phase3_best_run": 0.8105
     }
+  },
+  {
+    "phase": "6-mark",
+    "researcher": "Mark",
+    "date": "2026-04-11",
+    "description": "LIME + Subgroup SHAP + Feature Group Attribution",
+    "test_auc": 0.7713,
+    "auc_compliant": 0.6707,
+    "auc_violating": 0.845,
+    "lime_shap_mean_jaccard": 0.0416
   }
 ]
