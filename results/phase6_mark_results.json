@@ -1,0 +1,202 @@
+{
+  "phase": 6,
+  "researcher": "Mark",
+  "date": "2026-04-11",
+  "test_auc_overall": 0.7713,
+  "test_auc_compliant": 0.6707,
+  "test_auc_violating": 0.845,
+  "recall_compliant_actives": 0.0333,
+  "recall_violating_actives": 0.5429,
+  "feature_group_auc": {
+    "MACCS (167)": 0.7401,
+    "Morgan ECFP4 (1024)": 0.755,
+    "RDKit Fr_ (85)": 0.6979,
+    "Domain (14)": 0.7581,
+    "MI-400 (combined)": 0.7713
+  },
+  "lime_category_fractions": {
+    "Morgan": 0.6372,
+    "RDKit Fragment": 0.1701,
+    "MACCS": 0.1524,
+    "Domain": 0.0403
+  },
+  "shap_compliant_category_fractions": {
+    "Domain": 0.1617,
+    "MACCS": 0.4377,
+    "RDKit Fragment": 0.1027,
+    "Morgan": 0.2979
+  },
+  "shap_violating_category_fractions": {
+    "Domain": 0.1998,
+    "MACCS": 0.3849,
+    "RDKit Fragment": 0.1148,
+    "Morgan": 0.3004
+  },
+  "lime_shap_agreement_mean": 0.0416,
+  "local_global_shap_agreement_mean": 0.1365,
+  "lime_details": [
+    {
+      "key": "TP_949",
+      "label": "TP",
+      "pred_prob": 0.9669768917574078,
+      "top3_features": [
+        [
+          "morgan_304 <= 0.00",
+          -0.07131899483475485
+        ],
+        [
+          "fr_hdrzone <= 0.00",
+          0.05678360512767385
+        ],
+        [
+          "morgan_323 <= 0.00",
+          0.054774055906797466
+        ]
+      ]
+    },
+    {
+      "key": "TP_468",
+      "label": "TP",
+      "pred_prob": 0.9605055567401993,
+      "top3_features": [
+        [
+          "fr_hdrzone <= 0.00",
+          0.05914048628396279
+        ],
+        [
+          "maccs_44 <= 0.00",
+          -0.05803907268510492
+        ],
+        [
+          "morgan_323 <= 0.00",
+          0.0469144479673715
+        ]
+      ]
+    },
+    {
+      "key": "TN_1868",
+      "label": "TN",
+      "pred_prob": 0.013138481758642389,
+      "top3_features": [
+        [
+          "fr_hdrzone <= 0.00",
+          0.06279244628033347
+        ],
+        [
+          "maccs_44 <= 0.00",
+          -0.05221255219890005
+        ],
+        [
+          "morgan_304 <= 0.00",
+          -0.051755766864429134
+        ]
+      ]
+    },
+    {
+      "key": "TN_1014",
+      "label": "TN",
+      "pred_prob": 0.01700687401720711,
+      "top3_features": [
+        [
+          "fr_hdrzone > 0.00",
+          -0.06366865950162236
+        ],
+        [
+          "morgan_304 <= 0.00",
+          -0.05395795570142219
+        ],
+        [
+          "morgan_323 <= 0.00",
+          0.04878848153888411
+        ]
+      ]
+    },
+    {
+      "key": "FP_897",
+      "label": "FP",
+      "pred_prob": 0.9331259348741077,
+      "top3_features": [
+        [
+          "fr_hdrzone <= 0.00",
+          0.05291602419348499
+        ],
+        [
+          "maccs_44 <= 0.00",
+          -0.047084394528693695
+        ],
+        [
+          "morgan_304 <= 0.00",
+          -0.045528174557636296
+        ]
+      ]
+    },
+    {
+      "key": "FP_464",
+      "label": "FP",
+      "pred_prob": 0.9325651459649624,
+      "top3_features": [
+        [
+          "fr_hdrzone <= 0.00",
+          0.05833561501414874
+        ],
+        [
+          "morgan_304 <= 0.00",
+          -0.04430476594295096
+        ],
+        [
+          "morgan_393 <= 0.00",
+          0.04271155729322551
+        ]
+      ]
+    },
+    {
+      "key": "FN_3410",
+      "label": "FN",
+      "pred_prob": 0.015343575118394995,
+      "top3_features": [
+        [
+          "morgan_323 <= 0.00",
+          0.05429052381862334
+        ],
+        [
+          "fr_hdrzone > 0.00",
+          -0.05325411819517688
+        ],
+        [
+          "maccs_44 <= 0.00",
+          -0.052333261652905534
+        ]
+      ]
+    },
+    {
+      "key": "FN_3409",
+      "label": "FN",
+      "pred_prob": 0.01949998834796613,
+      "top3_features": [
+        [
+          "maccs_44 <= 0.00",
+          -0.061260104148578715
+        ],
+        [
+          "fr_hdrzone > 0.00",
+          -0.05753115662096335
+        ],
+        [
+          "morgan_323 <= 0.00",
+          0.04858038489138684
+        ]
+      ]
+    }
+  ],
+  "subgroup_top10_overlap_count": 8,
+  "subgroup_top10_overlap_features": [
+    "bertz_ct",
+    "fr_hdrzone",
+    "fraction_csp3",
+    "maccs_144",
+    "maccs_83",
+    "maccs_88",
+    "morgan_967",
+    "tpsa"
+  ]
+}
