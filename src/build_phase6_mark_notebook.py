@@ -68,6 +68,7 @@ RESULTS_DIR = BASE_DIR / 'results'
 RESULTS_DIR.mkdir(exist_ok=True)
 
 np.random.seed(42)
+import IPython.display
 
 # Patch torch.load for PyTorch 2.6+ compatibility
 import torch
@@ -326,6 +327,7 @@ plt.suptitle('LIME Local Explanations: 8 Representative Molecules\\n(Green=suppo
              fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig(RESULTS_DIR / 'phase6_mark_lime_explanations.png', dpi=120, bbox_inches='tight')
+IPython.display.display(IPython.display.Image(str(RESULTS_DIR / 'phase6_mark_lime_explanations.png')))
 plt.close()
 print('Saved phase6_mark_lime_explanations.png')
 """)
@@ -467,6 +469,7 @@ plt.suptitle('Subgroup SHAP: Lipinski Compliant vs. Violating Molecules',
              fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig(RESULTS_DIR / 'phase6_mark_subgroup_shap.png', dpi=120, bbox_inches='tight')
+IPython.display.display(IPython.display.Image(str(RESULTS_DIR / 'phase6_mark_subgroup_shap.png')))
 plt.close()
 print('Saved phase6_mark_subgroup_shap.png')
 """)
@@ -576,6 +579,7 @@ plt.suptitle('Feature Group Attribution: Which Fingerprint Family Is Most Indepe
              fontsize=11, fontweight='bold')
 plt.tight_layout()
 plt.savefig(RESULTS_DIR / 'phase6_mark_group_attribution.png', dpi=120, bbox_inches='tight')
+IPython.display.display(IPython.display.Image(str(RESULTS_DIR / 'phase6_mark_group_attribution.png')))
 plt.close()
 print('Saved phase6_mark_group_attribution.png')
 """)
@@ -660,6 +664,7 @@ plt.suptitle('LIME vs. SHAP Divergence: Does the Global Story Hold Up Locally?',
              fontsize=11, fontweight='bold')
 plt.tight_layout()
 plt.savefig(RESULTS_DIR / 'phase6_mark_lime_shap_divergence.png', dpi=120, bbox_inches='tight')
+IPython.display.display(IPython.display.Image(str(RESULTS_DIR / 'phase6_mark_lime_shap_divergence.png')))
 plt.close()
 print('Saved phase6_mark_lime_shap_divergence.png')
 """)
@@ -738,6 +743,7 @@ plt.suptitle('Phase 6 (Mark): Explainability - LIME + Subgroup SHAP + Group Attr
              fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.savefig(RESULTS_DIR / 'phase6_mark_summary.png', dpi=120, bbox_inches='tight')
+IPython.display.display(IPython.display.Image(str(RESULTS_DIR / 'phase6_mark_summary.png')))
 plt.close()
 print('Saved phase6_mark_summary.png')
 """)
