@@ -1,0 +1,39 @@
+dataset:
+  name: ogbg-molhiv
+  root: data/raw
+  scaffold_split: true
+
+features:
+  morgan_radius: 2
+  morgan_bits: 1024
+  maccs_keys: 167
+  mi_top_k: 400
+
+gin:
+  hidden_dim: 64
+  num_layers: 3
+  dropout: 0.4
+  lr: 0.00372
+  batch_size: 512
+  pool_type: add
+  epochs: 40
+  patience: 15
+
+catboost:
+  depth: 8
+  learning_rate: 0.055
+  l2_leaf_reg: 4.7
+  iterations: 800
+  min_data_in_leaf: 38
+  random_strength: 1.06
+  bagging_temperature: 0.85
+  border_count: 64
+  auto_class_weights: Balanced
+  eval_metric: AUC
+  early_stopping_rounds: 50
+
+ensemble:
+  gin_weight: 0.3
+  cb_weight: 0.7
+
+seed: 42
