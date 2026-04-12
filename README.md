@@ -4,9 +4,42 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 
 ---
 
-## Current Status
+## Architecture
 
-**Phase 6 complete** — Explainability analysis reveals why GIN+CatBoost succeeds and where it fails. Anthony's global SHAP shows MACCS keys dominate (1.35 total vs 0.56 domain) and GIN gradient saliency independently discovers sulfur as 2.8x more salient than carbon — consistent with HIV protease pharmacophore design. Mark's local LIME reveals SHAP and LIME agree on only 4.2% of top features per molecule (Jaccard=0.042), and subgroup analysis exposes a critical blind spot: AUC=0.6707 / recall=3.3% on Lipinski-compliant actives vs AUC=0.8450 / recall=54.3% on violators. 14 domain features alone nearly match 1,024 Morgan bits (0.7581 vs 0.7550 AUC), exposing SHAP collinearity compression. Phase 4 champion GIN+CatBoost (0.8114) remains the project best.
+```mermaid
+graph TB
+    subgraph Input
+        S[SMILES string]
+    end
+
+    subgraph "GIN+Edge Path (w=0.3)"
+        S --> G1[OGB Graph Conversion]
+        G1 --> G2[AtomEncoder + BondEncoder]
+        G2 --> G3[3× GIN Layers + Bond Aggregation]
+        G3 --> G4[Add Pooling → Classifier]
+        G4 --> GP[GIN Probability]
+    end
+
+    subgraph "CatBoost Path (w=0.7)"
+        S --> F1[RDKit Feature Extraction]
+        F1 --> F2["1,302-dim Pool<br/>(14 Lipinski + 1024 Morgan + 167 MACCS + 85 Fragments)"]
+        F2 --> F3[MI Selection → Top 400]
+        F3 --> F4[CatBoost Classifier]
+        F4 --> CP[CatBoost Probability]
+    end
+
+    subgraph Ensemble
+        GP --> E[Weighted Average<br/>0.3 × GIN + 0.7 × CB]
+        CP --> E
+        E --> OUT[HIV Activity Prediction<br/>+ Lipinski Check + SHAP Explanation]
+    end
+```
+
+## Project Status: Complete
+
+**Champion model: GIN+CatBoost Ensemble — ROC-AUC = 0.8114** (OGB scaffold split)
+
+7 phases of research across 100+ experiments by two researchers (Anthony + Mark). Error Jaccard overlap = 0.161 between GIN and CatBoost proves models fail on structurally different molecules. Ensemble rescued 542 test molecules, hurt zero.
 
 ---
 
@@ -188,8 +221,66 @@ Predicting HIV drug activity on the ogbg-molhiv dataset (41,127 molecules, 3.5% 
 **Combined Insight:** Anthony's global SHAP and Mark's local LIME are both correct — they describe different views of the same model. SHAP captures collinearity-adjusted population credit (MACCS dominates); LIME captures per-molecule perturbation sensitivity (Morgan dominates locally). The near-zero Jaccard (0.042) is not measurement noise — it exposes that the model uses different feature pathways depending on the individual molecule. The model is more complex than any single global summary can capture.<br><br>
 **Surprise:** 14 domain features (Lipinski properties: MW, logP, TPSA, etc.) trained alone reach AUC=0.7581 — nearly matching 1,024 Morgan fingerprint bits (0.7550). SHAP credits domain at only 16-20% when combined, revealing collinearity compression: 14 orthogonal domain signals get diluted by 1,024 redundant Morgan bits.<br><br>
 **Research:** Lundberg & Lee, 2017 — SHAP TreeExplainer for exact attribution on CatBoost; Pope et al., 2019 — gradient saliency at atom embedding level for GNNs with discrete inputs; Lapuschkin et al., 2019 — global XAI can mislead when features are correlated, explaining the LIME-SHAP divergence.<br><br>
-**Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
+**Final Champion:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114
 
 </td>
 </tr>
 </table>
+
+---
+
+## Setup & Usage
+
+```bash
+# Clone and install
+git clone https://github.com/anthonyrodrigues443/Drug-Molecule-Property-Prediction.git
+cd Drug-Molecule-Property-Prediction
+pip install -r requirements.txt
+
+# Run tests (28 tests, no data download required)
+python -m pytest tests/ -v
+
+# Train the ensemble (downloads ogbg-molhiv ~4MB, trains GIN + CatBoost)
+python -m src.train
+
+# Predict HIV activity for a molecule
+python -m src.predict --smiles "CC(=O)Oc1ccccc1C(=O)O"
+
+# Run full evaluation on OGB test set
+python -m src.evaluate
+```
+
+## Project Structure
+
+```
+├── config/config.yaml              # All hyperparameters
+├── src/
+│   ├── data_pipeline.py            # OGB data loading + RDKit descriptors
+│   ├── feature_engineering.py      # Full feature extraction + MI selection
+│   ├── train.py                    # Production training pipeline
+│   ├── predict.py                  # Single/batch inference
+│   └── evaluate.py                 # Full evaluation suite
+├── notebooks/                      # 12 research notebooks (6 phases x 2 researchers)
+├── models/
+│   └── model_card.md               # Model capabilities + limitations
+├── results/                        # All metrics, plots, experiment logs
+├── reports/                        # Detailed daily research reports
+└── tests/                          # 28 pytest tests (data, model, inference)
+```
+
+## Limitations & Future Work
+
+1. **Lipinski-compliant blind spot:** AUC=0.6707 on rule-compliant actives vs 0.8450 on violators. The model excels at large, complex HIV protease inhibitors but misses small drug-like actives.
+2. **No 3D structure:** Uses 2D graph topology only. Conformer-aware models (SchNet, DimeNet) could capture binding geometry.
+3. **Scaffold split ceiling:** Val-test gap widens with HP tuning, suggesting scaffold generalization is the fundamental bottleneck.
+4. **LIME-SHAP divergence (Jaccard=0.042):** The model uses different feature pathways per molecule, meaning no single global explanation is fully faithful.
+
+## References
+
+- Hu et al., 2020 -- OGB benchmark, scaffold split protocol, AtomEncoder/BondEncoder
+- Xu et al., 2019 -- GIN achieves WL-test expressivity on molecular graphs
+- Prokhorenkova et al., 2018 -- CatBoost ordered boosting for imbalanced classification
+- Battiti, 1994 -- Mutual information for non-linear heterogeneous feature selection
+- Dietterich, 2000 -- Ensemble diversity via low error overlap
+- Lundberg & Lee, 2017 -- SHAP TreeExplainer for exact feature attribution
+- Bender et al., 2021 -- MACCS keys vs Morgan FP in QSAR benchmarks
