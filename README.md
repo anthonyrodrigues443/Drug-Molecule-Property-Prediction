@@ -67,6 +67,8 @@ graph TB
 
 **Phase 6:** 20+ experiments — SHAP TreeExplainer on 1000 test molecules, active vs inactive SHAP differential analysis, GIN gradient saliency via forward hooks on atom embeddings (200 molecules), ensemble disagreement property profiling (Anthony); LIME local explanations on 8 representative molecules (5000 perturbations each), Lipinski subgroup SHAP comparison (compliant vs violating), feature group solo-AUC attribution across 5 categories, LIME-SHAP agreement Jaccard scoring by prediction type (Mark)
 
+**Phase 7:** 50 tests across 5 suites (all passing) — 28 unit tests (feature engineering, GINEdge architecture, MI selection determinism) and 22 integration tests (chemical correctness invariants on 4 real drugs, latency benchmarks at ~15ms/molecule, robustness to malformed SMILES, MI quality, app smoke test); production pipeline (train/predict/evaluate scripts, config.yaml), 3-tab Streamlit UI with SHAP attribution + batch analysis + 15-model leaderboard, empty SMILES bug discovery, and model card
+
 ---
 
 ## Iteration Summary
@@ -227,6 +229,32 @@ graph TB
 </tr>
 </table>
 
+### Phase 7: Testing + Polish + Final Consolidation — 2026-04-12
+
+<table>
+<tr>
+<td valign="top" width="38%">
+
+**Eval Run 1:** Anthony built the production pipeline (train.py, predict.py, evaluate.py, config.yaml, feature_engineering.py) and a 28-test unit suite covering feature extraction, GINEdge architecture, and MI selection — all passing with no data download required.<br><br>
+**Eval Run 2:** Mark added 22 integration tests (chemical correctness invariants, latency benchmarks, robustness edge cases, MI quality, app smoke test) and a 3-tab Streamlit UI with SHAP attribution, Lipinski card, batch analysis, and a 15-model leaderboard. Combined: 50/50 tests pass. Latency: ~15ms per molecule (13× headroom vs 200ms limit).
+
+</td>
+<td align="center" width="24%">
+
+<img src="results/phase7_mark_final_leaderboard.png" width="220">
+
+</td>
+<td valign="top" width="38%">
+
+**Combined Insight:** Anthony's unit tests verify the building blocks; Mark's integration tests verify those blocks compose correctly under realistic conditions. Together they cover the full stack — feature extraction through inference format — and confirm the production pipeline meets real-time latency requirements with substantial headroom.<br><br>
+**Surprise:** `compute_all_features("")` returns a valid feature dict (MW=0) instead of None — RDKit silently accepts empty string as a valid molecule. The empty SMILES guard (`if not smiles.strip(): return None`) was only caught by integration testing, not unit tests, showing unit tests alone are insufficient for cheminformatics edge cases.<br><br>
+**Research:** RDKit docs — `Chem.MolFromSmiles("")` returns a valid empty molecule object; explicit guard required in production inference. Streamlit 1.39 docs — `@st.cache_resource` for model loading + `@st.cache_data` for SHAP enables responsive UI despite heavy compute.<br><br>
+**Best Model So Far:** GIN+CatBoost Ensemble (0.3/0.7) — ROC-AUC=0.8114 (project champion, all 7 phases)
+
+</td>
+</tr>
+</table>
+
 ---
 
 ## Setup & Usage
@@ -237,7 +265,7 @@ git clone https://github.com/anthonyrodrigues443/Drug-Molecule-Property-Predicti
 cd Drug-Molecule-Property-Prediction
 pip install -r requirements.txt
 
-# Run tests (28 tests, no data download required)
+# Run tests (50 tests, no data download required)
 python -m pytest tests/ -v
 
 # Train the ensemble (downloads ogbg-molhiv ~4MB, trains GIN + CatBoost)
@@ -248,6 +276,9 @@ python -m src.predict --smiles "CC(=O)Oc1ccccc1C(=O)O"
 
 # Run full evaluation on OGB test set
 python -m src.evaluate
+
+# Launch Streamlit UI (trains surrogate model on first run if artifacts missing)
+streamlit run app.py
 ```
 
 ## Project Structure
@@ -260,12 +291,13 @@ python -m src.evaluate
 │   ├── train.py                    # Production training pipeline
 │   ├── predict.py                  # Single/batch inference
 │   └── evaluate.py                 # Full evaluation suite
-├── notebooks/                      # 12 research notebooks (6 phases x 2 researchers)
+├── app.py                          # Streamlit UI (single molecule, batch, leaderboard)
+├── notebooks/                      # 14 research notebooks (7 phases x 2 researchers)
 ├── models/
 │   └── model_card.md               # Model capabilities + limitations
 ├── results/                        # All metrics, plots, experiment logs
 ├── reports/                        # Detailed daily research reports
-└── tests/                          # 28 pytest tests (data, model, inference)
+└── tests/                          # 50 pytest tests (unit + integration)
 ```
 
 ## Limitations & Future Work
